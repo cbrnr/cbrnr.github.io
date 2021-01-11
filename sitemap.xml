@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://cbrnr.github.io/</loc>
+    <lastmod>2021-01-11T14:58:43+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://cbrnr.github.io/tags/eeg/</loc>
+    <lastmod>2021-01-11T14:58:43+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://cbrnr.github.io/tags/ica/</loc>
+    <lastmod>2021-01-11T14:58:43+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://cbrnr.github.io/posts/</loc>
+    <lastmod>2021-01-11T14:58:43+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://cbrnr.github.io/tags/python/</loc>
+    <lastmod>2021-01-11T14:58:43+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://cbrnr.github.io/tags/</loc>
+    <lastmod>2021-01-11T14:58:43+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://cbrnr.github.io/posts/whitening-pca-zca/</loc>
+    <lastmod>2021-01-11T14:58:43+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://cbrnr.github.io/tags/artifacts/</loc>
+    <lastmod>2021-01-11T13:16:42+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://cbrnr.github.io/tags/eog/</loc>
+    <lastmod>2021-01-11T13:16:42+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://cbrnr.github.io/tags/mne/</loc>
+    <lastmod>2021-01-11T13:16:42+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://cbrnr.github.io/posts/removing-eog-ica/</loc>
+    <lastmod>2021-01-11T13:16:42+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://cbrnr.github.io/posts/visualizing-eeg-data/</loc>
+    <lastmod>2021-01-11T12:18:43+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://cbrnr.github.io/posts/loading-eeg-data/</loc>
+    <lastmod>2021-01-11T10:33:16+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://cbrnr.github.io/posts/removing-eog-regression/</loc>
+    <lastmod>2021-01-11T09:38:42+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://cbrnr.github.io/about/</loc>
+    <lastmod>2021-01-10T18:56:39+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://cbrnr.github.io/posts/setting-up-python/</loc>
+    <lastmod>2021-01-10T20:16:01+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://cbrnr.github.io/categories/</loc>
+  </url>
+  
+</urlset>
