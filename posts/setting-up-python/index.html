@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.80.0" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.92.2" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -14,11 +14,11 @@
 
     <title>Setting up Python for EEG analysis | Clemens Brunner</title>
 
-    <link rel="stylesheet" href="/css/meme.min.ce150b454e2f4b9bbcee17da33a22932c2c931449b4dd852791f38cb56aa4f2b.css"/>
+    <link rel="stylesheet" href="/css/meme.min.aec603da7d1eabb057d656685a362736fc95bd26cf2eafafe4f0b4154a840236.css"/>
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.0d332d302cc6552e3548c3a8ac60e263bea94c8b7d29f0fcb8bba44e8bbe8a06.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.241a3684ec0a471c3bc31c3bbbfd8abab744648258cb08d95f3699a5a7d68040.js"></script>
 
     
 
@@ -268,16 +268,16 @@
 <h2 id="installing-additional-packages"><a href="#installing-additional-packages" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Installing additional packages</h2>
 <p>Although Python comes with an extensive <a href="https://docs.python.org/3/library/index.html" target="_blank" rel="noopener">standard library</a>, most scientific packages are not part of Python itself. Luckily, installing additional Python packages is not difficult. If you use Anaconda or Miniconda, you can leverage the <code>conda</code> command line tool to manage Python packages. Open a terminal (sometimes also called a command line) to use the tool.</p>
 <p>The first step is to find out if a particular package is available in the Anaconda repository (replace <code>&lt;package&gt;</code> with the actual name of the package):</p>
-<pre><code>conda search &lt;package&gt;
+<pre tabindex="0"><code>conda search &lt;package&gt;
 </code></pre><p>If the package is available (meaning that the previous command returned a match), here&rsquo;s how you can install it:</p>
-<pre><code>conda install &lt;package&gt;
+<pre tabindex="0"><code>conda install &lt;package&gt;
 </code></pre><p>For example, if you are planning to do EEG analysis, chances are that you will be using <a href="https://mne.tools" target="_blank" rel="noopener">MNE</a>. Let&rsquo;s see if a package called <code>mne</code> is available in Anaconda:</p>
-<pre><code>conda search mne
+<pre tabindex="0"><code>conda search mne
 </code></pre><p>Unfortunately, the search returns no matches (meaning that MNE is not available in Anaconda), so we need to use another method to install it. The standard way to go about this is to use the official Python package manager <code>pip</code> for packages that are not available with <code>conda</code>. The <code>pip</code> command line tool searches the <a href="https://pypi.python.org/pypi" target="_blank" rel="noopener">Python Packaging Index (PyPI)</a>, which is the central repository for third-party Python packages.</p>
 <p>Here&rsquo;s how you can search for the <code>mne</code> package:</p>
-<pre><code>pip search mne
+<pre tabindex="0"><code>pip search mne
 </code></pre><p>This command spits out several matches, including a package called <code>mne</code>. We can install the package as follows:</p>
-<pre><code>pip install mne
+<pre tabindex="0"><code>pip install mne
 </code></pre><p>That&rsquo;s all there&rsquo;s to it. Just remember to use <code>conda</code> to search and install a package first, because Anaconda packages are often optimized and tested to work well in combination with other Anaconda packages. If a package is not available in Anaconda, use <code>pip</code> to install it. If you do not use Anaconda/Miniconda, you can only use <code>pip</code> anyway.</p>
 <h2 id="recommended-scientific-packages"><a href="#recommended-scientific-packages" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Recommended scientific packages</h2>
 <p>Here are some useful packages that I recommend if you want to use Python for scientific computing in general and EEG processing in particular (use <code>conda</code> and/or <code>pip</code> to install them):</p>
@@ -293,15 +293,15 @@
 </ul>
 <h2 id="keeping-everything-up-to-date"><a href="#keeping-everything-up-to-date" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Keeping everything up to date</h2>
 <p>It is generally a good idea to use the most recent version of Python. In addition, you probably also want to keep all installed packages up to date. If you use Anaconda, you can update all installed packages with:</p>
-<pre><code>conda update --all
+<pre tabindex="0"><code>conda update --all
 </code></pre><p>Packages installed via <code>pip</code> cannot be updated with <code>conda</code>. However, you can use <code>pip</code> to get a list of outdated packages:</p>
-<pre><code>pip list --outdated
+<pre tabindex="0"><code>pip list --outdated
 </code></pre><p>This list might also include packages installed via <code>conda</code> (in general, <code>pip</code> offers the latest versions before they get into Anaconda/Miniconda). You can keep track of packages installed via <code>pip</code> by inspecting the rightmost &ldquo;Channel&rdquo; column of the output of <code>conda list</code>. If it says &ldquo;pypi&rdquo; then you can (and should) only update this package using <code>pip</code>:</p>
-<pre><code>pip install -U &lt;package&gt;
+<pre tabindex="0"><code>pip install -U &lt;package&gt;
 </code></pre><p>If you do not use Anaconda (or Miniconda), you have to use <code>pip</code> to find and update all outdated packages. Unfortunately, there is no built-in flag to update all outdated packages at once. You can either update each package individually or use any of the numerous methods mentioned in this <a href="https://stackoverflow.com/questions/2720014/upgrading-all-packages-with-pip" target="_blank" rel="noopener">StackOverflow post</a>.</p>
 <p>Finally, feel free to install as many packages as you like. After all, Python makes it easy and fun to try out stuff that others have already implemented so that you don&rsquo;t have to! If you decide later on that you do not need a specific package, you can completely remove it with either <code>conda</code> or <code>pip</code> (depending on how you installed it):</p>
-<pre><code>conda uninstall &lt;package&gt;
-</code></pre><pre><code>pip uninstall &lt;package&gt;
+<pre tabindex="0"><code>conda uninstall &lt;package&gt;
+</code></pre><pre tabindex="0"><code>pip uninstall &lt;package&gt;
 </code></pre>
             </div>
 
@@ -396,7 +396,7 @@
             
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="site-info">©&nbsp;2017–2021&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;Clemens Brunner</div><div class="site-copyright"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></div>
+            <div class="site-info">©&nbsp;2017–2022&nbsp;<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon footer-icon"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>&nbsp;Clemens Brunner</div><div class="site-copyright"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></div>
 
             
     
