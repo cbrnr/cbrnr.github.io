@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <meta charset="UTF-8" />
 
-    <meta name="generator" content="Hugo 0.92.2" /><meta name="theme-color" content="#fff" />
+    <meta name="generator" content="Hugo 0.93.1" /><meta name="theme-color" content="#fff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
@@ -18,7 +18,7 @@
 
     
     
-        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.241a3684ec0a471c3bc31c3bbbfd8abab744648258cb08d95f3699a5a7d68040.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" defer></script><script src="/js/meme.min.557d02975c35885b02e8d5ac51a724cd31b55852a702469eaa191ea47d83ce54.js"></script>
 
     
 
@@ -27,7 +27,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif&amp;family=Source&#43;Code&#43;Pro&amp;family=Source&#43;Sans&#43;Pro:wght@400&amp;display=swap" media="print" onload="this.media='all'" />
         <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM&#43;Plex&#43;Serif&amp;family=Source&#43;Code&#43;Pro&amp;family=Source&#43;Sans&#43;Pro:wght@400&amp;display=swap" /></noscript>
 
-    <meta name="author" content="Clemens Brunner" /><meta name="description" content="Installing Python is usually pretty straightforward, but there are some gotchas when setting up Python for scientific computing. In this post, I describe pros and cons of various installation methods (and recommend one particular option for EEG analysis)." />
+    <meta name="author" content="Clemens Brunner" /><meta name="description" content="Installing Python is usually pretty straightforward. In this post, I describe various installation methods (and recommend one particular option for EEG analysis)." />
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#2a6df4" />
@@ -54,14 +54,14 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "datePublished": "2017-10-09T00:00:00+00:00",
-        "dateModified": "2021-01-10T20:16:01+01:00",
+        "dateModified": "2022-03-04T17:25:01+01:00",
         "url": "https://cbrnr.github.io/posts/setting-up-python/",
         "headline": "Setting up Python for EEG analysis",
-        "description": "Installing Python is usually pretty straightforward, but there are some gotchas when setting up Python for scientific computing. In this post, I describe pros and cons of various installation methods (and recommend one particular option for EEG analysis).",
+        "description": "Installing Python is usually pretty straightforward. In this post, I describe various installation methods (and recommend one particular option for EEG analysis).",
         "inLanguage" : "en",
         "articleSection": "posts",
-        "wordCount":  1032 ,
-        "image": "https://cbrnr.github.io/icons/apple-touch-icon.png",
+        "wordCount":  795 ,
+        "image": ["https://cbrnr.github.io/images/install_python_windows.png"],
         "author": {
             "@type": "Person",
             "email": "clemens.brunner@gmail.com",
@@ -88,7 +88,8 @@
 
     
 
-<meta name="twitter:card" content="summary" />
+<meta name="twitter:card" content="summary_large_image" />
+
 
 <meta name="twitter:site" content="@cbrnr_" />
 <meta name="twitter:creator" content="@cbrnr_" />
@@ -98,13 +99,13 @@
 
 
 <meta property="og:title" content="Setting up Python for EEG analysis" />
-<meta property="og:description" content="Installing Python is usually pretty straightforward, but there are some gotchas when setting up Python for scientific computing. In this post, I describe pros and cons of various installation methods (and recommend one particular option for EEG analysis)." />
+<meta property="og:description" content="Installing Python is usually pretty straightforward. In this post, I describe various installation methods (and recommend one particular option for EEG analysis)." />
 <meta property="og:url" content="https://cbrnr.github.io/posts/setting-up-python/" />
 <meta property="og:site_name" content="Clemens Brunner" />
-<meta property="og:locale" content="en" /><meta property="og:image" content="https://cbrnr.github.io/icons/apple-touch-icon.png" />
-    <meta property="og:type" content="article" />
+<meta property="og:locale" content="en" /><meta property="og:image" content="https://cbrnr.github.io/images/install_python_windows.png" />
+<meta property="og:type" content="article" />
     <meta property="article:published_time" content="2017-10-09T00:00:00&#43;00:00" />
-    <meta property="article:modified_time" content="2021-01-10T20:16:01&#43;01:00" />
+    <meta property="article:modified_time" content="2022-03-04T17:25:01&#43;01:00" />
     
     <meta property="article:section" content="posts" />
 
@@ -236,7 +237,7 @@
     
     
         
-        <time datetime="2021-01-10T20:16:01&#43;01:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2021-01-10</time>
+        <time datetime="2022-03-04T17:25:01&#43;01:00" class="post-meta-item modified dt-updated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="icon post-meta-icon"><path d="M400 64h-48V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H160V12c0-6.627-5.373-12-12-12h-40c-6.627 0-12 5.373-12 12v52H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 400H54a6 6 0 0 1-6-6V160h352v298a6 6 0 0 1-6 6zm-52.849-200.65L198.842 404.519c-4.705 4.667-12.303 4.637-16.971-.068l-75.091-75.699c-4.667-4.705-4.637-12.303.068-16.971l22.719-22.536c4.705-4.667 12.303-4.637 16.97.069l44.104 44.461 111.072-110.181c4.705-4.667 12.303-4.637 16.971.068l22.536 22.718c4.667 4.705 4.636 12.303-.069 16.97z"/></svg>&nbsp;2022-03-04</time>
     
     
     
@@ -248,7 +249,7 @@
     
     
         
-        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;1032</span>
+        <span class="post-meta-item wordcount"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon post-meta-icon"><path d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z"/></svg>&nbsp;795</span>
     
     
     
@@ -259,50 +260,45 @@
 
             <div class="post-body e-content">
               <h2 id="installing-python"><a href="#installing-python" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Installing Python</h2>
-<p>There are several ways to install a Python environment on your computer. For example, the most obvious way involves downloading an installer from the <a href="https://www.python.org/" target="_blank" rel="noopener">official Python website</a>. Official installers are available for Windows and macOS. Most Linux distributions include Python out of the box (if not you can use the package manager to quickly set up a working Python environment). While this option works in many situations, obtaining additional Python packages for scientific computing might not be particularly convenient for beginners.</p>
-<p>An alternative available on macOS is the package manager <a href="https://brew.sh/" target="_blank" rel="noopener">Homebrew</a>. Although this is my preferred way of installing Python on a Mac, I will not describe it in detail here (other than mention that running <code>brew install python</code> in a terminal is all it takes).</p>
-<p>While Python is relatively easy to set up, installing additional packages sometimes involves compiling source code. This means that you need to have a working build toolchain on your machine, which is standard on Linux systems, relatively straightforward on macOS, but a bit more challenging on Windows.</p>
-<p>This is where Python distributions come in handy – they bundle Python with additional pre-built packages, which means that compiling is not necessary. One of the most popular Python distributions (at least in the scientific community) seems to be <a href="https://www.anaconda.com/distribution/" target="_blank" rel="noopener">Anaconda</a>, which includes <a href="https://anaconda.org/anaconda/repo" target="_blank" rel="noopener">hundreds of useful Python packages</a>. Among the most notable features are versions of <a href="http://www.numpy.org/" target="_blank" rel="noopener">NumPy</a>, <a href="https://www.scipy.org/scipylib/index.html" target="_blank" rel="noopener">SciPy</a>, and <a href="http://scikit-learn.org/stable/" target="_blank" rel="noopener">Scikit-learn</a> with <a href="https://software.intel.com/mkl" target="_blank" rel="noopener">Intel Math Kernel Library (MKL)</a> support. This basically means that if you have an Intel CPU many computations will be faster than with standard versions of these packages (although in my experience <a href="https://www.openblas.net" target="_blank" rel="noopener">OpenBLAS</a> is just as fast and also runs on AMD CPUs).</p>
-<p>Installing Anaconda is as easy as downloading and running the <a href="https://www.anaconda.com/distribution/" target="_blank" rel="noopener">installer</a> for your operating system. After that, you are all set.</p>
-<p>If you do not want to install dozens of packages that come with Anaconda (for example because you want to save precious disk space), you can install its barebones sibling called <a href="https://conda.io/miniconda.html" target="_blank" rel="noopener">Miniconda</a>. Just know that you will need to install (almost) all additional packages manually via the <code>conda</code> package manager.</p>
+<p>There are several ways to install a Python environment on your computer. The one I recommend involves downloading the official installer from the <a href="https://www.python.org/" target="_blank" rel="noopener">Python website</a>, which is available for Windows and macOS. Most Linux distributions include Python out of the box, but if not, you can use the package manager to install it.</p>
+<p>When using the official Python installer on Windows, make sure to check the option &ldquo;Add Python to PATH&rdquo; – by default this setting is disabled. I strongly recommend to use the suggested values for all other settings (if you do not have administrator privileges you can uncheck the option &ldquo;Install launcher for all users (recommended)&rdquo;).</p>
+<p><img src="/images/install_python_windows.png" alt=""></p>
+<p>On macOS, Python can also be installed with the package manager <a href="https://brew.sh/" target="_blank" rel="noopener">Homebrew</a>. I will not describe this process in detail here (other than mention that running <code>brew install python</code> in a terminal is all it takes).</p>
+<p>Another popular option to install Python is <a href="https://www.anaconda.com/distribution/" target="_blank" rel="noopener">Anaconda</a>, a distribution with tons of packages specifically tailored towards scientific computing. I used to recommend Anaconda, because it makes installing additional Python packages very easy (especially on Windows). However, this is now also the case when using the official Python installers, as I will outline in the next section.</p>
 <h2 id="installing-additional-packages"><a href="#installing-additional-packages" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Installing additional packages</h2>
-<p>Although Python comes with an extensive <a href="https://docs.python.org/3/library/index.html" target="_blank" rel="noopener">standard library</a>, most scientific packages are not part of Python itself. Luckily, installing additional Python packages is not difficult. If you use Anaconda or Miniconda, you can leverage the <code>conda</code> command line tool to manage Python packages. Open a terminal (sometimes also called a command line) to use the tool.</p>
-<p>The first step is to find out if a particular package is available in the Anaconda repository (replace <code>&lt;package&gt;</code> with the actual name of the package):</p>
-<pre tabindex="0"><code>conda search &lt;package&gt;
-</code></pre><p>If the package is available (meaning that the previous command returned a match), here&rsquo;s how you can install it:</p>
-<pre tabindex="0"><code>conda install &lt;package&gt;
-</code></pre><p>For example, if you are planning to do EEG analysis, chances are that you will be using <a href="https://mne.tools" target="_blank" rel="noopener">MNE</a>. Let&rsquo;s see if a package called <code>mne</code> is available in Anaconda:</p>
-<pre tabindex="0"><code>conda search mne
-</code></pre><p>Unfortunately, the search returns no matches (meaning that MNE is not available in Anaconda), so we need to use another method to install it. The standard way to go about this is to use the official Python package manager <code>pip</code> for packages that are not available with <code>conda</code>. The <code>pip</code> command line tool searches the <a href="https://pypi.python.org/pypi" target="_blank" rel="noopener">Python Packaging Index (PyPI)</a>, which is the central repository for third-party Python packages.</p>
-<p>Here&rsquo;s how you can search for the <code>mne</code> package:</p>
-<pre tabindex="0"><code>pip search mne
-</code></pre><p>This command spits out several matches, including a package called <code>mne</code>. We can install the package as follows:</p>
-<pre tabindex="0"><code>pip install mne
-</code></pre><p>That&rsquo;s all there&rsquo;s to it. Just remember to use <code>conda</code> to search and install a package first, because Anaconda packages are often optimized and tested to work well in combination with other Anaconda packages. If a package is not available in Anaconda, use <code>pip</code> to install it. If you do not use Anaconda/Miniconda, you can only use <code>pip</code> anyway.</p>
-<h2 id="recommended-scientific-packages"><a href="#recommended-scientific-packages" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Recommended scientific packages</h2>
-<p>Here are some useful packages that I recommend if you want to use Python for scientific computing in general and EEG processing in particular (use <code>conda</code> and/or <code>pip</code> to install them):</p>
+<p>Although Python includes an extensive <a href="https://docs.python.org/3/library/index.html" target="_blank" rel="noopener">standard library</a>, most scientific packages are not part of Python itself. Luckily, installing additional Python packages is not difficult with the package manager <code>pip</code>, which is bundled with every Python installation. Note that you need to open a terminal to use <code>pip</code> (<em>Command Prompt</em> on Windows or <em>Terminal</em> on macOS).</p>
+<p>To install a package, you need to know its name. Therefore, the first step is to determine if a particular package is available in the so-called <a href="https://pypi.org/" target="_blank" rel="noopener">Python Package Index</a> (or short PyPI). Currently, the only way to find out is to search directly on the website.</p>
+<p>If the package is available, you can install it with the following command (replace <code>&lt;package&gt;</code> with the actual package name):</p>
+<pre tabindex="0"><code>pip install &lt;package&gt;
+</code></pre><p>The following packages are useful for scientific computing in general and EEG processing in particular. Note that package names are not case-sensitive, so for example <code>pip install NumPy</code> and <code>pip install numpy</code> should both work (usually packages are all lower-case though).</p>
 <ul>
 <li><a href="http://www.numpy.org/" target="_blank" rel="noopener">NumPy</a> provides a multi-dimensional array data type; it is the basis for almost all scientific packages.</li>
-<li><a href="https://www.scipy.org/scipylib/index.html" target="_blank" rel="noopener">SciPy</a> contains a large number of various algorithms used in scientific computing.</li>
-<li><a href="http://pandas.pydata.org/" target="_blank" rel="noopener">Pandas</a> extends the NumPy array and provides a more flexible data frame type similar to the one found in <a href="https://www.r-project.org/" target="_blank" rel="noopener">R</a>.</li>
+<li><a href="http://pandas.pydata.org/" target="_blank" rel="noopener">Pandas</a> extends the NumPy array and provides a more flexible data frame type similar to the one available in <a href="https://www.r-project.org/" target="_blank" rel="noopener">R</a>.</li>
+<li><a href="https://www.scipy.org/scipylib/index.html" target="_blank" rel="noopener">SciPy</a> contains numerous algorithms for scientific computing.</li>
 <li><a href="https://matplotlib.org/" target="_blank" rel="noopener">Matplotlib</a> is the most popular package to create all kinds of plots in Python.</li>
-<li><a href="https://ipython.org/" target="_blank" rel="noopener">IPython</a> is an enhanced interactive Python shell.</li>
 <li><a href="http://scikit-learn.org/stable/" target="_blank" rel="noopener">Scikit-learn</a> is a powerful machine learning package for Python.</li>
-<li><a href="http://martinos.org/mne/stable/index.html" target="_blank" rel="noopener">MNE</a> is a package for EEG/MEG processing.</li>
-<li><a href="https://www.riverbankcomputing.com/software/pyqt/intro" target="_blank" rel="noopener">PyQt5</a> provides Python bindings for the <a href="https://www.qt.io/" target="_blank" rel="noopener">Qt GUI toolkit</a>.</li>
+<li><a href="http://martinos.org/mne/stable/index.html" target="_blank" rel="noopener">MNE</a> is a package for EEG/MEG analysis.</li>
+<li><a href="https://github.com/cbrnr/mnelab" target="_blank" rel="noopener">MNELAB</a> is a graphical user interface for MNE.</li>
+<li><a href="https://ipython.org/" target="_blank" rel="noopener">IPython</a> provides an enhanced interactive Python experience.</li>
 </ul>
 <h2 id="keeping-everything-up-to-date"><a href="#keeping-everything-up-to-date" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Keeping everything up to date</h2>
-<p>It is generally a good idea to use the most recent version of Python. In addition, you probably also want to keep all installed packages up to date. If you use Anaconda, you can update all installed packages with:</p>
-<pre tabindex="0"><code>conda update --all
-</code></pre><p>Packages installed via <code>pip</code> cannot be updated with <code>conda</code>. However, you can use <code>pip</code> to get a list of outdated packages:</p>
+<p>It is generally a good idea to use the most recent version of Python. If a new Python version becomes available (you might want to check the <a href="https://www.python.org/" target="_blank" rel="noopener">official Python website</a> once in a while), install it as explained previously. You can even have multiple versions of Python installed on your system.</p>
+<p>In addition to Python itself, you probably also want to keep all installed packages up to date. Package updates are independent of new Python releases, so you should check for new package versions more frequently. You can use <code>pip</code> to get a list of outdated packages currently installed on your machine:</p>
 <pre tabindex="0"><code>pip list --outdated
-</code></pre><p>This list might also include packages installed via <code>conda</code> (in general, <code>pip</code> offers the latest versions before they get into Anaconda/Miniconda). You can keep track of packages installed via <code>pip</code> by inspecting the rightmost &ldquo;Channel&rdquo; column of the output of <code>conda list</code>. If it says &ldquo;pypi&rdquo; then you can (and should) only update this package using <code>pip</code>:</p>
+</code></pre><p>The following command updates a package to its latest version (replace <code>&lt;package&gt;</code> with the actual package name):</p>
 <pre tabindex="0"><code>pip install -U &lt;package&gt;
-</code></pre><p>If you do not use Anaconda (or Miniconda), you have to use <code>pip</code> to find and update all outdated packages. Unfortunately, there is no built-in flag to update all outdated packages at once. You can either update each package individually or use any of the numerous methods mentioned in this <a href="https://stackoverflow.com/questions/2720014/upgrading-all-packages-with-pip" target="_blank" rel="noopener">StackOverflow post</a>.</p>
-<p>Finally, feel free to install as many packages as you like. After all, Python makes it easy and fun to try out stuff that others have already implemented so that you don&rsquo;t have to! If you decide later on that you do not need a specific package, you can completely remove it with either <code>conda</code> or <code>pip</code> (depending on how you installed it):</p>
-<pre tabindex="0"><code>conda uninstall &lt;package&gt;
-</code></pre><pre tabindex="0"><code>pip uninstall &lt;package&gt;
-</code></pre>
+</code></pre><p>Unfortunately, you need to update each outdated package individually.</p>
+<p>If you decide that you do not need a specific package anymore, you can completely remove it (again replacing <code>&lt;package&gt;</code> with the actual package name):</p>
+<pre tabindex="0"><code>pip uninstall &lt;package&gt;
+</code></pre><h2 id="visual-studio-code"><a href="#visual-studio-code" class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon anchor-icon"><path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/></svg></a>Visual Studio Code</h2>
+<p>As for any programming language, a text editor or integrated development environment is an essential tool for writing Python scripts. Good text editors include support for syntax highlighting, indentation, line numbers, <a href="https://en.wikipedia.org/wiki/Lint_(software)" target="_blank" rel="noopener">linting</a>, code inspection, and more.</p>
+<p>Personally, I recommend <a href="https://code.visualstudio.com" target="_blank" rel="noopener">Visual Studio Code</a> (but feel free to try other editors such as <a href="https://www.jetbrains.com/pycharm/" target="_blank" rel="noopener">PyCharm</a> or <a href="https://www.spyder-ide.org" target="_blank" rel="noopener">Spyder</a>). After installing, there are two things you should tweak for a great Python editing experience:</p>
+<ol>
+<li>Click on the <em>Extensions</em> section in the left sidebar, search for &ldquo;Python&rdquo;, and install the official <a href="https://marketplace.visualstudio.com/items?itemName=ms-python.python" target="_blank" rel="noopener">Python extension</a>.</li>
+<li>I recommend that you enable <a href="https://www.python.org/dev/peps/pep-0008/" target="_blank" rel="noopener">PEP8</a> style checking. Open the Command Palette (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> on Windows and Linux, <kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> on macOS) and type &ldquo;linter&rdquo;. Click on the entry &ldquo;Python: Select Linter&rdquo; and choose &ldquo;flake8&rdquo;. If Visual Studio Code asks if you want to install the flake8 tool, click on &ldquo;Install&rdquo; (alternatively, you can always <code>pip install flake8</code> at any time).</li>
+</ol>
+<p>That&rsquo;s it, you are now ready to start working with Python!</p>
+
             </div>
 
             
