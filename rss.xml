@@ -10,7 +10,7 @@
         <title>Clemens Brunner</title>
         <link>https://cbrnr.github.io/</link>
         <description>MemE is a powerful and highly customizable GoHugo theme for personal blogs.</description>
-        <generator>Hugo 0.93.1 https://gohugo.io/</generator>
+        <generator>Hugo 0.101.0 https://gohugo.io/</generator>
         
             <language>en</language>
         
@@ -23,7 +23,7 @@
         
             <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</copyright>
         
-        <lastBuildDate>Fri, 04 Mar 2022 17:26:18 &#43;0100</lastBuildDate>
+        <lastBuildDate>Fri, 12 Aug 2022 11:30:18 &#43;0200</lastBuildDate>
         
             <atom:link rel="self" type="application/rss&#43;xml" href="https://cbrnr.github.io/rss.xml" />
         

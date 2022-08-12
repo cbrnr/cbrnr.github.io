@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">Clemens Brunner</title>
     <subtitle type="html">MemE is a powerful and highly customizable GoHugo theme for personal blogs.</subtitle>
-    <updated>2022-03-04T17:26:18&#43;01:00</updated>
+    <updated>2022-08-12T11:30:18&#43;02:00</updated>
     <id>https://cbrnr.github.io/</id>
     <link rel="alternate" type="text/html" href="https://cbrnr.github.io/" />
     <link rel="self" type="application/atom&#43;xml" href="https://cbrnr.github.io/atom.xml" />
@@ -15,7 +15,7 @@
                 <email>clemens.brunner@gmail.com</email>
             </author>
     <rights>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)</rights>
-    <generator uri="https://gohugo.io/" version="0.93.1">Hugo</generator>
+    <generator uri="https://gohugo.io/" version="0.101.0">Hugo</generator>
         <entry>
             <title type="text">Whitening with PCA and ZCA</title>
             <link rel="alternate" type="text/html" href="https://cbrnr.github.io/posts/whitening-pca-zca/" />
