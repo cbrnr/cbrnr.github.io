@@ -4,7 +4,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title type="text">Clemens Brunner</title>
     <subtitle type="html">MemE is a powerful and highly customizable GoHugo theme for personal blogs.</subtitle>
-    <updated>2022-08-12T11:30:18&#43;02:00</updated>
+    <updated>2022-08-24T14:26:13&#43;02:00</updated>
     <id>https://cbrnr.github.io/</id>
     <link rel="alternate" type="text/html" href="https://cbrnr.github.io/" />
     <link rel="self" type="application/atom&#43;xml" href="https://cbrnr.github.io/atom.xml" />
@@ -20,7 +20,7 @@
             <title type="text">Whitening with PCA and ZCA</title>
             <link rel="alternate" type="text/html" href="https://cbrnr.github.io/posts/whitening-pca-zca/" />
             <id>https://cbrnr.github.io/posts/whitening-pca-zca/</id>
-            <updated>2021-01-11T14:58:43&#43;01:00</updated>
+            <updated>2022-08-24T14:12:55&#43;02:00</updated>
             <published>2018-12-17T00:00:00&#43;00:00</published>
             <author>
                     <name>Clemens Brunner</name>
@@ -160,7 +160,7 @@
             <title type="text">Removing eye activity from EEG signals via ICA</title>
             <link rel="alternate" type="text/html" href="https://cbrnr.github.io/posts/removing-eog-ica/" />
             <id>https://cbrnr.github.io/posts/removing-eog-ica/</id>
-            <updated>2021-01-11T13:16:42&#43;01:00</updated>
+            <updated>2022-08-24T14:12:55&#43;02:00</updated>
             <published>2018-01-29T00:00:00&#43;00:00</published>
             <author>
                     <name>Clemens Brunner</name>
@@ -295,7 +295,7 @@
             <title type="text">Visualizing EEG data with MNE</title>
             <link rel="alternate" type="text/html" href="https://cbrnr.github.io/posts/visualizing-eeg-data/" />
             <id>https://cbrnr.github.io/posts/visualizing-eeg-data/</id>
-            <updated>2021-01-11T12:18:43&#43;01:00</updated>
+            <updated>2022-08-24T14:12:55&#43;02:00</updated>
             <published>2017-11-28T00:00:00&#43;00:00</published>
             <author>
                     <name>Clemens Brunner</name>
@@ -503,7 +503,7 @@
             <title type="text">Loading EEG data in Python</title>
             <link rel="alternate" type="text/html" href="https://cbrnr.github.io/posts/loading-eeg-data/" />
             <id>https://cbrnr.github.io/posts/loading-eeg-data/</id>
-            <updated>2021-01-11T10:33:16&#43;01:00</updated>
+            <updated>2022-08-24T14:12:55&#43;02:00</updated>
             <published>2017-10-23T00:00:00&#43;00:00</published>
             <author>
                     <name>Clemens Brunner</name>
@@ -649,7 +649,7 @@
             <title type="text">Removing eye activity from EEG signals via regression</title>
             <link rel="alternate" type="text/html" href="https://cbrnr.github.io/posts/removing-eog-regression/" />
             <id>https://cbrnr.github.io/posts/removing-eog-regression/</id>
-            <updated>2021-01-11T09:38:42&#43;01:00</updated>
+            <updated>2022-08-24T14:12:55&#43;02:00</updated>
             <published>2017-10-20T00:00:00&#43;00:00</published>
             <author>
                     <name>Clemens Brunner</name>
@@ -771,7 +771,7 @@
             <title type="text">Setting up Python for EEG analysis</title>
             <link rel="alternate" type="text/html" href="https://cbrnr.github.io/posts/setting-up-python/" />
             <id>https://cbrnr.github.io/posts/setting-up-python/</id>
-            <updated>2022-03-04T17:25:01&#43;01:00</updated>
+            <updated>2022-08-24T14:12:55&#43;02:00</updated>
             <published>2017-10-09T00:00:00&#43;00:00</published>
             <author>
                     <name>Clemens Brunner</name>
