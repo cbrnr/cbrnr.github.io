@@ -1,0 +1,211 @@
+---
+title: Removing eye activity from EEG via ICA
+date: 2018-01-29
+description: EEG signals often contain eye activity (movement and/or blinks), which usually needs to be removed before performing EEG analysis. In this post, I show how to remove such ocular artifacts using independent component analysis (ICA).
+categories:
+  - Python
+  - MNE
+  - EEG
+  - EOG
+  - Artifacts
+  - ICA
+---
+
+## Background
+In [this previous post](../removing-eog-regression/index.qmd), we used linear regression to remove ocular artifacts from EEG signals. A popular alternative to this approach is independent component analysis (ICA). In a nutshell, ICA decomposes multi-channel EEG recordings into maximally independent components. Components that represent ocular activity can be identified and eliminated to reconstruct artifact-free EEG signals. This approach is described in more detail in [Jung et al. (2000)](http://onlinelibrary.wiley.com/doi/10.1111/1469-8986.3720163/abstract).
+
+A comprehensive comparison between the two methods is beyond the scope of this post. Instead, I will only list some important properties of both techniques:
+
+First, the regression-based approach requires EOG channels, whereas ICA works without any reference signal. This means you can use ICA to remove ocular activity even if your recording does not include EOG channels.
+
+Both methods potentially remove brain activity in addition to ocular activity. ICA can separate ocular components from brain components well if many EEG channels are available (which in turn requires a relatively large number of data samples). A cleaner separation also means that less brain activity will be removed when ocular components are eliminated. The minimum number of EEG channels required for ICA decomposition varies, but as a rule of thumb at least 20 channels seem to be necessary (the [EEGLAB tutorial](https://eeglab.org/tutorials/ConceptsGuide/ICA_background.html#how-many-data-points-do-i-need-to-run-an-ica) has more details on the amount of data required for ICA). In constrast, the regression approach works even if only a few EEG channels are available. However, the EOG reference channels always contain some amount of brain activity, which will also be removed from the data in addition to ocular activity.
+
+The ICA method entails manual identification of ocular components, although several algorithms exist to automate this process (for example [EyeCatch](https://github.com/bigdelys/eye-catch) or [ADJUST](http://onlinelibrary.wiley.com/doi/10.1111/j.1469-8986.2010.01061.x/abstract)). ICA also takes longer to compute than the regression approach (but efficient implementations are available that keep computation time to a minimum). Finally, ICA is an optimization problem that is not guaranteed to find the globally optimal solution. Depending on the initial conditions, the algorithm might find different independent components from run to run. However, this is not a huge issue in this application, because ocular components are relatively stable across decompositions.
+
+Let's now turn to an example to see how ICA can be used to remove ocular artifacts with [MNE](https://mne.tools).
+
+## Implementation
+Before we start, it is worth mentioning that ICA will generally run faster using a multi-threaded numeric library such as [OpenBLAS](https://www.openblas.net/). If you install NumPy via `pip` (see [this post](../setting-up-python/index.qmd) for more details on how to install Python packages), you will get [OpenBLAS support out of the box](https://numpy.org/install/#numpy-packages--accelerated-linear-algebra-libraries).
+
+### Data preprocessing
+We will use the same data set that we already used with the regression approach. Specifically, we'll use participant A01T from data set 001-2014 from the [BNCI Horizon 2020](http://bnci-horizon-2020.eu/database/data-sets) website (check out the [post on the regression approach](../removing-eog-regression/index.qmd) for more details on this data set). To recap, download [this file](http://bnci-horizon-2020.eu/database/data-sets/001-2014/A01T.mat) and save it to your working directory. Note that this data set contains 22 EEG and 3 EOG channels. Although EOG channels can (and should) be used for ICA decomposition (provided that they use the same reference electrode as the EEG channels), we will only use EEG channels here to keep things simple.
+
+As always, we start by firing up IPython and performing the usual initial steps:
+
+```{python}
+from scipy.io import loadmat
+import mne
+```
+
+```{python}
+#| echo: false
+mne.set_log_level("WARNING")
+```
+
+The data comes as a MAT file, so we use `scipy.io.loadmat()` to load it as a NumPy array. Note that this time we only load the fourth run containing the actual experimental data &ndash; we do *not* need the calibration run.
+
+```{python}
+mat = loadmat("A01T.mat", simplify_cells=True)
+eeg = mat["data"][3]["X"] * 1e-6  # convert to volts
+```
+
+We will plot ICA components as projections on the scalp surface later on. To this end, MNE needs to know the channel labels, which unfortunately are not present in the data. However, the [data description](http://bnci-horizon-2020.eu/database/data-sets/001-2014/description.pdf) contains a picture of the montage, which we can use to populate a list of channel names:
+
+```{python}
+ch_names = [
+    "Fz",
+    "FC3",
+    "FC1",
+    "FCz",
+    "FC2",
+    "FC4",
+    "C5",
+    "C3",
+    "C1",
+    "Cz",
+    "C2",
+    "C4",
+    "C6",
+    "CP3",
+    "CP1",
+    "CPz",
+    "CP2",
+    "CP4",
+    "P1",
+    "Pz",
+    "P2",
+    "POz",
+    "EOG1",
+    "EOG2",
+    "EOG3",
+]
+```
+
+We create an `info` object using this list, which we need to create a `Raw` object containing the EEG and associated meta data (which in our case is just the sampling frequency of 250&thinsp;Hz and the channel types). Finally, we add a 10–20 montage, which maps the channel labels to their locations on the scalp. This is required for topographic plots.
+
+```{python}
+#| output: false
+info = mne.create_info(ch_names, 250, ch_types=["eeg"] * 22 + ["eog"] * 3)
+raw = mne.io.RawArray(eeg.T, info)
+raw.set_montage("easycap-M1")
+```
+
+### Performing ICA
+ICA does not work well in the presence of low-frequency drifts, so we create a copy of our `raw` object and apply a high-pass filter to this copy.
+
+```{python}
+#| output: false
+raw_tmp = raw.copy()
+raw_tmp.filter(l_freq=1, h_freq=None)
+```
+
+:::{.callout-important}
+This example uses the Picard ICA algorithm, which is not included in MNE. Therefore, make sure to install it first:
+
+```bash
+pip install python-picard
+```
+
+Picard is much faster than the default [Extended Infomax](https://doi.org/10.1162/089976699300016719) implementation shipped with MNE, and it can compute the same solution by setting `fit_params={"extended": True, "ortho": False}`. Alternatively, if you prefer the [FastICA](https://ieeexplore.ieee.org/document/761722) solution, set `fit_params={"extended": True, "ortho": True}`. More details are available [here](https://github.com/pierreablin/picard).
+:::
+
+We are now ready to perform ICA. First, we instantiate an `ICA` object and specify that we want to use the Picard algorithm by setting `method="picard"`. In addition, the `random_state` argument should be set to some number for reproducible results.
+
+```{python}
+ica = mne.preprocessing.ICA(
+    method="picard",
+    fit_params={"extended": True, "ortho": False},
+    random_state=1
+)
+```
+
+Next, we fit `ica` to our filtered raw data `raw_tmp` (note that this uses only the 22 EEG channels and ignores the 3 EOG channels by default, but this could be changed with the `picks` argument).
+
+```{python}
+#| output: false
+ica.fit(raw_tmp)
+```
+
+### Identifying ocular components
+Our next task is to identify ocular components among the computed components. This is usually done by visual inspection, so we start by plotting all 22 independent components:
+
+```{python}
+#| eval: false
+ica.plot_components(inst=raw_tmp, picks=range(22))
+```
+
+```{python}
+#| echo: false
+_ = ica.plot_components(inst=raw_tmp, picks=range(22))
+```
+
+A new figure with the independent components will pop up. Let's focus on the first few components, because ocular components are generally found among these. From these scalp projections, the component labeled as *ICA001* looks like it could represent eye movements because of its frontal location. To be sure, we can click on this component to open a new window with more details (this is possible because we specified `inst=raw_tmp` in the previous call):
+
+Besides the scalp projection, we can now also see
+
+- the component power spectral density (which is typical for ocular activity because the characteristic EEG alpha peak is missing),
+- the epochs image, which color-codes the component activity over (virtual) epochs (which shows typical intermittent activity as blue and red stripes),
+- and the epochs variance (which in this case is not really helpful in identifying the component).
+
+In summary, we can be pretty sure that component *ICA001* represents ocular activity. To be extra safe, let's plot the component time courses to corroborate our assumption:
+
+```{python}
+#| eval: false
+ica.plot_sources(inst=raw_tmp)
+```
+
+```{python}
+#| echo: false
+_ = ica.plot_sources(inst=raw_tmp, show_scrollbars=False)
+```
+
+Indeed, if you scroll through the data, *ICA001* does primarily capture eye movements and eye blinks.
+
+Note that very often, two ocular components can be found in the decomposition, but this is not the case in our example data (all remaining components do not seem to originate from eye activity).
+
+### Removing ocular components
+In the final step, we create a list attribute `ica.exclude` containing the indices of all components that should be removed when reconstructing EEG signals. In our case, this list contains only a single component:
+
+```{python}
+ica.exclude = [1]
+```
+
+Note that you can click on the component title (*ICA001*) in the ICA components plot to include/exclude a component (the title of an excluded component will turn gray). This will also add/remove this component from/to the underlying `ica.exclude` attribute.
+
+Now we can apply our ICA results (without the excluded component) to a copy of the original (unfiltered) EEG to obtain artifact-free signals:
+
+```{python}
+#| output: false
+raw_corrected = raw.copy()
+ica.apply(raw_corrected)
+```
+
+### Visualizing results
+So how did ICA perform? Let's take a look at a segment of the original EEG containing a clear eye movment artifact:
+
+```{python}
+#| eval: false
+raw.plot(n_channels=25, start=53, duration=5)
+```
+
+```{python}
+#| echo: false
+_ = raw.plot(n_channels=25, start=53, duration=5, show_scrollbars=False)
+```
+
+And here is the corrected signal:
+
+```{python}
+#| eval: false
+raw_corrected.plot(n_channels=25, start=53, duration=5)
+```
+
+```{python}
+#| echo: false
+_ = raw_corrected.plot(n_channels=25, start=53, duration=5, show_scrollbars=False)
+```
+
+Looks like ICA did a pretty decent job in removing eye artifacts.
+
+## Code
+The script [removing-eog-ica.py](removing-eog-ica.py) contains all relevant code snippets from this post.
