@@ -1,0 +1,13 @@
+[
+  {
+    "listing": "/blog.html",
+    "items": [
+      "/blog/whitening-pca-zca/index.html",
+      "/blog/removing-eog-ica/index.html",
+      "/blog/visualizing-eeg-data/index.html",
+      "/blog/importing-eeg-data/index.html",
+      "/blog/removing-eog-regression/index.html",
+      "/blog/setting-up-python/index.html"
+    ]
+  }
+]

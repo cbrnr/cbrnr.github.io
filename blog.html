@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Clemens Brunner - Home</title>
+<title>Clemens Brunner - Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,6 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-listing/list.min.js"></script>
+<script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -60,7 +62,37 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Submit"
   }
 }</script>
+<script>
 
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-listing .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -82,10 +114,10 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page">Home</a>
+    <a class="nav-link" href="./index.html">Home</a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./blog.html">Blog</a>
+    <a class="nav-link active" href="./blog.html" aria-current="page">Blog</a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -117,13 +149,15 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(6)</span></div><div class="category" data-category="Artifacts">Artifacts <span class="quarto-category-count">(3)</span></div><div class="category" data-category="EEG">EEG <span class="quarto-category-count">(6)</span></div><div class="category" data-category="EOG">EOG <span class="quarto-category-count">(2)</span></div><div class="category" data-category="ICA">ICA <span class="quarto-category-count">(2)</span></div><div class="category" data-category="MNE">MNE <span class="quarto-category-count">(4)</span></div><div class="category" data-category="Python">Python <span class="quarto-category-count">(6)</span></div></div></div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content">
+<main class="content column-page-left" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Home</h1>
+<h1 class="title">Blog</h1>
 </div>
 
 
@@ -137,24 +171,276 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>I am a senior postdoc with a background in electrical/biomedical engineering and computer engineering. I work in the <a href="https://psychologie.uni-graz.at/en/educational-neuroscience/">Educational Neuroscience</a> group at the <a href="https://psychology.uni-graz.at/">Institute of Psychology</a>, <a href="https://www.uni-graz.at/en/">University of Graz</a>, Austria.</p>
-<p>I am interested in neuroscientific substrates of number processing and arithmetic, EEG oscillations and connectivity analysis, biomedical signal processing, applied machine learning and statistics, brain-computer interfaces, and software development. I am a big fan of open source software and I believe that science should be open as well, including data and analysis scripts. <a href="https://www.python.org/">Python</a> is my favorite language, but I also enjoy performing data analysis and statistical tests with <a href="https://www.r-project.org/">R</a> (thanks in particular to its awesome <a href="https://www.tidyverse.org/">Tidyverse</a>). I have also started to use (and like) <a href="https://julialang.org/">Julia</a> recently.</p>
-<p>I maintain and develop the following projects:</p>
-<ul>
-<li><a href="https://github.com/cbrnr/mnelab">MNELAB</a>, a graphical user interface for processing EEG/MEG data using <a href="https://mne.tools">MNE</a></li>
-<li><a href="https://github.com/cbrnr/sleepecg">SleepECG</a>, a Python package for sleep staging using ECG</li>
-<li><a href="https://github.com/cbrnr/HeartBeats.jl">HeartBeats.jl</a>, a Pan-Tompkins R-peak ECG detector in Julia</li>
-<li><a href="https://github.com/cbrnr/XDF.jl">XDF.jl</a>, a Julia package for reading <a href="https://github.com/sccn/xdf/wiki/Specifications">XDF</a> files</li>
-<li><a href="https://github.com/cbrnr/sigviewer">SigViewer</a>, a Qt/C++ based biosignal visualization tool</li>
-<li><a href="https://github.com/scot-dev/scot">SCoT</a>, a Python package for EEG-based source connectivity estimation</li>
-</ul>
-<p>In addition, I am part of the <a href="https://mne.tools">MNE</a>, <a href="https://github.com/bids-standard/pybv">pybv</a>, and <a href="https://github.com/xdf-modules/xdf-Python">pyXDF</a> development teams, and I have contributed to numerous open source projects such as <a href="http://scikit-learn.org/stable/">scikit-learn</a>, <a href="https://pandas.pydata.org/">pandas</a>, <a href="https://ipython.org/">IPython</a>, <a href="http://www.psychopy.org/">PsychoPy</a>, <a href="https://www.scipy.org/">SciPy</a>, <a href="https://matplotlib.org/">Matplotlib</a>, <a href="http://biosig.sourceforge.net/">BioSig</a>, and several smaller contributions for other projects (check out my <a href="https://github.com/cbrnr">GitHub profile</a> for a detailed activity summary).</p>
-<p>I mainly work on macOS, but I also like <a href="https://archlinux.org/">Arch Linux</a>, for which I maintain several <a href="https://aur.archlinux.org/packages?SeB=m&amp;K=cbrnr">AUR packages</a>.</p>
-<p>Check out my activity on <a href="https://twitter.com/cbrnr_">Twitter</a> and <a href="https://github.com/cbrnr">GitHub</a>, or contact me via <a href="mailto:clemens.brunner@gmail.com">email</a> if you want to get in touch.</p>
 
 
 
-</main> <!-- /main -->
+
+<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
+<div class="list quarto-listing-default">
+<div class="quarto-post image-right" data-index="0" data-categories="Python,EEG,ICA" data-listing-date-sort="1545001200000" data-listing-file-modified-sort="1663759806609" data-listing-reading-time-sort="6.37">
+<div class="thumbnail">
+<a href="./blog/whitening-pca-zca/index.html">
+<div class="thumbnail-image">
+
+</div>
+</a><p><a href="./blog/whitening-pca-zca/index.html"></a></p>
+</div>
+<div class="body">
+<a href="./blog/whitening-pca-zca/index.html">
+<h3 class="no-anchor listing-title">
+Whitening with PCA and ZCA
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
+Python
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('EEG'); return false;">
+EEG
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('ICA'); return false;">
+ICA
+</div>
+</div>
+<a href="./blog/whitening-pca-zca/index.html">
+<div class="listing-description">
+<p>Whitening (or sphering) is an important preprocessing step prior to performing independent component analysis (ICA) on EEG/MEG data. In this post, I explain the intuition behind whitening and illustrate the difference between two popular whitening methods – PCA (principal component analysis) and ZCA (zero-phase component analysis).</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./blog/whitening-pca-zca/index.html">
+<div class="listing-date">
+Dec 17, 2018
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-categories="Python,MNE,EEG,EOG,Artifacts,ICA" data-listing-date-sort="1517180400000" data-listing-file-modified-sort="1663759786379" data-listing-reading-time-sort="7.175">
+<div class="thumbnail">
+<a href="./blog/removing-eog-ica/index.html">
+<div class="thumbnail-image">
+
+</div>
+</a><p><a href="./blog/removing-eog-ica/index.html"></a></p>
+</div>
+<div class="body">
+<a href="./blog/removing-eog-ica/index.html">
+<h3 class="no-anchor listing-title">
+Removing eye activity from EEG via ICA
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
+Python
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('MNE'); return false;">
+MNE
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('EEG'); return false;">
+EEG
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('EOG'); return false;">
+EOG
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Artifacts'); return false;">
+Artifacts
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('ICA'); return false;">
+ICA
+</div>
+</div>
+<a href="./blog/removing-eog-ica/index.html">
+<div class="listing-description">
+<p>EEG signals often contain eye activity (movement and/or blinks), which usually needs to be removed before performing EEG analysis. In this post, I show how to remove such ocular artifacts using independent component analysis (ICA).</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./blog/removing-eog-ica/index.html">
+<div class="listing-date">
+Jan 29, 2018
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="2" data-categories="Python,MNE,EEG,Artifacts" data-listing-date-sort="1511823600000" data-listing-file-modified-sort="1663745546975" data-listing-reading-time-sort="10.555">
+<div class="thumbnail">
+<p><a href="./blog/visualizing-eeg-data/index.html"> <img src="./blog/visualizing-eeg-data/plot_raw_initial.png" class="thumnail-image"> </a></p>
+</div>
+<div class="body">
+<a href="./blog/visualizing-eeg-data/index.html">
+<h3 class="no-anchor listing-title">
+Visualizing EEG data
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
+Python
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('MNE'); return false;">
+MNE
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('EEG'); return false;">
+EEG
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Artifacts'); return false;">
+Artifacts
+</div>
+</div>
+<a href="./blog/visualizing-eeg-data/index.html">
+<div class="listing-description">
+<p>After importing EEG data, it is usually helpful to visualize the raw EEG traces. Despite the availability of numerous automated artifact removal or reduction techniques, manual inspection remains important (often in combination with automated methods) to obtain clean data. In this post, I show how to visualize an EEG data set and how to interactively mark segments containing artifacts.</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./blog/visualizing-eeg-data/index.html">
+<div class="listing-date">
+Nov 28, 2017
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="3" data-categories="Python,MNE,EEG" data-listing-date-sort="1508709600000" data-listing-file-modified-sort="1663752294081" data-listing-reading-time-sort="6.67">
+<div class="thumbnail">
+<a href="./blog/importing-eeg-data/index.html">
+<div class="thumbnail-image">
+
+</div>
+</a><p><a href="./blog/importing-eeg-data/index.html"></a></p>
+</div>
+<div class="body">
+<a href="./blog/importing-eeg-data/index.html">
+<h3 class="no-anchor listing-title">
+Importing EEG data
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
+Python
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('MNE'); return false;">
+MNE
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('EEG'); return false;">
+EEG
+</div>
+</div>
+<a href="./blog/importing-eeg-data/index.html">
+<div class="listing-description">
+<p>Python is an extremely popular programming language, and the scientific Python community has created a striving ecosystem of neuroscience tools. Among these, MNE is a popular EEG/MEG package, which offers almost anything required in an EEG processing pipeline. In this post, I show how to import EEG data sets and how to view and edit associated meta data.</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./blog/importing-eeg-data/index.html">
+<div class="listing-date">
+Oct 23, 2017
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="4" data-categories="Python,MNE,EEG,EOG,Artifacts" data-listing-date-sort="1508450400000" data-listing-file-modified-sort="1663677765134" data-listing-reading-time-sort="6.125">
+<div class="thumbnail">
+<a href="./blog/removing-eog-regression/index.html">
+<div class="thumbnail-image">
+
+</div>
+</a><p><a href="./blog/removing-eog-regression/index.html"></a></p>
+</div>
+<div class="body">
+<a href="./blog/removing-eog-regression/index.html">
+<h3 class="no-anchor listing-title">
+Removing eye activity from EEG via regression
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
+Python
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('MNE'); return false;">
+MNE
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('EEG'); return false;">
+EEG
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('EOG'); return false;">
+EOG
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Artifacts'); return false;">
+Artifacts
+</div>
+</div>
+<a href="./blog/removing-eog-regression/index.html">
+<div class="listing-description">
+<p>EEG signals often contain eye activity (movement and/or blinks), which usually needs to be removed before performing EEG analysis. In this post, I show how to get rid of ocular artifacts using a regression-based approach.</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./blog/removing-eog-regression/index.html">
+<div class="listing-date">
+Oct 20, 2017
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="5" data-categories="Python,EEG" data-listing-date-sort="1507500000000" data-listing-file-modified-sort="1663748812303" data-listing-reading-time-sort="3.93">
+<div class="thumbnail">
+<p><a href="./blog/setting-up-python/index.html"> <img src="./blog/setting-up-python/install_python_windows.png" class="thumnail-image"> </a></p>
+</div>
+<div class="body">
+<a href="./blog/setting-up-python/index.html">
+<h3 class="no-anchor listing-title">
+Setting up Python for EEG analysis
+</h3>
+<div class="listing-subtitle">
+
+</div>
+</a>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
+Python
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('EEG'); return false;">
+EEG
+</div>
+</div>
+<a href="./blog/setting-up-python/index.html">
+<div class="listing-description">
+<p>Installing Python is pretty straightforward. In this post, I describe how to set up Python for EEG analysis on Windows, macOS, and Linux.</p>
+</div>
+</a>
+</div>
+<div class="metadata">
+<a href="./blog/setting-up-python/index.html">
+<div class="listing-date">
+Oct 9, 2017
+</div>
+</a>
+</div>
+</div>
+</div>
+<div class="listing-no-matching d-none">
+No matching items
+</div>
+</div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
