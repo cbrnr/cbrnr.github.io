@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2022-09-28">
+<meta name="description" content="Many website frameworks and themes embed Google Fonts, which is very convenient. However, contacting third-party servers in the background without acquiring explicit consent might violate data privacy laws. In addition, using local fonts (or fonts available directly on a website) is often faster than retrieving from an external server. In this post, I show how to disable Google Fonts and use fonts stored on your own server for websites generated with Quarto and its built-in themes.">
+
+<title>Clemens Brunner - Removing Google Fonts from a Quarto website</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Clemens Brunner</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">Home</a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html">Blog</a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/cbrnr_"><i class="bi bi-twitter" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/cbrnr"><i class="bi bi-github" role="img">
+</i> 
+ </a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:clemens.brunner@gmail.com"><i class="bi bi-envelope-fill" role="img">
+</i> 
+ </a>
+  </li>  
+</ul>
+              <div class="quarto-toggle-container">
+                  <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+              </div>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content column-page" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Removing Google Fonts from a Quarto website</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Quarto</div>
+    <div class="quarto-category">Web</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Many website frameworks and themes embed Google Fonts, which is very convenient. However, contacting third-party servers in the background without acquiring explicit consent might violate data privacy laws. In addition, using local fonts (or fonts available directly on a website) is often faster than retrieving from an external server. In this post, I show how to disable Google Fonts and use fonts stored on your own server for websites generated with Quarto and its built-in themes.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 28, 2022</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<section id="background" class="level2">
+<h2 class="anchored" data-anchor-id="background">Background</h2>
+<p><a href="https://quarto.org/">Quarto</a> is, according to its own description, a tool for scientific and technical publishing. Personally, I think that Quarto revolutionizes the process of scientific writing, because it can generate multiple output formats (such as <a href="https://quarto.org/docs/output-formats/html-basics.html">HTML</a>, <a href="https://quarto.org/docs/output-formats/pdf-basics.html">PDF</a>, <a href="https://quarto.org/docs/output-formats/ms-word.html">Word</a>, <a href="https://quarto.org/docs/presentations/powerpoint.html">PowerPoint</a>, <a href="https://quarto.org/docs/presentations/revealjs/">Reveal.js</a>, entire <a href="https://quarto.org/docs/websites/">websites</a>, <a href="https://quarto.org/docs/books/">books</a>, and more) from a single Markdown-like source. The source can also contain code, which can be executed during build time, and the corresponding results can be included in the rendered output. This is similar to <a href="https://jupyter.org/">Jupyter</a> notebooks and <a href="https://rmarkdown.rstudio.com/">R Markdown</a> documents, but more powerful and versatile (in fact, Quarto uses Jupyter or Knitr under the hood).</p>
+<p>In this post, I will focus on generating a website (a single or multiple HTML documents) with Quarto. There are many built-in <a href="https://bootswatch.com/">Bootswatch</a>-based themes to choose from, and almost all of them use beautiful typefaces provided by <a href="https://fonts.google.com/">Google Fonts</a>. However, using fonts from a third-party server like Google Fonts can be problematic if the website does not ask for explicit consent as mandated by the <a href="https://gdpr.eu/">General Data Protection Regulation (GDPR)</a>. In fact, a Quarto website does not show a <a href="https://quarto.org/docs/websites/website-tools.html#cookie-consent">consent banner</a> by default, and even if enabled, it does not include a mechanism to enable/disable Google Fonts (because they are baked into most themes).</p>
+<p>I am neither a lawyer nor particularly interested in the intricacies of data privacy regulations. However, an Austrian lawyer recently sent out a <a href="https://www.efdpo.eu/information-event-about-google-fonts-in-austria/">series of cease and desist letters</a> to thousands of website owners (both companies and private individuals), demanding that they pay 190 € for using Google Fonts without asking for explicit consent (thereby allegedly violating GDPR). Even though it is far from clear that these claims are even justified, I thought that it might be a good idea to get rid of Google Fonts and use fonts located directly on the website server instead. Besides avoiding any legal GDPR-related issues, fetching fonts from the same server the website is located on should also be faster (which is always a good thing for any website).</p>
+</section>
+<section id="implementation" class="level2">
+<h2 class="anchored" data-anchor-id="implementation">Implementation</h2>
+<p>Enough of all this legal mumbo jumbo, let’s get to the hopefully more interesting technical implementation. I will show how to remove Google Fonts from a minimal <a href="https://quarto.org/docs/websites/">website project</a>, which you can generate with the following command:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> create-project mysite <span class="at">--type</span> website</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will create a minimal template inside the <code>mysite</code> folder with the following four files:</p>
+<ul>
+<li><code>_quarto.yml</code></li>
+<li><code>about.qmd</code></li>
+<li><code>index.qmd</code></li>
+<li><code>styles.css</code></li>
+</ul>
+<p>We will need to create an additional file called <code>custom.scss</code>, which for the moment is just an empty file.</p>
+<p>Here’s the content of <code>_quarto.yml</code>, the global configuration file:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">project</span><span class="kw">:</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> website</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">website</span><span class="kw">:</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"mysite"</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">navbar</span><span class="kw">:</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">left</span><span class="kw">:</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">href</span><span class="kw">:</span><span class="at"> index.qmd</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Home</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> about.qmd</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span><span class="kw">:</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> cosmo</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">css</span><span class="kw">:</span><span class="at"> styles.css</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The default theme is <code>cosmo</code>. We’ll use this theme in our example, but you can also replace it with another theme if you want. However, we need to adapt the theme in order to remove Google Fonts, so we change the <code>theme: cosmo</code> line to:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">custom.scss</span><span class="kw">,</span><span class="at"> cosmo</span><span class="kw">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will pull in stuff that we define in <code>custom.scss</code> later.</p>
+<p>Now let’s find out which fonts are downloaded from Google Fonts by rendering the website, which you can do by entering the following command in a terminal:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> preview</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will open the website in your web browser. It should look something like this:</p>
+<p><img src="website.png" class="img-fluid"></p>
+<p>There are several ways to determine which Google Fonts are used, but since I am using Chrome I will only describe this process for this browser (but it should work similarly in Firefox, Edge, or whatever browser you are using):</p>
+<ul>
+<li>Right-click anywhere in your website and select “Inspect”. This will open the Developer Tools pane.</li>
+<li>Select the “Network” tab.</li>
+<li>Check the “3rd-party requests” box.</li>
+<li>Refresh the page.</li>
+<li>Find the requests that fetch fonts from Google, the font name should be contained somewhere in the name.</li>
+</ul>
+<p><img src="website-inspect.png" class="img-fluid"></p>
+<p>In this example, we can see that the website requests the “Source Sans Pro” font from Google Fonts. Now all we have to do is download this font, add it to our website folder, and redirect some font definitions.</p>
+<p>First, let’s download the font files from Google Fonts. We will not use the <a href="https://fonts.google.com/">official website</a>, because it is rather complicated to get the font in the right format. Instead, we will use <a href="https://google-webfonts-helper.herokuapp.com/fonts">google-webfonts-helper</a>, a simpler interface that makes it very easy to download the desired fonts.</p>
+<p>Open this website, and select “Source Sans Pro” in the left sidebar (you can narrow down the displayed fonts by typing “Source Sans Pro” into the text box in the top left corner). In addition to the “regular” style (which is already pre-selected), check at least “300” and “700” (these are the styles that are used by our example website according to the name of the request in the Developer Tools pane). It doesn’t hurt to download more styles, so I recommend to at least also check the italic variants of those three weights.</p>
+<p>In the third section (“3. Copy CSS”), select “Modern Browsers”. Change the value of the “Customize folder prefix (optional)” textbox below to <code>/fonts/</code> (so delete the preceding <code>..</code>).</p>
+<p>That’s it, now click on the download icon at the bottom to download the selected fonts as a zip file. Extract the contents of the file, and put all files into a folder called <code>fonts</code> located in your website root.</p>
+<p>In addition, copy the CSS (displayed in the third section) and paste everything into the empty <code>styles.css</code> file.</p>
+<p>Finally, add the following lines to <code>custom.scss</code>:</p>
+<pre><code>/*-- scss:rules --*/
+$web-font-path: false;  // disable Google Fonts</code></pre>
+<p>Your website now uses the Source Sans Pro font from its own folder, which you can readily verify with the Developer Tools (the third-party request to Google Fonts is now gone).</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } 
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">© Clemens Brunner</div>
+  </div>
+</footer>
+
+
+
+</body></html>
