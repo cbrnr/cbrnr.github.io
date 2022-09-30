@@ -429,7 +429,22 @@ Note
 </section>
 <section id="code" class="level2">
 <h2 class="anchored" data-anchor-id="code">Code</h2>
-<p>The script <a href="importing-eeg-data.py">importing-eeg-data.py</a> contains all relevant code snippets from this post.</p>
+<div class="cell" data-execution_count="19">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mne</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>raw <span class="op">=</span> mne.io.read_raw_edf(<span class="st">"S001R04.edf"</span>, preload<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>raw.rename_channels(<span class="kw">lambda</span> s: s.strip(<span class="st">"."</span>))</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>montage <span class="op">=</span> mne.channels.make_standard_montage(<span class="st">"easycap-M1"</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>raw.drop_channels([<span class="st">"T9"</span>, <span class="st">"T10"</span>])</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>raw.set_montage(montage, match_case<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>raw.set_eeg_reference(<span class="st">"average"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 
 
 </section>

@@ -25,7 +25,7 @@
     "href": "blog/removing-eog-regression/index.html#code",
     "title": "Removing eye activity from EEG via regression",
     "section": "Code",
-    "text": "Code\nThe script removing-eog-regression.py contains all relevant code snippets from this post."
+    "text": "Code\n\n\nCode\nimport mne\nimport numpy as np\nfrom scipy.io import loadmat\n\nmat = loadmat(\"A01T.mat\", simplify_cells=True)\n\neeg1 = mat[\"data\"][2][\"X\"] * 1e-6  # run 3 (calibration)\neeg2 = mat[\"data\"][3][\"X\"] * 1e-6  # run 4 (experiment)\n\ninfo = mne.create_info(25, 250, ch_types=[\"eeg\"] * 22 + [\"eog\"] * 3)\nraw1 = mne.io.RawArray(eeg1.T, info)\nraw2 = mne.io.RawArray(eeg2.T, info)\n\nbip = np.array([[1, -1, 0], [0, -1, 1]])\nraw1_eog = bip @ raw1[22:, :][0]\nraw2_eog = bip @ raw2[22:, :][0]\nraw1_eeg = raw1[:22, :][0]\nraw2_eeg = raw2[:22, :][0]\n\nb = np.linalg.solve(raw1_eog @ raw1_eog.T, raw1_eog @ raw1_eeg.T)\n\neeg_corrected = (raw2_eeg.T - raw2_eog.T @ b).T\nraw3 = raw2.copy()\nraw3._data[:22, :] = eeg_corrected\n\nraw2.plot(n_channels=25, start=53, duration=5, title=\"Before\")\nraw3.plot(n_channels=25, start=53, duration=5, title=\"After\")"
   },
   {
     "objectID": "blog/removing-google-fonts/index.html",
@@ -88,7 +88,7 @@
     "href": "blog/removing-eog-ica/index.html#code",
     "title": "Removing eye activity from EEG via ICA",
     "section": "Code",
-    "text": "Code\nThe script removing-eog-ica.py contains all relevant code snippets from this post."
+    "text": "Code\n\n\nCode\nfrom scipy.io import loadmat\nimport mne\n\nmat = loadmat(\"A01T.mat\", simplify_cells=True)\n\neeg = mat[\"data\"][3][\"X\"] * 1e-6  # convert to volts\n\nch_names = [\n    \"Fz\",\n    \"FC3\",\n    \"FC1\",\n    \"FCz\",\n    \"FC2\",\n    \"FC4\",\n    \"C5\",\n    \"C3\",\n    \"C1\",\n    \"Cz\",\n    \"C2\",\n    \"C4\",\n    \"C6\",\n    \"CP3\",\n    \"CP1\",\n    \"CPz\",\n    \"CP2\",\n    \"CP4\",\n    \"P1\",\n    \"Pz\",\n    \"P2\",\n    \"POz\",\n    \"EOG1\",\n    \"EOG2\",\n    \"EOG3\",\n]\n\ninfo = mne.create_info(ch_names, 250, ch_types=[\"eeg\"] * 22 + [\"eog\"] * 3)\nraw = mne.io.RawArray(eeg.T, info)\nraw.set_montage(\"easycap-M1\")\n\nraw_tmp = raw.copy()\nraw_tmp.filter(l_freq=1, h_freq=None)\nica = mne.preprocessing.ICA(\n    method=\"picard\",\n    fit_params={\"extended\": True, \"ortho\": False},\n    random_state=1\n)\nica.fit(raw_tmp)\n\nica.plot_components(inst=raw_tmp, picks=range(22))\nica.plot_sources(inst=raw_tmp)\nica.exclude = [1]\n\nraw_corrected = raw.copy()\nica.apply(raw_corrected)\n\nraw.plot(n_channels=25, start=53, duration=5, title=\"Before\")\nraw_corrected.plot(n_channels=25, start=53, duration=5, title=\"After\")"
   },
   {
     "objectID": "blog/importing-eeg-data/index.html",
@@ -123,7 +123,7 @@
     "href": "blog/importing-eeg-data/index.html#code",
     "title": "Importing EEG data",
     "section": "Code",
-    "text": "Code\nThe script importing-eeg-data.py contains all relevant code snippets from this post."
+    "text": "Code\n\n\nCode\nimport mne\n\nraw = mne.io.read_raw_edf(\"S001R04.edf\", preload=True)\nraw.rename_channels(lambda s: s.strip(\".\"))\n\nmontage = mne.channels.make_standard_montage(\"easycap-M1\")\n\nraw.drop_channels([\"T9\", \"T10\"])\nraw.set_montage(montage, match_case=False)\n\nraw.set_eeg_reference(\"average\")"
   },
   {
     "objectID": "blog/visualizing-eeg-data/index.html",
@@ -221,7 +221,7 @@
     "href": "blog/whitening-pca-zca/index.html#code",
     "title": "Whitening with PCA and ZCA",
     "section": "Code",
-    "text": "Code\nThe script pca-zca.py contains all relevant code snippets from this post."
+    "text": "Code\n\n\nCode\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n# generate toy data\nrng = np.random.default_rng(seed=2)\nmu = [0, 0]\nsigma = [[5, 4], [4, 5]]  # must be positive semi-definite\nn = 1000\nx = rng.multivariate_normal(mu, sigma, size=n).T\n\n# store 20 most extreme values for visualization\nset1 = np.argsort(np.linalg.norm(x, axis=0))[-20:]\nset2 = list(set(range(n)) - set(set1))\n\n# plot original data\nfig, ax = plt.subplots()\nax.scatter(x[0, set1], x[1, set1], s=20, c=\"red\", alpha=0.2)\nax.scatter(x[0, set2], x[1, set2], s=20, alpha=0.2)\nax.set_aspect(\"equal\")\nax.set_xlim(-8, 8)\nax.set_ylim(-8, 8)\nax.set_xlabel(\"$x_1$\")\nax.set_ylabel(\"$x_2$\")\nax.spines[\"top\"].set_visible(False)\nax.spines[\"right\"].set_visible(False)\nax.set_title(\"Original\")\n\nnp.corrcoef(x)[0, 1]\n\nsigma = np.cov(x)\nevals, evecs = np.linalg.eigh(sigma)\n\n# PCA\nz = np.diag(evals**(-1/2)) @ evecs.T @ x\n\nfig, ax = plt.subplots()\nax.scatter(z[0, set1], z[1, set1], s=20, c=\"red\", alpha=0.2)\nax.scatter(z[0, set2], z[1, set2], s=20, alpha=0.2)\nax.set_aspect(\"equal\")\nax.set_xlim(-8, 8)\nax.set_ylim(-8, 8)\nax.set_xlabel(\"$z_1$\")\nax.set_ylabel(\"$z_2$\")\nax.spines[\"top\"].set_visible(False)\nax.spines[\"right\"].set_visible(False)\nax.set_title(\"PCA\")\n\nnp.corrcoef(z)[0, 1]\n\n# ZCA\nz = evecs @ np.diag(evals**(-1/2)) @ evecs.T @ x\n\nfig, ax = plt.subplots()\nax.scatter(z[0, set1], z[1, set1], s=20, c=\"red\", alpha=0.2)\nax.scatter(z[0, set2], z[1, set2], s=20, alpha=0.2)\nax.set_aspect(\"equal\")\nax.set_xlim(-8, 8)\nax.set_ylim(-8, 8)\nax.set_xlabel(\"$z_1$\")\nax.set_ylabel(\"$z_2$\")\nax.spines[\"top\"].set_visible(False)\nax.spines[\"right\"].set_visible(False)\nax.set_title(\"ZCA\")\n\nnp.corrcoef(z)[0, 1]"
   },
   {
     "objectID": "blog.html",

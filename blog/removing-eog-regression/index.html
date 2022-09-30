@@ -332,7 +332,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="code" class="level2">
 <h2 class="anchored" data-anchor-id="code">Code</h2>
-<p>The script <a href="removing-eog-regression.py">removing-eog-regression.py</a> contains all relevant code snippets from this post.</p>
+<div class="cell" data-execution_count="17">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mne</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.io <span class="im">import</span> loadmat</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>mat <span class="op">=</span> loadmat(<span class="st">"A01T.mat"</span>, simplify_cells<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>eeg1 <span class="op">=</span> mat[<span class="st">"data"</span>][<span class="dv">2</span>][<span class="st">"X"</span>] <span class="op">*</span> <span class="fl">1e-6</span>  <span class="co"># run 3 (calibration)</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>eeg2 <span class="op">=</span> mat[<span class="st">"data"</span>][<span class="dv">3</span>][<span class="st">"X"</span>] <span class="op">*</span> <span class="fl">1e-6</span>  <span class="co"># run 4 (experiment)</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>info <span class="op">=</span> mne.create_info(<span class="dv">25</span>, <span class="dv">250</span>, ch_types<span class="op">=</span>[<span class="st">"eeg"</span>] <span class="op">*</span> <span class="dv">22</span> <span class="op">+</span> [<span class="st">"eog"</span>] <span class="op">*</span> <span class="dv">3</span>)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>raw1 <span class="op">=</span> mne.io.RawArray(eeg1.T, info)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>raw2 <span class="op">=</span> mne.io.RawArray(eeg2.T, info)</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>bip <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>], [<span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>]])</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>raw1_eog <span class="op">=</span> bip <span class="op">@</span> raw1[<span class="dv">22</span>:, :][<span class="dv">0</span>]</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>raw2_eog <span class="op">=</span> bip <span class="op">@</span> raw2[<span class="dv">22</span>:, :][<span class="dv">0</span>]</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>raw1_eeg <span class="op">=</span> raw1[:<span class="dv">22</span>, :][<span class="dv">0</span>]</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>raw2_eeg <span class="op">=</span> raw2[:<span class="dv">22</span>, :][<span class="dv">0</span>]</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> np.linalg.solve(raw1_eog <span class="op">@</span> raw1_eog.T, raw1_eog <span class="op">@</span> raw1_eeg.T)</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>eeg_corrected <span class="op">=</span> (raw2_eeg.T <span class="op">-</span> raw2_eog.T <span class="op">@</span> b).T</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>raw3 <span class="op">=</span> raw2.copy()</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>raw3._data[:<span class="dv">22</span>, :] <span class="op">=</span> eeg_corrected</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>raw2.plot(n_channels<span class="op">=</span><span class="dv">25</span>, start<span class="op">=</span><span class="dv">53</span>, duration<span class="op">=</span><span class="dv">5</span>, title<span class="op">=</span><span class="st">"Before"</span>)</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>raw3.plot(n_channels<span class="op">=</span><span class="dv">25</span>, start<span class="op">=</span><span class="dv">53</span>, duration<span class="op">=</span><span class="dv">5</span>, title<span class="op">=</span><span class="st">"After"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 
 
 </section>
