@@ -8,6 +8,8 @@ website:
       - href: index.qmd
       - href: blog.qmd
     right:
+      - text: "{{< ai orcid >}}"
+        href: https://orcid.org/0000-0002-6030-2233
       - icon: twitter
         href: https://twitter.com/cbrnr_
       - icon: github
