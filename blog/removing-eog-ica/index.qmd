@@ -181,7 +181,7 @@ ica.apply(raw_corrected)
 ```
 
 ### Visualizing results
-So how did ICA perform? Let's take a look at a segment of the original EEG containing a clear eye movment artifact:
+So how did ICA perform? Let's take a look at a segment of the original EEG containing a clear eye movement artifact:
 
 ```{python}
 #| eval: false
