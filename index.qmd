@@ -19,4 +19,4 @@ In addition, I am part of the [MNE](https://mne.tools), [pybv](https://github.co
 
 I mainly work on macOS, but I also like [Arch Linux](https://archlinux.org/), for which I maintain several [AUR packages](https://aur.archlinux.org/packages?SeB=m&K=cbrnr).
 
-Check out my activity on [Twitter](https://twitter.com/cbrnr_) and [GitHub](https://github.com/cbrnr), or contact me via [email](mailto:clemens.brunner@gmail.com) if you want to get in touch.
+Check out my activity on [Mastodon](https://scholar.social/web/@cbrnr), [Twitter](https://twitter.com/cbrnr_) and [GitHub](https://github.com/cbrnr), or contact me via [email](mailto:clemens.brunner@gmail.com) if you want to get in touch.
