@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://cbrnr.github.io/blog.html</loc>
-    <lastmod>2022-10-10T13:34:44.206Z</lastmod>
-  </url>
-  <url>
     <loc>https://cbrnr.github.io/index.html</loc>
-    <lastmod>2022-10-10T13:34:44.839Z</lastmod>
+    <lastmod>2022-11-04T16:43:31.589Z</lastmod>
   </url>
   <url>
     <loc>https://cbrnr.github.io/blog/removing-eog-regression/index.html</loc>
-    <lastmod>2022-10-10T13:34:51.726Z</lastmod>
+    <lastmod>2022-11-04T16:43:41.933Z</lastmod>
   </url>
   <url>
     <loc>https://cbrnr.github.io/blog/removing-google-fonts/index.html</loc>
-    <lastmod>2022-10-10T13:34:52.143Z</lastmod>
-  </url>
-  <url>
-    <loc>https://cbrnr.github.io/blog/visualizing-eeg-data/index.html</loc>
-    <lastmod>2022-10-10T13:34:55.846Z</lastmod>
+    <lastmod>2022-11-04T16:43:42.450Z</lastmod>
   </url>
   <url>
     <loc>https://cbrnr.github.io/blog/setting-up-python/index.html</loc>
-    <lastmod>2022-10-10T13:34:56.229Z</lastmod>
+    <lastmod>2022-11-04T16:43:42.946Z</lastmod>
   </url>
   <url>
     <loc>https://cbrnr.github.io/blog/removing-eog-ica/index.html</loc>
-    <lastmod>2022-10-10T13:35:25.757Z</lastmod>
-  </url>
-  <url>
-    <loc>https://cbrnr.github.io/blog/whitening-pca-zca/index.html</loc>
-    <lastmod>2022-10-10T13:35:29.580Z</lastmod>
+    <lastmod>2022-11-04T16:44:10.547Z</lastmod>
   </url>
   <url>
     <loc>https://cbrnr.github.io/blog/importing-eeg-data/index.html</loc>
-    <lastmod>2022-10-10T13:35:33.333Z</lastmod>
+    <lastmod>2022-11-04T16:44:16.474Z</lastmod>
+  </url>
+  <url>
+    <loc>https://cbrnr.github.io/blog/visualizing-eeg-data/index.html</loc>
+    <lastmod>2022-11-04T16:44:21.788Z</lastmod>
+  </url>
+  <url>
+    <loc>https://cbrnr.github.io/blog/whitening-pca-zca/index.html</loc>
+    <lastmod>2022-11-04T16:44:27.069Z</lastmod>
+  </url>
+  <url>
+    <loc>https://cbrnr.github.io/blog.html</loc>
+    <lastmod>2022-11-04T16:44:27.925Z</lastmod>
   </url>
 </urlset>
