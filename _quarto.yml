@@ -12,8 +12,6 @@ website:
         href: https://orcid.org/0000-0002-6030-2233
       - text: "{{< fa brands mastodon >}}"
         href: https://scholar.social/web/@cbrnr
-      - icon: twitter
-        href: https://twitter.com/cbrnr_
       - icon: github
         href: https://github.com/cbrnr
       - icon: envelope-fill
