@@ -1,6 +1,7 @@
 ---
 title: Removing eye activity from EEG via regression
 date: 2017-10-20
+date-modified: 2022-09-30
 description: EEG signals often contain eye activity (movement and/or blinks), which usually needs to be removed before performing EEG analysis. In this post, I show how to get rid of ocular artifacts using a regression-based approach.
 categories:
   - Python

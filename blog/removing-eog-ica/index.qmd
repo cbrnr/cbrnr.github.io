@@ -1,6 +1,7 @@
 ---
 title: Removing eye activity from EEG via ICA
 date: 2018-01-29
+date-modified: 2022-10-10
 description: EEG signals often contain eye activity (movement and/or blinks), which usually needs to be removed before performing EEG analysis. In this post, I show how to remove such ocular artifacts using independent component analysis (ICA).
 categories:
   - Python

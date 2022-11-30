@@ -1,6 +1,7 @@
 ---
 title: Importing EEG data
 date: 2017-10-23
+date-modified: 2022-09-30
 description: Python is an extremely popular programming language, and the scientific Python community has created a striving ecosystem of neuroscience tools. Among these, MNE is a popular EEG/MEG package, which offers almost anything required in an EEG processing pipeline. In this post, I show how to import EEG data sets and how to view and edit associated meta data.
 categories:
   - Python

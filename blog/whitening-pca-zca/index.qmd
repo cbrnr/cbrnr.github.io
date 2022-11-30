@@ -1,6 +1,7 @@
 ---
 title: Whitening with PCA and ZCA
 date: 2018-12-17
+date-modified: 2022-09-30
 description: Whitening (or sphering) is an important preprocessing step prior to performing independent component analysis (ICA) on EEG/MEG data. In this post, I explain the intuition behind whitening and illustrate the difference between two popular whitening methods – PCA (principal component analysis) and ZCA (zero-phase component analysis).
 categories:
   - Python

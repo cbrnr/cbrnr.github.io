@@ -1,6 +1,7 @@
 ---
 title: Visualizing EEG data
 date: 2017-11-28
+date-modified: 2022-09-30
 description: After importing EEG data, it is usually helpful to visualize the raw EEG traces. Despite the availability of numerous automated artifact removal or reduction techniques, manual inspection remains important (often in combination with automated methods) to obtain clean data. In this post, I show how to visualize an EEG data set and how to interactively mark segments containing artifacts.
 categories:
   - Python
