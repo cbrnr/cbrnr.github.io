@@ -2,38 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://cbrnr.github.io/index.html</loc>
-    <lastmod>2022-11-30T11:02:05.935Z</lastmod>
+    <lastmod>2023-02-09T11:45:12.233Z</lastmod>
   </url>
   <url>
     <loc>https://cbrnr.github.io/blog/removing-eog-regression/index.html</loc>
-    <lastmod>2022-11-30T11:02:14.817Z</lastmod>
+    <lastmod>2023-02-09T11:45:21.439Z</lastmod>
   </url>
   <url>
     <loc>https://cbrnr.github.io/blog/removing-google-fonts/index.html</loc>
-    <lastmod>2022-11-30T11:02:15.324Z</lastmod>
+    <lastmod>2023-02-09T11:45:21.933Z</lastmod>
+  </url>
+  <url>
+    <loc>https://cbrnr.github.io/blog/warming-stripes-r/index.html</loc>
+    <lastmod>2023-02-09T11:45:31.201Z</lastmod>
   </url>
   <url>
     <loc>https://cbrnr.github.io/blog/setting-up-python/index.html</loc>
-    <lastmod>2022-11-30T11:02:15.816Z</lastmod>
+    <lastmod>2023-02-09T11:45:31.663Z</lastmod>
   </url>
   <url>
     <loc>https://cbrnr.github.io/blog/removing-eog-ica/index.html</loc>
-    <lastmod>2022-11-30T11:02:40.648Z</lastmod>
+    <lastmod>2023-02-09T11:45:56.237Z</lastmod>
   </url>
   <url>
     <loc>https://cbrnr.github.io/blog/importing-eeg-data/index.html</loc>
-    <lastmod>2022-11-30T11:02:45.747Z</lastmod>
+    <lastmod>2023-02-09T11:46:01.502Z</lastmod>
   </url>
   <url>
     <loc>https://cbrnr.github.io/blog/visualizing-eeg-data/index.html</loc>
-    <lastmod>2022-11-30T11:02:50.155Z</lastmod>
+    <lastmod>2023-02-09T11:46:05.829Z</lastmod>
   </url>
   <url>
     <loc>https://cbrnr.github.io/blog/whitening-pca-zca/index.html</loc>
-    <lastmod>2022-11-30T11:02:55.418Z</lastmod>
+    <lastmod>2023-02-09T11:46:10.838Z</lastmod>
   </url>
   <url>
     <loc>https://cbrnr.github.io/blog.html</loc>
-    <lastmod>2022-11-30T11:02:56.003Z</lastmod>
+    <lastmod>2023-02-09T11:46:11.427Z</lastmod>
   </url>
 </urlset>
