@@ -1,0 +1,145 @@
+---
+title: Warming stripes with R
+date: 2023-02-09
+description: Warming stripes are a popular way to represent average temperature changes in a particular location over time. In this post, I show how to generate these visualizations using R.
+categories:
+  - R
+  - Visualization
+image: stripes.png
+---
+
+## Background
+
+[Warming stripes](https://en.wikipedia.org/wiki/Warming_stripes) are a popular way to represent temperature changes in a particular location over time. They are typically used to illustrate climate change caused by human activity (most notably by CO₂ emissions). The [#ShowYourStripes](https://showyourstripes.info/s/globe) website has warming stripes (in four variations) for selected regions, but it is much more interesting and fun to generate these plots with R – this is what the remainder of this post is about.
+
+
+## Data
+
+We are going to use [NASA GISS Surface Temperature Analysis](https://data.giss.nasa.gov/gistemp/) data (short GISTEMP), which contains surface temperature readings of almost [28,000 measurement stations](https://data.giss.nasa.gov/gistemp/station_data_v4_globe/v4.temperature.inv.txt) across the globe. Each station provides at least 20 years of temperature data.
+
+Let's choose my home town [Graz, Austria](https://en.wikipedia.org/wiki/Graz) as an example location for this post. We need to find out the corresponding closest weather station ID, which can be searched on the [GISTEMP station data website](https://data.giss.nasa.gov/gistemp/station_data_v4_globe/). We can either hover over a red spot on the globe (which is a bit difficult to navigate) or use the search box at the bottom of the page. There, we can enter a name or coordinates and click "Search", which will generate a list of possible matches. In either case, the station ID for Graz is AU000016402 (the first row in the search result list). Clicking on the [station name](https://data.giss.nasa.gov/cgi-bin/gistemp/stdata_show_v4.cgi?id=AU000016402&ds=14&dt=1) opens a new page with more details, and at the bottom of that page we can download the temperature data as a [CSV file](https://data.giss.nasa.gov/tmp/gistemp/STATIONS/tmp_AU000016402_14_0_1/station.csv).
+
+I wrote a short R function `read_station()` to make this process a little more convenient. All we need to know is the station ID and it will return the temperature data as a tibble:
+
+```{r}
+library(readr)
+
+read_station = function(id) {
+    base = "https://data.giss.nasa.gov/"
+    # first trigger the creation of the CSV file
+    close(url(
+        sprintf("%scgi-bin/gistemp/stdata_show_v4.cgi?id=%s&ds=14&dt=1", base, id),
+        open="r"
+    ))
+    # then import the CSV file
+    read_delim(
+        sprintf("%stmp/gistemp/STATIONS/tmp_%s_14_0_1/station.csv", base, id),
+        na="999.90"
+    )
+}
+```
+
+:::{.callout-note}
+The CSV files are not permanently available, so I trigger their creation with the `url()` function before downloading.
+:::
+
+Let's call this function to get our data:
+
+```{r}
+#| warning: false
+# get station ID at https://data.giss.nasa.gov/gistemp/station_data_v4_globe/
+id = "AU000016402"
+(df = read_station(id))
+```
+
+The structure is pretty straightforward. A particular row corresponds to a year defined in the `YEAR` column, and the annual average temperature is contained in the `metANN` column. These are the only two columns we are going to use.
+
+
+## Line chart
+
+Let's start with a simple line chart showing annual temperatures over time. We will need the mean temperature between 1971 and 2000 for various plots, so let's put that value into its own variable `tmean`:
+
+```{r}
+(tmean = mean(subset(df, YEAR >= 1971 & YEAR <= 2000)$metANN))
+```
+
+We will also need the first and last available years (mainly for nice tick labels):
+
+```{r}
+start = df$YEAR[1]
+stop = df$YEAR[nrow(df)]
+```
+
+We are now ready to create the time series plot:
+
+```{r}
+#| warning: false
+library(ggplot2)
+
+theme_set(theme_minimal())
+
+ggplot(data=df, mapping=aes(x=YEAR, y=metANN)) +
+    geom_hline(yintercept=tmean, color="red") +
+    geom_line() +
+    geom_point() +
+    geom_smooth() +
+    scale_x_continuous(breaks=seq(start, stop, 10)) +
+    labs(x=NULL, y="Temperature (°C)", title=sprintf("Annual mean temperatures (%s)", id))
+```
+
+The horizontal red line shows the mean temperature between 1971 and 2000, and the blue line is a [local polynomial regression smoother](https://en.wikipedia.org/wiki/Local_regression) which clearly indicates how quickly temperatures are rising for this location.
+
+
+## Warming stripes
+
+Warming stripes visualize the same data in a different way. Instead of mapping annual temperatures to height on the y-axis, they color-code temperature to create a patch of colored stripes.
+
+We are going to use the [diverging 11-class Red/Blue colormap](https://colorbrewer2.org/#type=diverging&scheme=RdBu&n=11) available in `{RColorBrewer}`.
+
+```{r}
+library(RColorBrewer)
+```
+
+The plot is comprised of columns of constant height using `geom_col(width=1)`, mapping their color `fill` to temperatures `metANN`. To set the colormap, we use `scale_fill_gradientn()` (note the `n` at the end of the function name, which creates a custom n-color gradient from our 11-class Red/Blue colormap) using the colormap generated with `RColorBrewer::brewer.pal()`. We have to reverse it to associate colder temperatures with blue and warmer temperatures with red.
+
+```{r}
+ggplot(data=df, mapping=aes(x=YEAR, y=1, fill=metANN)) +
+    geom_col(width=1) +
+    scale_x_continuous(breaks=seq(start, stop, 10), expand=c(0, 0)) +
+    scale_y_continuous(expand=c(0, 0)) +
+    scale_fill_gradientn(colors=rev(brewer.pal(11, name="RdBu")), na.value="gray") +
+    labs(x=NULL, y=NULL, title=sprintf("Annual mean temperatures (%s)", id), fill="T (°C)") +
+    theme(axis.text.y=element_blank(), panel.grid=element_blank())
+```
+
+Note that there is one missing temperature value for 1945, which is displayed in gray.
+
+
+## Enhanced warming stripes
+
+The beauty of warming stripes is that they convey important information without containing too many (distracting) details. However, if we wanted to show additional quantitative data, we can
+
+- map the height of each bar to the corresponding temperature,
+- and include axis labels, tick labels, as well as a legend.
+
+In addition, it might be interesting to plot temperature differences relative to the mean between 1971 and 2000. Here's how to create this alternative version of the image:
+
+```{r}
+#| warning: false
+tmin = round(min(df$metANN - tmean, na.rm=TRUE))
+tmax = round(max(df$metANN - tmean, na.rm=TRUE))
+
+ggplot(data=df, mapping=aes(x=YEAR, y=metANN - tmean, fill=metANN - tmean)) +
+    geom_col(width=1) +
+    scale_x_continuous(breaks=seq(start, stop, 10)) +
+    scale_y_continuous(breaks=seq(tmin, tmax, 0.5), expand=c(0, 0)) +
+    scale_fill_gradientn(colors=rev(brewer.pal(11, name="RdBu")), na.value="gray") +
+    labs(
+        x=NULL,
+        y="Temperature change (°C)",
+        title=sprintf("Annual mean temperature changes relative to 1971–2000 (%s)", id)
+    ) +
+    theme(panel.grid=element_blank(), legend.position="none")
+```
+
+In my opinion, this representation is even more dramatic and shows, for example, that current temperatures in Graz, Austria, are already at least 1.5°C higher than the average between 1971 and 2000.
