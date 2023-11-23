@@ -6,6 +6,7 @@ description: Installing Python is pretty straightforward. In this post, I descri
 categories:
   - Python
   - EEG
+  - Basics
 ---
 
 ## Installing Python
