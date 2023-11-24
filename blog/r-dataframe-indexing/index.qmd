@@ -12,7 +12,7 @@ categories:
 Data frames are one of the most important data structures for representing tabular data. Base R includes the tried and tested `data.frame` type, which is technically a list of equal-length vectors (where each vector corresponds to a column in the data frame). The [tibble](https://tibble.tidyverse.org) package (part of the [Tidyverse](https://www.tidyverse.org)) offers a slightly tweaked data frame type called `tibble`. In most situations, `data.frame` and `tibble` are interchangeable. However, there are subtle differences in the context of indexing, which I will highlight in this post.
 
 
-## Indexing vectors
+## Vectors
 
 In general, R uses a pair of square brackets `[]` for indexing specific elements in a given object. This is rather straightforward for simple vectors. Let's look at an example:
 
@@ -49,7 +49,7 @@ v[length(v)]  # last element
 ```
 
 
-## Indexing data frames
+## Data frames
 
 Indexing data frames is slightly more challenging, mainly because there is a multitude of available (and partly redundant) options. We'll start with a small data frame `df` consisting of four rows and three columns:
 
@@ -64,9 +64,9 @@ This is a classic `data.frame`, so let's also create a `tibble` with identical c
 ```
 
 
-## Selecting entire columns
+## Selecting a single column
 
-Selecting one ore more columns is one of the basic building blocks of any data analysis pipeline. In the following examples, we will explore different options to select the second column (named `"second"`).
+Selecting a specific column is an important operation in almost any data analysis pipeline. In the following examples, we will explore different options to select the second column (named `"second"`).
 
 
 ### The `$` operator
@@ -78,12 +78,17 @@ df$second  # vector
 df$"second"  # vector
 ```
 
-We can enclose the desired column name in quotes, but the first variant without quotes is more common. In either case, R returns the single column as a basic vector.
+We can enclose the desired column name in quotes, but the first variant without quotes is more common. In either case, R returns the single column as a basic vector. This is also true when using a `tibble`:
+
+```{r}
+tf$second  # vector
+tf$"second"  # vector
+```
 
 The `$` notation is convenient for interactive exploration, because we don't have to type a lot of extra characters (except for the `$` sign). In addition, RStudio offers auto-completion of matching column names in its console.
 
 :::{.callout-important}
-Indexing with `$` performs partial matching. This means that R will return the first column that partially matches the given name, for example:
+Indexing a `data.frame` with `$` performs partial matching. This means that R will return the first column that partially matches the given name, for example:
 
 ```{r}
 df$s  # extracts column "second"
@@ -92,7 +97,15 @@ df$s  # extracts column "second"
 R will happily return `df$second` in this example. You can learn more about `$` by typing `` ?`$` `` in the interactive console.
 :::
 
-It is very easy to shoot yourself in the foot with partial matching, especially if you make a typo. Therefore, I strongly advise against using the `$` notation. There are plenty of better options avaible, which we will discuss next.
+:::{.callout-tip}
+The `$` operator applied to a `tibble` does *not* perform partial matching, so the following example will result in `NULL` and raise a warning:
+
+```{r}
+tf$s
+```
+:::
+
+It is very easy to shoot yourself in the foot with partial matching, especially if you make a typo. Therefore, I advise against using the `$` notation when working with `data.frame` objects. There are plenty of alternatives available, which we will discuss next.
 
 
 ### The list indexing operator `[[]]`
@@ -101,6 +114,12 @@ It is very easy to shoot yourself in the foot with partial matching, especially 
 df[["second"]]  # vector
 df[["s", exact=FALSE]]  # vector, if you really want partial matching
 df[[2]]  # vector
+```
+
+
+### The "classic" indexing operator `[]`
+
+```{r}
 df[, "second"]  # vector
 df[, 2]  # vector
 df[, "second", drop=FALSE]  # data.frame
@@ -119,9 +138,12 @@ tf[, "second", drop=TRUE]  # vector
 tf[, 2, drop=TRUE]  # vector
 tf["second"]  # tibble
 tf[2]  # tibble
+```
 
 
-# Indexing multiple columns
+## Selecting multiple columns
+
+```{r}
 #   "second" and "third" (columns 2 and 3)
 df[, c("second", "third")]
 df[, c(2, 3)]
@@ -138,7 +160,6 @@ tf[c(2, 3)]
 ## Selecting entire rows
 
 ```{r}
-# Indexing a single row
 #   row 2
 df[2, ]  # data.frame
 unlist(df[2, ])  # named vector
@@ -147,7 +168,6 @@ tf[2, ]  # tibble
 unlist(tf[2, ])  # named vector
 unname(unlist(tf[2, ]))  # vector
 
-# Indexing multiple rows
 #   rows 2 and 3
 df[c(2, 3), ]  # data.frame
 tf[c(2, 3), ]  # tibble
