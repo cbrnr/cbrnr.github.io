@@ -1,0 +1,194 @@
+---
+title: Subsetting data frames in R
+date: 2023-11-17
+description: TODO!
+categories:
+  - R
+  - Basics
+---
+
+## Introduction
+
+Data frames are one of the most important data structures for representing tabular data. Base R includes the tried and tested `data.frame` type, which is technically a list of equal-length vectors (where each vector corresponds to a column in the data frame). The [tibble](https://tibble.tidyverse.org) package (part of the [Tidyverse](https://www.tidyverse.org)) offers a slightly tweaked data frame type called `tibble`. In practical data analysis pipelines, we frequently create subsets of the data frame, for example by selecting one or more columns and/or rows. In most situations, the `data.frame` and `tibble` types are interchangeable. However, there are subtle differences in the context of subsetting, which I will highlight in this post.
+
+
+## Subsetting vectors
+
+In general, R uses a pair of square brackets `[]` for selecting specific elements in a given object. This is rather straightforward for atomic vectors. Let's look at an example:
+
+```{r}
+(v = c("A", "B", "C", "D"))
+```
+
+This vector has four elements, and we can grab a specific element by providing the corresponding position between the square brackets. For example, here's how we can get the second element of `v`:
+
+```{r}
+v[2]  # second element
+```
+
+:::{.callout-note}
+R uses 1-based indexing, so the position of the first element is `1`, followed by `2` for the second element, and so on.
+:::
+
+If we want to select two or more elements, we need to wrap the desired positions within `c()`, because R always expects *a single vector* within the square brackets:
+
+```{r}
+v[c(2, 4)]  # second and fourth element
+```
+
+Negative indices grab all elements except for those specified by the negative numbers. For example, to get all elements except for the third one:
+
+```{r}
+v[-3]  # all elements except the third
+```
+
+There is no special syntax for selecting the last element of a vector, so we have to write:
+
+```{r}
+v[length(v)]  # last element
+```
+
+In addition to subsetting by position, we can select elements in a named vector by name:
+
+```{r}
+w = c(first="A", two="B", three="C", last="D")
+w[2]  # by position still works
+w["two"]  # by name (must be in quotes)
+```
+
+
+## Subsetting data frames
+
+Subsetting data frames is slightly more challenging, mainly because there is a multitude of available (and partly redundant) options. We'll start with a small data frame `df` consisting of four rows and three columns:
+
+```{r}
+(df = data.frame(first=1:4, second=seq(pi, pi + 3), third=LETTERS[1:4]))
+```
+
+This is a classic `data.frame`, so let's also create a `tibble` with identical contents:
+
+```{r}
+(tf = tibble::as_tibble(df))
+```
+
+
+## Selecting a single column
+
+In the following examples, we will explore different options to select the second column (named `"second"`).
+
+
+### The `$` operator
+
+We'll start with the `$` operator, which extracts a single column by name as follows:
+
+```{r}
+df$second  # vector
+df$"second"  # vector
+```
+
+We can enclose the desired column name in quotes, but the first variant without quotes is more common. In either case, R returns the single column as a basic vector. This is also true when working with a `tibble`:
+
+```{r}
+tf$second  # vector
+tf$"second"  # vector
+```
+
+The `$` notation is convenient for interactive exploration, because we don't have to type a lot of extra characters (except for the `$` sign). In addition, RStudio offers auto-completion of matching column names in its console.
+
+:::{.callout-important}
+Subsetting a `data.frame` with `$` performs partial matching. This means that R will return the first column that partially matches the given name, for example:
+
+```{r}
+df$s  # extracts column "second"
+```
+
+R will happily return `df$second` in this example. You can learn more about `$` by typing `` ?`$` `` in the interactive console.
+:::
+
+The `$` operator applied to a `tibble` does *not* perform partial matching. Instead, the following example will result in `NULL` and raise a warning:
+
+```{r}
+tf$s  # returns NULL (no partial matching)
+```
+
+It is easy to shoot yourself in the foot with partial matching. Therefore, I strongly advise against using the `$` notation when working with `data.frame` objects.
+
+
+### The `[[]]` operator
+
+Another way to select a single column uses double square brackets notation. We can specify either the position or the name of the desired column:
+
+```{r}
+df[[2]]  # vector
+df[["second"]]  # vector
+tf[[2]]  # vector
+tf[["second"]]  # vector
+```
+
+Both `data.frame` and `tibble` objects both return the desired column as a vector.
+
+:::{.callout-note}
+If you really want, you can enable partial matching for `data.frame` types as follows (but you probably don't want to do this):
+
+```{r}
+df[["s", exact=FALSE]]  # vector (partial matching)
+```
+:::
+
+
+### The `[]` operator
+
+Interestingly, we can also select a single column with single square bracket notation, which we've already seen with atomic vectors:
+
+```{r}
+df[2]  # data.frame
+df["second"]  # data.frame
+tf[2]  # tibble
+tf["second"]  # tibble
+```
+
+The important difference here is that the resulting subset is a data frame (depending on the original type either a `data.frame` or a `tibble`) and not a vector, even though we select only a single column.
+
+
+## Selecting multiple columns or rows
+
+```{r}
+df[, "second"]  # vector
+df[, 2]  # vector
+df[, "second", drop=FALSE]  # data.frame
+df[, 2, drop=FALSE]  # data.frame
+
+tf[, "second"]  # tibble
+tf[, 2]  # tibble
+tf[, "second", drop=TRUE]  # vector
+tf[, 2, drop=TRUE]  # vector
+
+
+# Indexing multiple columns
+#   "second" and "third" (columns 2 and 3)
+df[, c("second", "third")]
+df[, c(2, 3)]
+df[c("second", "third")]
+df[c(2, 3)]
+
+tf[, c("second", "third")]
+tf[, c(2, 3)]
+tf[c("second", "third")]
+tf[c(2, 3)]
+```
+
+```{r}
+# Indexing a single row
+#   row 2
+df[2, ]  # data.frame
+unlist(df[2, ])  # named vector
+unname(unlist(df[2, ]))  # vector
+tf[2, ]  # tibble
+unlist(tf[2, ])  # named vector
+unname(unlist(tf[2, ]))  # vector
+
+# Indexing multiple rows
+#   rows 2 and 3
+df[c(2, 3), ]  # data.frame
+tf[c(2, 3), ]  # tibble
+```
