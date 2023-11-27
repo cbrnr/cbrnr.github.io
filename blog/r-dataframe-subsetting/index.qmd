@@ -111,12 +111,12 @@ The `$` operator applied to a `tibble` does *not* perform partial matching. Inst
 tf$s  # returns NULL (no partial matching)
 ```
 
-It is easy to shoot yourself in the foot with partial matching. Therefore, I strongly advise against using the `$` notation when working with `data.frame` objects.
+It is easy to shoot yourself in the foot with partial matching. Therefore, I advise against using the `$` notation when working with `data.frame` objects.
 
 
 ### The `[[]]` operator
 
-Another way to select a single column uses double square brackets notation. We can specify either the position or the name of the desired column:
+Another way to select a single column uses double square brackets notation `[[]]`. We can specify either the position or the name of the desired column:
 
 ```{r}
 df[[2]]  # vector
@@ -125,7 +125,7 @@ tf[[2]]  # vector
 tf[["second"]]  # vector
 ```
 
-Both `data.frame` and `tibble` objects both return the desired column as a vector.
+Both `data.frame` and `tibble` objects return the desired column as a vector.
 
 :::{.callout-note}
 If you really want, you can enable partial matching for `data.frame` types as follows (but you probably don't want to do this):
@@ -138,7 +138,7 @@ df[["s", exact=FALSE]]  # vector (partial matching)
 
 ### The `[]` operator
 
-Interestingly, we can also select a single column with single square bracket notation, which we've already seen with atomic vectors:
+Interestingly, we can also select a single column with single square bracket notation `[]`, which we've already seen with atomic vectors:
 
 ```{r}
 df[2]  # data.frame
@@ -147,7 +147,7 @@ tf[2]  # tibble
 tf["second"]  # tibble
 ```
 
-The important difference here is that the resulting subset is a data frame (depending on the original type either a `data.frame` or a `tibble`) and not a vector, even though we select only a single column.
+The important difference here is that the resulting subset is a *data frame* (depending on the original type either a `data.frame` or a `tibble`) and not a vector, even though we select only a single column.
 
 
 ## Selecting multiple columns or rows
