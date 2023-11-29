@@ -150,22 +150,39 @@ tf["second"]  # tibble
 The important difference here is that the resulting subset is a *data frame* (depending on the original type either a `data.frame` or a `tibble`) and not a vector, even though we select only a single column.
 
 
-## Selecting multiple columns or rows
+## Selecting multiple columns
+
+If we want to select *multiple* columns, we have to use single square bracket notation `[]`. We can specify both a row selection and a column selection, separated by a comma, within the square brackets. However, we can omit either or both indices to select entire columns or rows.
+
+Let's start with selecting a single column. For example, we can grab the second column by omitting the row selection:
 
 ```{r}
-df[, "second"]  # vector
 df[, 2]  # vector
-df[, "second", drop=FALSE]  # data.frame
-df[, 2, drop=FALSE]  # data.frame
-
-tf[, "second"]  # tibble
+df[, "second"]  # vector
 tf[, 2]  # tibble
-tf[, "second", drop=TRUE]  # vector
+tf[, "second"]  # tibble
+```
+
+:::{.callout-important}
+A `data.frame` will return the column as a vector, whereas a `tibble` will return a `tibble` (with a single column):
+:::
+
+:::{.callout-note}
+When selecting a single column, we can set the returned value to be a vector or a single-column data frame with the `drop` argument (`drop=TRUE` means vector, whereas `drop=FALSE` means data frame):
+
+```{r}
+df[, 2, drop=FALSE]  # data.frame
+df[, "second", drop=FALSE]  # data.frame
 tf[, 2, drop=TRUE]  # vector
+tf[, "second", drop=TRUE]  # vector
+```
 
+I've rarely seen this in practice, so I don't recommend using it unless there is no other option.
+:::
 
-# Indexing multiple columns
-#   "second" and "third" (columns 2 and 3)
+In contrast to `$` and `[[]]`, single square bracket notation `[]` allows us to select multiple columns:
+
+```{r}
 df[, c("second", "third")]
 df[, c(2, 3)]
 df[c("second", "third")]
@@ -177,18 +194,27 @@ tf[c("second", "third")]
 tf[c(2, 3)]
 ```
 
-```{r}
-# Indexing a single row
-#   row 2
-df[2, ]  # data.frame
-unlist(df[2, ])  # named vector
-unname(unlist(df[2, ]))  # vector
-tf[2, ]  # tibble
-unlist(tf[2, ])  # named vector
-unname(unlist(tf[2, ]))  # vector
+The returned subset will *always* be a data frame.
 
-# Indexing multiple rows
-#   rows 2 and 3
+:::{.callout-tip}
+A `tibble` is more consistent than a `data.frame` when using `[]`-style subsetting, because the result will *always* be a `tibble`. In contrast, we get a vector when selecting a single column and a `data.frame` when selecting multiple columns with `data.frame` objects.
+:::
+
+
+## Selecting rows
+
+Selecting one or more rows is also known as filtering. We use the row index (the value *before* the comma) within single square brackets `[]` to create the desired subset. The result will always be a data frame.
+
+For example, we can select the second row as follows (don't forget the trailing comma):
+
+```{r}
+df[2, ]  # data.frame
+tf[2, ]  # tibble
+```
+
+Similarly, we can also select multiple rows:
+
+```{r}
 df[c(2, 3), ]  # data.frame
 tf[c(2, 3), ]  # tibble
 ```
