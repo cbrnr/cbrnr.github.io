@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.335">
+<meta name="generator" content="quarto-1.4.513">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,7 +17,7 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
 </style>
@@ -53,7 +53,13 @@ ul.task-list li input[type="checkbox"] {
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -63,7 +69,8 @@ ul.task-list li input[type="checkbox"] {
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 <script>
@@ -96,6 +103,7 @@ ul.task-list li input[type="checkbox"] {
   })
   </script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="styles.css">
@@ -105,52 +113,52 @@ ul.task-list li input[type="checkbox"] {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Clemens Brunner</span>
     </a>
   </div>
+            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html">
- <span class="menu-text">Home</span></a>
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./blog.html" aria-current="page">
- <span class="menu-text">Blog</span></a>
+    <a class="nav-link active" href="./blog.html" aria-current="page"> 
+<span class="menu-text">Blog</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="https://orcid.org/0000-0002-6030-2233">
- <span class="menu-text"><i class="ai  ai-orcid" title="" style="color:"></i></span></a>
+    <a class="nav-link" href="https://orcid.org/0000-0002-6030-2233"> 
+<span class="menu-text"><i class="ai  ai-orcid" title="" style="color:"></i></span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="https://scholar.social/web/@cbrnr">
- <span class="menu-text"><i class="fa-brands fa-mastodon" aria-label="mastodon"></i></span></a>
+    <a class="nav-link" href="https://scholar.social/web/@cbrnr"> 
+<span class="menu-text"><i class="fa-brands fa-mastodon" aria-label="mastodon"></i></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/cbrnr"><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/cbrnr"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="mailto:clemens.brunner@gmail.com"><i class="bi bi-envelope-fill" role="img">
+    <a class="nav-link" href="mailto:clemens.brunner@gmail.com"> <i class="bi bi-envelope-fill" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
-              <div class="quarto-toggle-container">
-                  <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-              </div>
-              <div id="quarto-search" class="" title="Search"></div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -160,7 +168,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(8)</span></div><div class="category" data-category="Artifacts">Artifacts <span class="quarto-category-count">(3)</span></div><div class="category" data-category="EEG">EEG <span class="quarto-category-count">(6)</span></div><div class="category" data-category="EOG">EOG <span class="quarto-category-count">(2)</span></div><div class="category" data-category="ICA">ICA <span class="quarto-category-count">(2)</span></div><div class="category" data-category="MNE">MNE <span class="quarto-category-count">(4)</span></div><div class="category" data-category="Python">Python <span class="quarto-category-count">(6)</span></div><div class="category" data-category="Quarto">Quarto <span class="quarto-category-count">(1)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Visualization">Visualization <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Web">Web <span class="quarto-category-count">(1)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(10)</span></div><div class="category" data-category="Artifacts">Artifacts <span class="quarto-category-count">(3)</span></div><div class="category" data-category="Basics">Basics <span class="quarto-category-count">(3)</span></div><div class="category" data-category="EEG">EEG <span class="quarto-category-count">(6)</span></div><div class="category" data-category="EOG">EOG <span class="quarto-category-count">(2)</span></div><div class="category" data-category="ICA">ICA <span class="quarto-category-count">(2)</span></div><div class="category" data-category="MNE">MNE <span class="quarto-category-count">(4)</span></div><div class="category" data-category="Python">Python <span class="quarto-category-count">(6)</span></div><div class="category" data-category="Quarto">Quarto <span class="quarto-category-count">(1)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(3)</span></div><div class="category" data-category="Visualization">Visualization <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Web">Web <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
 <main class="content column-page-left" id="quarto-document-content">
 
@@ -171,7 +179,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-page-left">
 
     
   
@@ -179,7 +187,9 @@ ul.task-list li input[type="checkbox"] {
   </div>
   
 
+
 </header>
+
 
 
 
@@ -187,19 +197,85 @@ ul.task-list li input[type="checkbox"] {
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="R,Visualization" data-listing-date-sort="1675897200000" data-listing-file-modified-sort="1675942432134" data-listing-reading-time-sort="4.745">
+<div class="quarto-post image-right" data-index="0" data-categories="R,Basics" data-listing-date-sort="1700175600000" data-listing-file-modified-sort="1701260616202" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="866">
 <div class="thumbnail">
-<p><a href="./blog/warming-stripes-r/index.html"> <img src="./blog/warming-stripes-r/stripes.png" class="thumnail-image"> </a></p>
+<p><a href="./blog/r-dataframe-subsetting/index.html" class="no-external"></a></p><a href="./blog/r-dataframe-subsetting/index.html" class="no-external">
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+</a><p><a href="./blog/r-dataframe-subsetting/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./blog/warming-stripes-r/index.html">
 <h3 class="no-anchor listing-title">
-Warming stripes with R
+<a href="./blog/r-dataframe-subsetting/index.html" class="no-external">Subsetting data frames in R</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./blog/r-dataframe-subsetting/index.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Basics'); return false;">
+Basics
+</div>
+</div>
+<div class="listing-description">
+<a href="./blog/r-dataframe-subsetting/index.html" class="no-external">TODO!</a>
+</div>
+</div>
+<div class="metadata">
+<a href="./blog/r-dataframe-subsetting/index.html" class="no-external">
+<div class="listing-date">
+Nov 17, 2023
 </div>
 </a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-categories="R,Basics" data-listing-date-sort="1700175600000" data-listing-file-modified-sort="1701259517721" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="361">
+<div class="thumbnail">
+<p><a href="./blog/r-vector-subsetting/index.html" class="no-external"></a></p><a href="./blog/r-vector-subsetting/index.html" class="no-external">
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+</a><p><a href="./blog/r-vector-subsetting/index.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./blog/r-vector-subsetting/index.html" class="no-external">Subsetting vectors in R</a>
+</h3>
+<div class="listing-subtitle">
+<a href="./blog/r-vector-subsetting/index.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Basics'); return false;">
+Basics
+</div>
+</div>
+<div class="listing-description">
+<a href="./blog/r-vector-subsetting/index.html" class="no-external">TODO!</a>
+</div>
+</div>
+<div class="metadata">
+<a href="./blog/r-vector-subsetting/index.html" class="no-external">
+<div class="listing-date">
+Nov 17, 2023
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="2" data-categories="R,Visualization" data-listing-date-sort="1675897200000" data-listing-file-modified-sort="1701249694308" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="949">
+<div class="thumbnail">
+<p><a href="./blog/warming-stripes-r/index.html" class="no-external"></a></p><a href="./blog/warming-stripes-r/index.html" class="no-external">
+<p><img src="./blog/warming-stripes-r/stripes.png" class="thumbnail-image"></p>
+</a><p><a href="./blog/warming-stripes-r/index.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./blog/warming-stripes-r/index.html" class="no-external">Warming stripes with R</a>
+</h3>
+<div class="listing-subtitle">
+<a href="./blog/warming-stripes-r/index.html" class="no-external"></a>
+</div>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
 R
@@ -208,33 +284,31 @@ R
 Visualization
 </div>
 </div>
-<a href="./blog/warming-stripes-r/index.html">
 <div class="listing-description">
-<p>Warming stripes are a popular way to represent average temperature changes in a particular location over time. In this post, I show how to generate these visualizations using R.</p>
+<a href="./blog/warming-stripes-r/index.html" class="no-external">Warming stripes are a popular way to represent average temperature changes in a particular location over time. In this post, I show how to generate these visualizations using R.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./blog/warming-stripes-r/index.html">
+<a href="./blog/warming-stripes-r/index.html" class="no-external">
 <div class="listing-date">
 Feb 9, 2023
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="Quarto,Web" data-listing-date-sort="1664316000000" data-listing-file-modified-sort="1664373936678" data-listing-reading-time-sort="4.76">
+<div class="quarto-post image-right" data-index="3" data-categories="Quarto,Web" data-listing-date-sort="1664316000000" data-listing-file-modified-sort="1665392678719" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="952">
 <div class="thumbnail">
-<p><a href="./blog/removing-google-fonts/index.html"> <img src="./blog/removing-google-fonts/website.png" class="thumnail-image"> </a></p>
+<p><a href="./blog/removing-google-fonts/index.html" class="no-external"></a></p><a href="./blog/removing-google-fonts/index.html" class="no-external">
+<p class="card-img-top"><img src="blog/removing-google-fonts/website.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./blog/removing-google-fonts/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./blog/removing-google-fonts/index.html">
 <h3 class="no-anchor listing-title">
-Removing Google Fonts from a Quarto website
+<a href="./blog/removing-google-fonts/index.html" class="no-external">Removing Google Fonts from a Quarto website</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./blog/removing-google-fonts/index.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Quarto'); return false;">
 Quarto
@@ -243,37 +317,31 @@ Quarto
 Web
 </div>
 </div>
-<a href="./blog/removing-google-fonts/index.html">
 <div class="listing-description">
-<p>Many website frameworks and themes embed Google Fonts, which is very convenient. However, contacting third-party servers in the background without acquiring explicit consent might violate data privacy laws. In addition, using local fonts (or fonts available directly on a website) is often faster than retrieving from an external server. In this post, I show how to disable Google Fonts and use fonts stored on your own server for websites generated with Quarto and its built-in themes.</p>
+<a href="./blog/removing-google-fonts/index.html" class="no-external">Many website frameworks and themes embed Google Fonts, which is very convenient. However, contacting third-party servers in the background without acquiring explicit consent might violate data privacy laws. In addition, using local fonts (or fonts available directly on a website) is often faster than retrieving from an external server. In this post, I show how to disable Google Fonts and use fonts stored on your own server for websites generated with Quarto and its built-in themes.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./blog/removing-google-fonts/index.html">
+<a href="./blog/removing-google-fonts/index.html" class="no-external">
 <div class="listing-date">
 Sep 28, 2022
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="Python,EEG,ICA" data-listing-date-sort="1545001200000" data-listing-file-modified-sort="1669806035213" data-listing-reading-time-sort="6.95">
+<div class="quarto-post image-right" data-index="4" data-categories="Python,EEG,ICA" data-listing-date-sort="1545001200000" data-listing-file-modified-sort="1701249694308" data-listing-date-modified-sort="1664488800000" data-listing-reading-time-sort="7" data-listing-word-count-sort="1390">
 <div class="thumbnail">
-<a href="./blog/whitening-pca-zca/index.html">
-<div class="thumbnail-image">
-
-</div>
-</a><p><a href="./blog/whitening-pca-zca/index.html"></a></p>
+<p><a href="./blog/whitening-pca-zca/index.html" class="no-external"></a></p><a href="./blog/whitening-pca-zca/index.html" class="no-external">
+<p class="card-img-top"><img src="blog/whitening-pca-zca/index_files/figure-html/cell-5-output-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./blog/whitening-pca-zca/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./blog/whitening-pca-zca/index.html">
 <h3 class="no-anchor listing-title">
-Whitening with PCA and ZCA
+<a href="./blog/whitening-pca-zca/index.html" class="no-external">Whitening with PCA and ZCA</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./blog/whitening-pca-zca/index.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
 Python
@@ -285,37 +353,31 @@ EEG
 ICA
 </div>
 </div>
-<a href="./blog/whitening-pca-zca/index.html">
 <div class="listing-description">
-<p>Whitening (or sphering) is an important preprocessing step prior to performing independent component analysis (ICA) on EEG/MEG data. In this post, I explain the intuition behind whitening and illustrate the difference between two popular whitening methods – PCA (principal component analysis) and ZCA (zero-phase component analysis).</p>
+<a href="./blog/whitening-pca-zca/index.html" class="no-external">Whitening (or sphering) is an important preprocessing step prior to performing independent component analysis (ICA) on EEG/MEG data. In this post, I explain the intuition behind whitening and illustrate the difference between two popular whitening methods – PCA (principal component analysis) and ZCA (zero-phase component analysis).</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./blog/whitening-pca-zca/index.html">
+<a href="./blog/whitening-pca-zca/index.html" class="no-external">
 <div class="listing-date">
 Dec 17, 2018
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-categories="Python,MNE,EEG,EOG,Artifacts,ICA" data-listing-date-sort="1517180400000" data-listing-file-modified-sort="1669806018827" data-listing-reading-time-sort="7.955">
+<div class="quarto-post image-right" data-index="5" data-categories="Python,MNE,EEG,EOG,Artifacts,ICA" data-listing-date-sort="1517180400000" data-listing-file-modified-sort="1701249694308" data-listing-date-modified-sort="1665352800000" data-listing-reading-time-sort="8" data-listing-word-count-sort="1591">
 <div class="thumbnail">
-<a href="./blog/removing-eog-ica/index.html">
-<div class="thumbnail-image">
-
-</div>
-</a><p><a href="./blog/removing-eog-ica/index.html"></a></p>
+<p><a href="./blog/removing-eog-ica/index.html" class="no-external"></a></p><a href="./blog/removing-eog-ica/index.html" class="no-external">
+<p class="card-img-top"><img src="blog/removing-eog-ica/index_files/figure-html/cell-11-output-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./blog/removing-eog-ica/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./blog/removing-eog-ica/index.html">
 <h3 class="no-anchor listing-title">
-Removing eye activity from EEG via ICA
+<a href="./blog/removing-eog-ica/index.html" class="no-external">Removing eye activity from EEG via ICA</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./blog/removing-eog-ica/index.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
 Python
@@ -336,33 +398,31 @@ Artifacts
 ICA
 </div>
 </div>
-<a href="./blog/removing-eog-ica/index.html">
 <div class="listing-description">
-<p>EEG signals often contain eye activity (movement and/or blinks), which usually needs to be removed before performing EEG analysis. In this post, I show how to remove such ocular artifacts using independent component analysis (ICA).</p>
+<a href="./blog/removing-eog-ica/index.html" class="no-external">EEG signals often contain eye activity (movement and/or blinks), which usually needs to be removed before performing EEG analysis. In this post, I show how to remove such ocular artifacts using independent component analysis (ICA).</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./blog/removing-eog-ica/index.html">
+<a href="./blog/removing-eog-ica/index.html" class="no-external">
 <div class="listing-date">
 Jan 29, 2018
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-categories="Python,MNE,EEG,Artifacts" data-listing-date-sort="1511823600000" data-listing-file-modified-sort="1669805980845" data-listing-reading-time-sort="10.555">
+<div class="quarto-post image-right" data-index="6" data-categories="Python,MNE,EEG,Artifacts" data-listing-date-sort="1511823600000" data-listing-file-modified-sort="1701249694308" data-listing-date-modified-sort="1664488800000" data-listing-reading-time-sort="11" data-listing-word-count-sort="2111">
 <div class="thumbnail">
-<p><a href="./blog/visualizing-eeg-data/index.html"> <img src="./blog/visualizing-eeg-data/plot_raw_initial.png" class="thumnail-image"> </a></p>
+<p><a href="./blog/visualizing-eeg-data/index.html" class="no-external"></a></p><a href="./blog/visualizing-eeg-data/index.html" class="no-external">
+<p class="card-img-top"><img src="blog/visualizing-eeg-data/plot_raw_initial.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./blog/visualizing-eeg-data/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./blog/visualizing-eeg-data/index.html">
 <h3 class="no-anchor listing-title">
-Visualizing EEG data
+<a href="./blog/visualizing-eeg-data/index.html" class="no-external">Visualizing EEG data</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./blog/visualizing-eeg-data/index.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
 Python
@@ -377,37 +437,31 @@ EEG
 Artifacts
 </div>
 </div>
-<a href="./blog/visualizing-eeg-data/index.html">
 <div class="listing-description">
-<p>After importing EEG data, it is usually helpful to visualize the raw EEG traces. Despite the availability of numerous automated artifact removal or reduction techniques, manual inspection remains important (often in combination with automated methods) to obtain clean data. In this post, I show how to visualize an EEG data set and how to interactively mark segments containing artifacts.</p>
+<a href="./blog/visualizing-eeg-data/index.html" class="no-external">After importing EEG data, it is usually helpful to visualize the raw EEG traces. Despite the availability of numerous automated artifact removal or reduction techniques, manual inspection remains important (often in combination with automated methods) to obtain clean data. In this post, I show how to visualize an EEG data set and how to interactively mark segments containing artifacts.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./blog/visualizing-eeg-data/index.html">
+<a href="./blog/visualizing-eeg-data/index.html" class="no-external">
 <div class="listing-date">
 Nov 28, 2017
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="5" data-categories="Python,MNE,EEG" data-listing-date-sort="1508709600000" data-listing-file-modified-sort="1669805967385" data-listing-reading-time-sort="6.69">
+<div class="quarto-post image-right" data-index="7" data-categories="Python,MNE,EEG" data-listing-date-sort="1508709600000" data-listing-file-modified-sort="1701249694308" data-listing-date-modified-sort="1664488800000" data-listing-reading-time-sort="7" data-listing-word-count-sort="1338">
 <div class="thumbnail">
-<a href="./blog/importing-eeg-data/index.html">
-<div class="thumbnail-image">
-
-</div>
-</a><p><a href="./blog/importing-eeg-data/index.html"></a></p>
+<p><a href="./blog/importing-eeg-data/index.html" class="no-external"></a></p><a href="./blog/importing-eeg-data/index.html" class="no-external">
+<p class="card-img-top"><img src="blog/importing-eeg-data/index_files/figure-html/cell-15-output-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./blog/importing-eeg-data/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./blog/importing-eeg-data/index.html">
 <h3 class="no-anchor listing-title">
-Importing EEG data
+<a href="./blog/importing-eeg-data/index.html" class="no-external">Importing EEG data</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./blog/importing-eeg-data/index.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
 Python
@@ -419,37 +473,31 @@ MNE
 EEG
 </div>
 </div>
-<a href="./blog/importing-eeg-data/index.html">
 <div class="listing-description">
-<p>Python is an extremely popular programming language, and the scientific Python community has created a striving ecosystem of neuroscience tools. Among these, MNE is a popular EEG/MEG package, which offers almost anything required in an EEG processing pipeline. In this post, I show how to import EEG data sets and how to view and edit associated meta data.</p>
+<a href="./blog/importing-eeg-data/index.html" class="no-external">Python is an extremely popular programming language, and the scientific Python community has created a striving ecosystem of neuroscience tools. Among these, MNE is a popular EEG/MEG package, which offers almost anything required in an EEG processing pipeline. In this post, I show how to import EEG data sets and how to view and edit associated meta data.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./blog/importing-eeg-data/index.html">
+<a href="./blog/importing-eeg-data/index.html" class="no-external">
 <div class="listing-date">
 Oct 23, 2017
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="6" data-categories="Python,MNE,EEG,EOG,Artifacts" data-listing-date-sort="1508450400000" data-listing-file-modified-sort="1669805926385" data-listing-reading-time-sort="6.55">
+<div class="quarto-post image-right" data-index="8" data-categories="Python,MNE,EEG,EOG,Artifacts" data-listing-date-sort="1508450400000" data-listing-file-modified-sort="1701249694308" data-listing-date-modified-sort="1664488800000" data-listing-reading-time-sort="7" data-listing-word-count-sort="1310">
 <div class="thumbnail">
-<a href="./blog/removing-eog-regression/index.html">
-<div class="thumbnail-image">
-
-</div>
-</a><p><a href="./blog/removing-eog-regression/index.html"></a></p>
+<p><a href="./blog/removing-eog-regression/index.html" class="no-external"></a></p><a href="./blog/removing-eog-regression/index.html" class="no-external">
+<p class="card-img-top"><img src="blog/removing-eog-regression/index_files/figure-html/cell-15-output-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./blog/removing-eog-regression/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./blog/removing-eog-regression/index.html">
 <h3 class="no-anchor listing-title">
-Removing eye activity from EEG via regression
+<a href="./blog/removing-eog-regression/index.html" class="no-external">Removing eye activity from EEG via regression</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./blog/removing-eog-regression/index.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
 Python
@@ -467,33 +515,31 @@ EOG
 Artifacts
 </div>
 </div>
-<a href="./blog/removing-eog-regression/index.html">
 <div class="listing-description">
-<p>EEG signals often contain eye activity (movement and/or blinks), which usually needs to be removed before performing EEG analysis. In this post, I show how to get rid of ocular artifacts using a regression-based approach.</p>
+<a href="./blog/removing-eog-regression/index.html" class="no-external">EEG signals often contain eye activity (movement and/or blinks), which usually needs to be removed before performing EEG analysis. In this post, I show how to get rid of ocular artifacts using a regression-based approach.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./blog/removing-eog-regression/index.html">
+<a href="./blog/removing-eog-regression/index.html" class="no-external">
 <div class="listing-date">
 Oct 20, 2017
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="7" data-categories="Python,EEG" data-listing-date-sort="1507500000000" data-listing-file-modified-sort="1669805746806" data-listing-reading-time-sort="3.93">
+<div class="quarto-post image-right" data-index="9" data-categories="Python,EEG,Basics" data-listing-date-sort="1507500000000" data-listing-file-modified-sort="1701249694308" data-listing-date-modified-sort="1661378400000" data-listing-reading-time-sort="4" data-listing-word-count-sort="786">
 <div class="thumbnail">
-<p><a href="./blog/setting-up-python/index.html"> <img src="./blog/setting-up-python/install_python_windows.png" class="thumnail-image"> </a></p>
+<p><a href="./blog/setting-up-python/index.html" class="no-external"></a></p><a href="./blog/setting-up-python/index.html" class="no-external">
+<p class="card-img-top"><img src="blog/setting-up-python/install_python_windows.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./blog/setting-up-python/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./blog/setting-up-python/index.html">
 <h3 class="no-anchor listing-title">
-Setting up Python for EEG analysis
+<a href="./blog/setting-up-python/index.html" class="no-external">Setting up Python for EEG analysis</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./blog/setting-up-python/index.html" class="no-external"></a>
 </div>
-</a>
 <div class="listing-categories">
 <div class="listing-category" onclick="window.quartoListingCategory('Python'); return false;">
 Python
@@ -501,15 +547,16 @@ Python
 <div class="listing-category" onclick="window.quartoListingCategory('EEG'); return false;">
 EEG
 </div>
+<div class="listing-category" onclick="window.quartoListingCategory('Basics'); return false;">
+Basics
 </div>
-<a href="./blog/setting-up-python/index.html">
+</div>
 <div class="listing-description">
-<p>Installing Python is pretty straightforward. In this post, I describe how to set up Python for EEG analysis on Windows, macOS, and Linux.</p>
+<a href="./blog/setting-up-python/index.html" class="no-external">Installing Python is pretty straightforward. In this post, I describe how to set up Python for EEG analysis on Windows, macOS, and Linux.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./blog/setting-up-python/index.html">
+<a href="./blog/setting-up-python/index.html" class="no-external">
 <div class="listing-date">
 Oct 9, 2017
 </div>
@@ -562,6 +609,33 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       } else {
         el.classList.add('notransition');
       }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
     }
   }
   const toggleColorMode = (alternate) => {
@@ -630,13 +704,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return localAlternateSentinel;
     }
   }
-  let localAlternateSentinel = 'default';
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
   // Dark / light mode switch
   window.quartoToggleColorScheme = () => {
     // Read the current dark / light value 
     let toAlternate = !hasAlternateSentinel();
     toggleColorMode(toAlternate);
     setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
   };
   // Ensure there is a toggle, if there isn't float one in the top right
   if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
@@ -663,9 +739,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -701,10 +791,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -714,8 +803,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -730,6 +828,248 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        typesetMath(container);
+        return container.innerHTML
+      } else {
+        typesetMath(note);
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      typesetMath(note);
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -772,9 +1112,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
-      <div class="nav-footer-center">© Clemens Brunner</div>
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>© Clemens Brunner</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
   </div>
 </footer>
+
 
 
 

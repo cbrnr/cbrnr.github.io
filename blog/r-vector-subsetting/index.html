@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2017-11-28">
-<meta name="description" content="After importing EEG data, it is usually helpful to visualize the raw EEG traces. Despite the availability of numerous automated artifact removal or reduction techniques, manual inspection remains important (often in combination with automated methods) to obtain clean data. In this post, I show how to visualize an EEG data set and how to interactively mark segments containing artifacts.">
+<meta name="dcterms.date" content="2023-11-29">
+<meta name="description" content="Extracting one or more elements from a vector is a fundamental and important operation in any data analysis pipeline. In this post, I showcase various options for creating subsets of vectors.">
 
-<title>Clemens Brunner - Visualizing EEG data</title>
+<title>Clemens Brunner - Subsetting vectors in R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -59,7 +59,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -107,9 +107,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -178,18 +175,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Visualizing EEG data</h1>
+<h1 class="title">Subsetting vectors in R</h1>
   <div class="quarto-categories">
-    <div class="quarto-category">Python</div>
-    <div class="quarto-category">MNE</div>
-    <div class="quarto-category">EEG</div>
-    <div class="quarto-category">Artifacts</div>
+    <div class="quarto-category">R</div>
+    <div class="quarto-category">Basics</div>
   </div>
   </div>
 
 <div>
   <div class="description">
-    After importing EEG data, it is usually helpful to visualize the raw EEG traces. Despite the availability of numerous automated artifact removal or reduction techniques, manual inspection remains important (often in combination with automated methods) to obtain clean data. In this post, I show how to visualize an EEG data set and how to interactively mark segments containing artifacts.
+    Extracting one or more elements from a vector is a fundamental and important operation in any data analysis pipeline. In this post, I showcase various options for creating subsets of vectors.
   </div>
 </div>
 
@@ -200,16 +195,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 28, 2017</p>
+      <p class="date">November 29, 2023</p>
     </div>
   </div>
   
-    <div>
-    <div class="quarto-title-meta-heading">Modified</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date-modified">September 30, 2022</p>
-    </div>
-  </div>
     
   </div>
   
@@ -218,181 +207,103 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="prerequisites" class="level2">
-<h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
-<p>In this tutorial, we will continue to use the <a href="https://physionet.org/content/eegmmidb/1.0.0/">EEG motor movement/imagery data set</a> from the <a href="../../blog/importing-eeg-data/index.html">previous post</a> (again, we use <a href="https://physionet.org/files/eegmmidb/1.0.0/S001/S001R04.edf?download">run 4 of subject 1</a>). I’ll quickly reiterate all steps we have performed so far:</p>
-<div id="88c9419f" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mne</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>raw <span class="op">=</span> mne.io.read_raw_edf(<span class="st">"S001R04.edf"</span>, preload<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>raw.rename_channels(<span class="kw">lambda</span> s: s.strip(<span class="st">"."</span>))</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>raw.drop_channels([<span class="st">"T9"</span>, <span class="st">"T10"</span>])</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>raw.set_montage(<span class="st">"easycap-M1"</span>, match_case<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>raw.set_eeg_reference(<span class="st">"average"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>The most basic data type in R is the atomic vector, which is essentially a one-dimensional array comprised of elements of a single type. Therefore, even a scalar number (such as <code>4.17</code>) is actually a vector under the hood. This might be surprising, especially if you have experience in other programming languages, but it implies that array operations (which are extremely useful for data analysis) are built right into R. In this post, I will discuss how to extract one or more elements from a vector, a process commonly referred to as subsetting.</p>
 </section>
-<section id="interactive-visualization" class="level2">
-<h2 class="anchored" data-anchor-id="interactive-visualization">Interactive visualization</h2>
-<p>We can now open an interactive visualization window as follows:</p>
-<div id="faebf389" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>raw.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="subsetting-vectors" class="level2">
+<h2 class="anchored" data-anchor-id="subsetting-vectors">Subsetting vectors</h2>
+<p>In general, R uses a pair of square brackets <code>[]</code> for selecting specific elements in a given object. Let’s consider the following vector <code>v</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">v =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "A" "B" "C" "D"</code></pre>
 </div>
-<p><img src="plot_raw_initial.png" class="img-fluid"></p>
-<p>The signals do not look quite right yet, so let’s walk through some interactive features of this plot. First, you can rescale the signals with the <kbd>+</kbd> and <kbd>-</kbd> keys. The default scaling is not really appropriate here, but pressing the <kbd>-</kbd> key a few times will result in a much nicer display. The topmost channel label Fc5 includes a purple scale bar which indicates the current scale of the data (the length of the purple bar corresponds to 40 µV in this example). This scale applies to all channels of the same type (such as all EEG channels). If the scale bar gets in your way, you can toggle it with the <kbd>s</kbd> key.</p>
-<p>Notice that 20 channels are visible per page by default. To view the remaining channels, you can scroll down with the <kbd>↓</kbd> key. Conversely, you can scroll back up again by pressing the <kbd>↑</kbd> key. Alternatively, you can increase or decrease the number of channels visible on a page with the <kbd>Page Up</kbd> or <kbd>Page Down</kbd> keys, respectively (if you don’t have these keys on your Mac, you can use the combinations <kbd>fn</kbd><kbd>↑</kbd> and <kbd>fn</kbd><kbd>↓</kbd> instead).</p>
-<p>By default, 10 seconds of data are visible per page. If you want to navigate in time, you can use the <kbd>→</kbd> and <kbd>←</kbd> keys to move forward and backward by a quarter of the visible duration (in this example by 2.5 seconds). Pressing <kbd>Shift</kbd><kbd>→</kbd> and <kbd>Shift</kbd><kbd>←</kbd> will scroll forward/backward by a whole page (10 s here).</p>
-<p>You can increase or decrease the amount of time shown per page with the <kbd>End</kbd> or <kbd>Home</kbd> keys (if you don’t have these keys on your Mac, these shortcuts can usually be accessed with <kbd>fn</kbd><kbd>→</kbd> and <kbd>fn</kbd><kbd>←</kbd>).</p>
-<p>The following table summarizes all keyboard shortcuts for the interactive visualization window (we will discuss annotation, butterfly, and zen modes in a minute). Note that the “Help” button in the lower left corner (or pressing the <kbd>?</kbd> key) pops up a dialog window with these shortcuts.</p>
-<table class="table">
-<thead>
-<tr class="header">
-<th>Action</th>
-<th>Keyboard shortcut</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Scale up</td>
-<td><kbd>+</kbd></td>
-</tr>
-<tr class="even">
-<td>Scale down</td>
-<td><kbd>-</kbd></td>
-</tr>
-<tr class="odd">
-<td>Scroll up</td>
-<td><kbd>↑</kbd></td>
-</tr>
-<tr class="even">
-<td>Scroll down</td>
-<td><kbd>↓</kbd></td>
-</tr>
-<tr class="odd">
-<td>Scroll left (quarter page)</td>
-<td><kbd>←</kbd></td>
-</tr>
-<tr class="even">
-<td>Scroll right (quarter page)</td>
-<td><kbd>→</kbd></td>
-</tr>
-<tr class="odd">
-<td>Scroll left (whole page)</td>
-<td><kbd>Shift</kbd><kbd>←</kbd></td>
-</tr>
-<tr class="even">
-<td>Scroll right (whole page)</td>
-<td><kbd>Shift</kbd><kbd>→</kbd></td>
-</tr>
-<tr class="odd">
-<td>More channels</td>
-<td><kbd>Page Up</kbd></td>
-</tr>
-<tr class="even">
-<td>Fewer channels</td>
-<td><kbd>Page Down</kbd></td>
-</tr>
-<tr class="odd">
-<td>More time</td>
-<td><kbd>End</kbd></td>
-</tr>
-<tr class="even">
-<td>Less time</td>
-<td><kbd>Home</kbd></td>
-</tr>
-<tr class="odd">
-<td>Scale bars</td>
-<td><kbd>s</kbd></td>
-</tr>
-<tr class="even">
-<td>Zen mode (toggle scrollbars)</td>
-<td><kbd>z</kbd></td>
-</tr>
-<tr class="odd">
-<td>DC removal</td>
-<td><kbd>d</kbd></td>
-</tr>
-<tr class="even">
-<td>Annotation mode</td>
-<td><kbd>a</kbd></td>
-</tr>
-<tr class="odd">
-<td>Butterfly mode</td>
-<td><kbd>b</kbd></td>
-</tr>
-<tr class="even">
-<td>Draggable annotations</td>
-<td><kbd>p</kbd></td>
-</tr>
-<tr class="odd">
-<td>Help</td>
-<td><kbd>?</kbd></td>
-</tr>
-</tbody>
-</table>
-<p>You can change initial settings with arguments to <code>raw.plot()</code>. For example, we might use the following arguments to start with suitable values for our example data:</p>
-<div id="16ee8b1d" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>raw.plot(n_channels<span class="op">=</span><span class="dv">64</span>, duration<span class="op">=</span><span class="dv">5</span>, scalings<span class="op">=</span>{<span class="st">"eeg"</span>: <span class="fl">75e-6</span>}, start<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The example data contains annotations (stored in <code>raw.annotations</code>), which are visualized as colored patches (the annotation descriptions are located at the top of the plot). In this case, the blue, red, and green patches correspond to T0, T1, and T2, respectively.</p>
-<p>In addition to keyboard shortcuts, you can also use the mouse to navigate through the data. You might have already noticed the horizontal bar below the plot. This overview bar summarizes the entire time range of the signal, and the currently visible time segment is highlighted by a gray box. You can click inside the overview bar to quickly skip around to different time segments. Furthermore, the overview bar also shows annotations.</p>
-<p>To quickly identify time segments with high variance, you can switch to <em>butterfly mode</em> by pressing the <kbd>b</kbd> key. Signals of all channels of the same type will be collapsed onto each other, which makes it easy to spot abnormal activity. Press <kbd>b</kbd> again to exit butterfly mode.</p>
-<p><img src="plot_raw_butterfly.png" class="img-fluid"></p>
-<p>If you want to focus on the actual signals with fewer distractions, you can get rid of the scroll and overview bars. Press <kbd>z</kbd> (<em>zen mode</em>) to toggle these user interface elements.</p>
-<p>Finally, you can quickly filter out offsets (slow drifts) in the signals by pressing the <kbd>d</kbd> key (toggle DC removal).</p>
-</section>
-<section id="annotating-segments" class="level2">
-<h2 class="anchored" data-anchor-id="annotating-segments">Annotating segments</h2>
-<p>We are now ready to interactively create annotations, for example to mark segments containing artifacts. To this end, we switch to <em>annotation mode</em> by pressing the <kbd>a</kbd> key. A small dialog window will pop up. Make sure to keep this dialog window open as long as you want to stay in annotation mode – if you close it, you will return to normal visualization mode.</p>
-<p>The annotations dialog shows a list of currently available annotations (T0, T1, and T2 in our example data). The annotation label marked with a filled circle is currently active (T0), which means that if we create a new annotation in the data window (more on this soon), it will be of this type. However, we can also create new annotation <em>types</em>. Notice that the “BAD_” label is actually an input text field – you can start typing/editing to change the annotation label before creating it. We would like to create annotations called “BAD”, so let’s remove the underscore by pressing the <kbd>Backspace</kbd> key once. The new annotation type gets added to the list of available labels once you click on the large “Add new label” button or hit the <kbd>Enter</kbd> key.</p>
-<p><img src="annotations.png" class="img-fluid"></p>
-<div class="callout callout-style-default callout-important callout-titled">
+<section id="subsetting-by-position" class="level3">
+<h3 class="anchored" data-anchor-id="subsetting-by-position">Subsetting by position</h3>
+<p>This vector has four elements, and we can grab a specific element by specifying its position within the square brackets. For example, here’s how we can extract the second element of <code>v</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>v[<span class="dv">2</span>]  <span class="co"># second element</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "B"</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Important
+Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Annotation labels starting with “BAD” (or “bad”) are special in MNE, because many functions ignore data marked by such annotations. This gives us a nice way to mark artifact segments without completely discarding data points.</p>
+<p>R uses 1-based indexing, so the position of the first element is <code>1</code>, followed by <code>2</code> for the second element, and so on.</p>
 </div>
 </div>
-<p>Let’s create some “BAD” annotations in our example data. First, we make sure that the “BAD” label is active by clicking inside the red ring (active labels are represented by a filled circle). Optionally, we can hide all T0, T1, and T2 annotations by clicking on their “show/hide” checkboxes. Now we switch back to the main visualization window (again, make sure not to close the annotation window). Using the mouse, we can now click and drag to select a portion of the data and mark it with the currently active “BAD” label. During this process, you can interactively scroll around in the data with the keyboard shortcuts listed before, or you can click within the overview bar below the plot.</p>
-<p>If you want to edit the start and/or end point of an existing annotation, press the <kbd>p</kbd> key or click the “Draggable edges?” checkbox to toggle <em>snap mode</em>. If snap mode is enabled, you can drag the start and/or end points of an annotation to the desired locations. It is impossible to create an annotation inside another annotation with snap mode enabled, so that’s when you want to turn it off. Overlapping annotations of the same type will be merged to a single annotation. If you want to completely delete an annotation, you can right-click on it and it disappears.</p>
-<p>When you are done, you can close the annotation window. You can also close the visualization window, because all annotations are automatically stored in the <code>raw.annotations</code> attribute. Let’s take a look what it looks like now:</p>
-<div id="66fcdc74" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>raw.annotations</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If we want to select two or more elements, it is necessary to wrap the desired positions within <code>c()</code>, because R always expects <em>a single vector</em> within the square brackets:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>v[<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>)]  <span class="co"># second and fourth element</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "B" "D"</code></pre>
 </div>
-<pre><code>&lt;Annotations | 39 segments: BAD (9), T0 (15), T1 (8), T2 (7)&gt;</code></pre>
-<p>Yay, we’ve just created 9 new annotations, all of which are interpreted as bad (because they start with the word “BAD” or “bad”).</p>
+</div>
+<p>Negative indices grab all elements except for those specified by the negative numbers. For example, to get all elements except the third one:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>v[<span class="sc">-</span><span class="dv">3</span>]  <span class="co"># all elements except the third</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "A" "B" "D"</code></pre>
+</div>
+</div>
+<p>There is no special syntax for selecting the last element of a vector, so we have to write:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>v[<span class="fu">length</span>(v)]  <span class="co"># last element</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "D"</code></pre>
+</div>
+</div>
 </section>
-<section id="marking-channels" class="level2">
-<h2 class="anchored" data-anchor-id="marking-channels">Marking channels</h2>
-<p>Sometimes, signals are noisy in particular channels during the whole recording. In such cases, it is possible to mark the whole channel as bad. In the visualization window, click on a channel label on the left side of the plot or on a channel trace to mark a channel as bad (the label and associated time course will turn gray to reflect this). If you want to unmark a channel, click on its label (or its trace) again. The selection of bad channels is immediately stored in <code>raw.info["bads"]</code> (a list containing the channel labels of all bad channels). Channels marked as bad are generally ignored by MNE functions.</p>
+<section id="logical-subsetting" class="level3">
+<h3 class="anchored" data-anchor-id="logical-subsetting">Logical subsetting</h3>
+<p>We can also use logical vectors for subsetting. The outcome will comprise elements corresponding to positions where the logical vector evaluates to <code>TRUE</code>. The following example illustrates this idea:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>v[<span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "B" "C"</code></pre>
+</div>
+</div>
+<p>The result contains the second and third elements of <code>v</code>, because only the second and third elements of the logical index vector are <code>TRUE</code>. Subsetting with logical vectors usually involve comparisons (which evalute to logical vectors), so we can filter elements based on the values of the original vector. The following example illustrates this idea with a numeric vector <code>x</code> and a subset containing only positive values of <code>x</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">54</span>, <span class="sc">-</span><span class="fl">23.22</span>, <span class="sc">-</span><span class="fl">13.04</span>, <span class="fl">1.99</span>, <span class="sc">-</span><span class="fl">1.31</span>, <span class="fl">48.6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  54.00 -23.22 -13.04   1.99  -1.31  48.60</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>x[x <span class="sc">&gt;</span> <span class="dv">0</span>]  <span class="co"># create subset with positive values of x</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 54.00  1.99 48.60</code></pre>
+</div>
+</div>
 </section>
-<section id="saving-and-loading-annotations" class="level2">
-<h2 class="anchored" data-anchor-id="saving-and-loading-annotations">Saving and loading annotations</h2>
-<p>Although changes to annotations or bad channels are immediately reflected in <code>raw.annotations</code> and <code>raw.info["bads"]</code>, we still need a way to persistently store this information for later use. Consequently, we will also need a way to load this information and associate it with an existing <code>raw</code> object.</p>
-<p>It is always a good idea to use simple storage formats whenever possible. Therefore, MNE allows us to store annotations as simple text files. Here’s how we could save annotations in a file called <code>S001R04_annotations.txt</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>raw.annotations.save(<span class="st">"S001R04_annotations.txt"</span>, overwrite<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This creates a comma-separated text file with three columns “onset”, “duration”, and “description”. Onsets are relative to the start of the recording (so they start at zero), and both onsets and durations are measured in seconds. If you specify a <code>.csv</code> instead of a <code>.txt</code> extension, you will get absolute time stamps for the onsets (based on the measurement onset time stamp).</p>
-<p>We can read this file with:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>annotations <span class="op">=</span> mne.read_annotations(<span class="st">"S001R04_annotations.txt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Finally, we can associate these <code>annotations</code> with an existing <code>raw</code> object:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>raw.set_annotations(annotations)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="saving-and-loading-bad-channels" class="level2">
-<h2 class="anchored" data-anchor-id="saving-and-loading-bad-channels">Saving and loading bad channels</h2>
-<p>The following lines of code store the list of bad channels in a text file called <code>S001R04_bads.txt</code>:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"S001R04_bads.txt"</span>, <span class="st">"w"</span>) <span class="im">as</span> f:</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    f.write(<span class="st">","</span>.join(raw.info[<span class="st">"bads"</span>]))</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    f.write(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>To load this file and update an existing <code>raw</code> object, we can use:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"S001R04_bads.txt"</span>) <span class="im">as</span> f:</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    raw.info[<span class="st">"bads"</span>] <span class="op">=</span> f.read().strip().split(<span class="st">","</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="subsetting-by-name" class="level3">
+<h3 class="anchored" data-anchor-id="subsetting-by-name">Subsetting by name</h3>
+<p>Finally, we can select elements in a named vector not only by position but also by name:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>w <span class="ot">=</span> <span class="fu">c</span>(<span class="at">first=</span><span class="st">"A"</span>, <span class="at">two=</span><span class="st">"B"</span>, <span class="at">three=</span><span class="st">"C"</span>, <span class="at">last=</span><span class="st">"D"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>w[<span class="dv">2</span>]  <span class="co"># by position still works</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>two 
+"B" </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>w[<span class="st">"two"</span>]  <span class="co"># by name (must be in quotes)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>two 
+"B" </code></pre>
+</div>
+</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
