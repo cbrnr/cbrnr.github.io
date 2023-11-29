@@ -221,7 +221,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="prerequisites" class="level2">
 <h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
 <p>In this tutorial, we will continue to use the <a href="https://physionet.org/content/eegmmidb/1.0.0/">EEG motor movement/imagery data set</a> from the <a href="../../blog/importing-eeg-data/index.html">previous post</a> (again, we use <a href="https://physionet.org/files/eegmmidb/1.0.0/S001/S001R04.edf?download">run 4 of subject 1</a>). I’ll quickly reiterate all steps we have performed so far:</p>
-<div id="1f16ff20" class="cell" data-execution_count="1">
+<div id="4f932bc9" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mne</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>raw <span class="op">=</span> mne.io.read_raw_edf(<span class="st">"S001R04.edf"</span>, preload<span class="op">=</span><span class="va">True</span>)</span>
@@ -234,7 +234,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="interactive-visualization" class="level2">
 <h2 class="anchored" data-anchor-id="interactive-visualization">Interactive visualization</h2>
 <p>We can now open an interactive visualization window as follows:</p>
-<div id="aad2a9d4" class="cell" data-execution_count="3">
+<div id="649b172d" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>raw.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><img src="plot_raw_initial.png" class="img-fluid"></p>
@@ -330,7 +330,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <p>You can change initial settings with arguments to <code>raw.plot()</code>. For example, we might use the following arguments to start with suitable values for our example data:</p>
-<div id="db41e1ea" class="cell" data-execution_count="4">
+<div id="0be38c69" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>raw.plot(n_channels<span class="op">=</span><span class="dv">64</span>, duration<span class="op">=</span><span class="dv">5</span>, scalings<span class="op">=</span>{<span class="st">"eeg"</span>: <span class="fl">75e-6</span>}, start<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The example data contains annotations (stored in <code>raw.annotations</code>), which are visualized as colored patches (the annotation descriptions are located at the top of the plot). In this case, the blue, red, and green patches correspond to T0, T1, and T2, respectively.</p>
@@ -361,7 +361,7 @@ Important
 <p>Let’s create some “BAD” annotations in our example data. First, we make sure that the “BAD” label is active by clicking inside the red ring (active labels are represented by a filled circle). Optionally, we can hide all T0, T1, and T2 annotations by clicking on their “show/hide” checkboxes. Now we switch back to the main visualization window (again, make sure not to close the annotation window). Using the mouse, we can now click and drag to select a portion of the data and mark it with the currently active “BAD” label. During this process, you can interactively scroll around in the data with the keyboard shortcuts listed before, or you can click within the overview bar below the plot.</p>
 <p>If you want to edit the start and/or end point of an existing annotation, press the <kbd>p</kbd> key or click the “Draggable edges?” checkbox to toggle <em>snap mode</em>. If snap mode is enabled, you can drag the start and/or end points of an annotation to the desired locations. It is impossible to create an annotation inside another annotation with snap mode enabled, so that’s when you want to turn it off. Overlapping annotations of the same type will be merged to a single annotation. If you want to completely delete an annotation, you can right-click on it and it disappears.</p>
 <p>When you are done, you can close the annotation window. You can also close the visualization window, because all annotations are automatically stored in the <code>raw.annotations</code> attribute. Let’s take a look what it looks like now:</p>
-<div id="551e61a2" class="cell" data-execution_count="5">
+<div id="fa3735ee" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>raw.annotations</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <pre><code>&lt;Annotations | 39 segments: BAD (9), T0 (15), T1 (8), T2 (7)&gt;</code></pre>
