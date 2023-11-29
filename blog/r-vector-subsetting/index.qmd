@@ -1,6 +1,6 @@
 ---
 title: Subsetting vectors in R
-date: 2023-11-17
+date: 2023-11-29
 description: Extracting one or more elements from a vector is a fundamental and important operation in any data analysis pipeline. In this post, I showcase various options for creating subsets of vectors.
 categories:
   - R
