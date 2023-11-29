@@ -1,7 +1,7 @@
 ---
 title: Subsetting data frames in R
 date: 2023-11-17
-description: TODO!
+description: TODO
 categories:
   - R
   - Basics
@@ -10,51 +10,6 @@ categories:
 ## Introduction
 
 Data frames are one of the most important data structures for representing tabular data. Base R includes the tried and tested `data.frame` type, which is technically a list of equal-length vectors (where each vector corresponds to a column in the data frame). The [tibble](https://tibble.tidyverse.org) package (part of the [Tidyverse](https://www.tidyverse.org)) offers a slightly tweaked data frame type called `tibble`. In practical data analysis pipelines, we frequently create subsets of the data frame, for example by selecting one or more columns and/or rows. In most situations, the `data.frame` and `tibble` types are interchangeable. However, there are subtle differences in the context of subsetting, which I will highlight in this post.
-
-
-## Subsetting vectors
-
-In general, R uses a pair of square brackets `[]` for selecting specific elements in a given object. This is rather straightforward for atomic vectors. Let's look at an example:
-
-```{r}
-(v = c("A", "B", "C", "D"))
-```
-
-This vector has four elements, and we can grab a specific element by providing the corresponding position between the square brackets. For example, here's how we can get the second element of `v`:
-
-```{r}
-v[2]  # second element
-```
-
-:::{.callout-note}
-R uses 1-based indexing, so the position of the first element is `1`, followed by `2` for the second element, and so on.
-:::
-
-If we want to select two or more elements, we need to wrap the desired positions within `c()`, because R always expects *a single vector* within the square brackets:
-
-```{r}
-v[c(2, 4)]  # second and fourth element
-```
-
-Negative indices grab all elements except for those specified by the negative numbers. For example, to get all elements except for the third one:
-
-```{r}
-v[-3]  # all elements except the third
-```
-
-There is no special syntax for selecting the last element of a vector, so we have to write:
-
-```{r}
-v[length(v)]  # last element
-```
-
-In addition to subsetting by position, we can select elements in a named vector by name:
-
-```{r}
-w = c(first="A", two="B", three="C", last="D")
-w[2]  # by position still works
-w["two"]  # by name (must be in quotes)
-```
 
 
 ## Subsetting data frames

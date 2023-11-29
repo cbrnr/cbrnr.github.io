@@ -1,0 +1,79 @@
+---
+title: Subsetting vectors in R
+date: 2023-11-17
+description: Extracting one or more elements from a vector is a fundamental and important operation in any data analysis pipeline. In this post, I showcase various options for creating subsets of vectors.
+categories:
+  - R
+  - Basics
+---
+
+## Introduction
+
+The most basic data type in R is the atomic vector, which is essentially a one-dimensional array comprised of elements of a single type. Therefore, even a scalar number (such as `4.17`) is actually a vector under the hood. This might be surprising, especially if you have experience in other programming languages, but it implies that array operations (which are extremely useful for data analysis) are built right into R. In this post, I will discuss how to extract one or more elements from a vector, a process commonly referred to as subsetting.
+
+
+## Subsetting vectors
+
+In general, R uses a pair of square brackets `[]` for selecting specific elements in a given object. Let's consider the following vector `v`:
+
+```{r}
+(v = c("A", "B", "C", "D"))
+```
+
+
+### Subsetting by position
+
+This vector has four elements, and we can grab a specific element by specifying its position within the square brackets. For example, here's how we can extract the second element of `v`:
+
+```{r}
+v[2]  # second element
+```
+
+:::{.callout-note}
+R uses 1-based indexing, so the position of the first element is `1`, followed by `2` for the second element, and so on.
+:::
+
+If we want to select two or more elements, it is necessary to wrap the desired positions within `c()`, because R always expects *a single vector* within the square brackets:
+
+```{r}
+v[c(2, 4)]  # second and fourth element
+```
+
+Negative indices grab all elements except for those specified by the negative numbers. For example, to get all elements except the third one:
+
+```{r}
+v[-3]  # all elements except the third
+```
+
+There is no special syntax for selecting the last element of a vector, so we have to write:
+
+```{r}
+v[length(v)]  # last element
+```
+
+
+### Logical subsetting
+
+We can also use logical vectors for subsetting. The outcome will comprise elements corresponding to positions where the logical vector evaluates to `TRUE`. The following example illustrates this idea:
+
+```{r}
+v[c(FALSE, TRUE, TRUE, FALSE)]
+```
+
+The result contains the second and third elements of `v`, because only the second and third elements of the logical index vector are `TRUE`. Subsetting with logical vectors usually involve comparisons (which evalute to logical vectors), so we can filter elements based on the values of the original vector. The following example illustrates this idea with a numeric vector `x` and a subset containing only positive values of `x`:
+
+```{r}
+(x = c(54, -23.22, -13.04, 1.99, -1.31, 48.6))
+x[x > 0]  # create subset with positive values of x
+```
+
+
+### Subsetting by name
+
+Finally, we can select elements in a named vector not only by position but also by name:
+
+```{r}
+w = c(first="A", two="B", three="C", last="D")
+w[2]  # by position still works
+w["two"]  # by name (must be in quotes)
+```
