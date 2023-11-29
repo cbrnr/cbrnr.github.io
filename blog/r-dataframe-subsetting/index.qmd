@@ -1,7 +1,7 @@
 ---
 title: Subsetting data frames in R
-date: 2023-11-17
-description: TODO
+date: 2023-11-29
+description: Selecting rows and columns from a data frame are basic data manipulation operations. In this post, I show several options for creating subsets of data frames in R, and I also point out important differences between classic `data.frame` and Tidyverse `tibble` objects.
 categories:
   - R
   - Basics
@@ -11,10 +11,7 @@ categories:
 
 Data frames are one of the most important data structures for representing tabular data. Base R includes the tried and tested `data.frame` type, which is technically a list of equal-length vectors (where each vector corresponds to a column in the data frame). The [tibble](https://tibble.tidyverse.org) package (part of the [Tidyverse](https://www.tidyverse.org)) offers a slightly tweaked data frame type called `tibble`. In practical data analysis pipelines, we frequently create subsets of the data frame, for example by selecting one or more columns and/or rows. In most situations, the `data.frame` and `tibble` types are interchangeable. However, there are subtle differences in the context of subsetting, which I will highlight in this post.
 
-
-## Subsetting data frames
-
-Subsetting data frames is slightly more challenging, mainly because there is a multitude of available (and partly redundant) options. We'll start with a small data frame `df` consisting of four rows and three columns:
+Subsetting data frames is slightly more challenging than subsetting vectors (see [this post](../r-vector-subsetting/index.qmd)), mainly because there is a multitude of available (and partly redundant) options. We'll start with a small data frame `df` consisting of four rows and three columns:
 
 ```{r}
 (df = data.frame(first=1:4, second=seq(pi, pi + 3), third=LETTERS[1:4]))
@@ -172,4 +169,11 @@ Similarly, we can also select multiple rows:
 ```{r}
 df[c(2, 3), ]  # data.frame
 tf[c(2, 3), ]  # tibble
+```
+
+Logical subsetting is especially useful for filtering rows. The following example creates a subset by selecting rows where the values in the second column are greater than 5:
+
+```{r}
+df[df[, 2] > 5, ]
+tf[tf[, 2] > 5, ]
 ```
