@@ -125,13 +125,13 @@ According to the [data set documentation](https://physionet.org/content/eegmmidb
 ```{python}
 #| eval: false
 montage = mne.channels.make_standard_montage("easycap-M1")
-montage.plot()
+montage.plot(sphere="eeglab")
 ```
 
 ```{python}
 #| echo: false
 montage = mne.channels.make_standard_montage("easycap-M1")
-_ = montage.plot()
+_ = montage.plot(sphere="eeglab")
 ```
 
 It looks like this montage contains all channels except for T9 and T10, so let's remove these two channels from our data:
