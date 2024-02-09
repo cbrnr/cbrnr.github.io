@@ -5,6 +5,7 @@ description: Selecting rows and columns from a data frame are basic data manipul
 categories:
   - R
   - Basics
+image: title-dataframe.webp
 ---
 
 ## Introduction

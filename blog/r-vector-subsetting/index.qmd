@@ -5,6 +5,7 @@ description: Extracting one or more elements from a vector is a fundamental and 
 categories:
   - R
   - Basics
+image: title-vector.webp
 ---
 
 ## Introduction
