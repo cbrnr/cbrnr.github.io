@@ -5,6 +5,7 @@ description: Many website frameworks and themes embed Google Fonts, which is ver
 categories:
   - Quarto
   - Web
+image: title-fonts.png
 ---
 
 ## Background
