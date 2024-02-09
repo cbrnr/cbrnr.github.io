@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.513">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -102,6 +102,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -203,7 +204,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 25, 2022</p>
+      <p class="date-modified">February 9, 2024</p>
     </div>
   </div>
     
@@ -216,11 +217,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="installing-python" class="level2">
 <h2 class="anchored" data-anchor-id="installing-python">Installing Python</h2>
-<p>The <a href="https://www.python.org/downloads/">official installer</a>, which is available for Windows and macOS, is the easiest way to install Python. If you use Linux, chances are that Python is already installed (if not, use the package manager to install it).</p>
-<p>When running the installer on Windows, make sure to check the option “Add Python to PATH” – by default this setting is disabled. I strongly recommend to use the default values for all other settings. If you do not have administrator privileges, you can uncheck the option “Install launcher for all users (recommended)”.</p>
-<p><img src="install_python_windows.png" class="img-fluid"></p>
-<p>On macOS, make sure to run both “Install certificates” and “Update Shell Profile” commands available in the “Python 3.10” application folder after the installation is complete:</p>
-<p><img src="install_python_mac.png" class="img-fluid"></p>
+<p>The <a href="https://www.python.org/downloads/">official installer</a>, which is available for Windows and macOS, is the easiest way for beginners to install Python. If you use Linux, chances are that Python is already installed (if not, use the package manager to install it).</p>
+<p>When running the installer on Windows, make sure to check the option “Add python.exe to PATH” (by default this setting is disabled). I strongly recommend to use the default values for all other settings.</p>
+<p><img src="install-python-windows.png" class="img-fluid"></p>
+<p>On macOS, run both “Install Certificates” and “Update Shell Profile” commands available in the application folder after the installation is complete:</p>
+<p><img src="install-python-macos.png" class="img-fluid"></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><a href="https://www.anaconda.com/distribution/">Anaconda</a>, a distribution with tons of pre-installed packages specifically tailored towards scientific computing, provides yet another way to install Python. If you want to use it, consider installing <a href="https://github.com/conda-forge/miniforge">Miniforge</a> instead, which is more lightweight and uses <a href="https://conda-forge.org">conda-forge</a> as its package repository.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -231,14 +245,26 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><a href="https://www.anaconda.com/distribution/">Anaconda</a>, a distribution with tons of pre-installed packages specifically tailored towards scientific computing, provides yet another way to install Python. However, since the official installers work really well, I would only use Anaconda if you have a specific reason.</p>
-<p>On macOS, Python can also be installed with <a href="https://brew.sh/">Homebrew</a>. I will not describe this variant here, but I will mention that running <code>brew install python</code> in a terminal is all it takes.</p>
+<p>If you are an experienced Pythonista on macOS or Linux, I recommend <a href="https://github.com/pyenv/pyenv">pyenv</a>, which makes working with multiple Python versions (and virtual environments) a breeze.</p>
 </div>
 </div>
 </section>
 <section id="additional-packages" class="level2">
 <h2 class="anchored" data-anchor-id="additional-packages">Additional packages</h2>
-<p>Although Python ships with an extensive <a href="https://docs.python.org/3/library/index.html">standard library</a>, most scientific packages are not part of Python itself. However, installing additional Python packages is not difficult with the package manager <code>pip</code>, which is bundled with every Python installation. Note that you need to open a terminal to use <code>pip</code> (for example, <em>Command Prompt</em> on Windows or <em>Terminal</em> on macOS).</p>
+<p>Although Python ships with an extensive <a href="https://docs.python.org/3/library/index.html">standard library</a>, most scientific packages are not part of Python itself. However, installing third-party Python packages is not difficult with the package manager <code>pip</code>, which is bundled with every Python installation. Note that you need to open a terminal to use <code>pip</code> (for example, <em>Windows Terminal</em> on Windows or <em>Terminal</em> on macOS).</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>On macOS, the tool is available as <code>pip3</code>, just like the Python interpreter is called <code>python3</code>. So whenever you see <code>pip</code> in this document, you should use <code>pip3</code> instead.</p>
+</div>
+</div>
 <p>To install a package, you need to know its name. Therefore, the first step is to determine if a particular package is available in the so-called <a href="https://pypi.org/">Python Package Index</a> (or short PyPI). Currently, the only way to find out is to search directly on the website.</p>
 <p>If the package is available, you can install it with the following command in your terminal (replace <code>&lt;package&gt;</code> with the actual package name):</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="op">&lt;</span>package<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -254,7 +280,7 @@ Tip
 <li><a href="https://ipython.org/">IPython</a> provides an enhanced interactive Python experience.</li>
 <li><a href="https://pierreablin.github.io/picard/index.html">Python-Picard</a> is an extremely fast and efficient ICA implementation.</li>
 </ul>
-<p>I recommend that you install all of these packages right now so you can use them in your EEG analyses.</p>
+<p>I recommend that you install all of these packages right now so you can use them later in your EEG analyses.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -265,13 +291,13 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Package names are case-insensitive, so for example <code>pip install NumPy</code> and <code>pip install numpy</code> should both work (usually, package names are all lower-case though).</p>
+<p>Package names are case-insensitive, so for example <code>pip install NumPy</code> and <code>pip install numpy</code> should both work.</p>
 </div>
 </div>
 </section>
 <section id="housekeeping" class="level2">
 <h2 class="anchored" data-anchor-id="housekeeping">Housekeeping</h2>
-<p>It is generally a good idea to use the most recent version of Python. If a new Python version becomes available (you might want to check the <a href="https://www.python.org/">official Python website</a> once in a while), install it <a href="../../blog/setting-up-python/index.html#installing-python">as previously explained</a>. You can even have multiple versions of Python installed on your system if you want (but usually you only need the latest version).</p>
+<p>It is generally a good idea to use the most recent Python version. If a new release becomes available (you might want to check the <a href="https://www.python.org/">official Python website</a> once in a while), install it <a href="../../blog/setting-up-python/index.html#installing-python">as previously explained</a>. You can even have multiple versions of Python installed on your system if you want (but usually you only need the latest version).</p>
 <p>In addition to Python itself, you probably also want to keep all installed packages up to date. Package updates are independent of new Python releases, so you should check for new package versions more frequently (for example, once a week). You can use <code>pip</code> to get a list of all outdated packages:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> list <span class="at">--outdated</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The following command upgrades a package to its latest version (replace <code>&lt;package&gt;</code> with the actual package name):</p>
@@ -279,15 +305,28 @@ Note
 <p>Unfortunately, you need to upgrade each outdated package individually.</p>
 <p>You can also completely remove a specific package (again, replace <code>&lt;package&gt;</code> with the actual package name):</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> uninstall <span class="op">&lt;</span>package<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you are already familiar with Python, you should consider working with virtual environments. This will isolate packages for different projects, which is useful for reproducibility and avoids conflicts between different package versions. The official documentation for the <a href="https://docs.python.org/3/library/venv.html">venv</a> module is a good starting point.</p>
+</div>
+</div>
 </section>
 <section id="visual-studio-code" class="level2">
 <h2 class="anchored" data-anchor-id="visual-studio-code">Visual Studio Code</h2>
-<p>A text editor or integrated development environment is an essential tool for writing Python programs. Good text editors include support for syntax highlighting, indentation, line numbers, <a href="https://en.wikipedia.org/wiki/Lint_(software)">linting</a>, code inspection, and more.</p>
-<p>I recommend <a href="https://code.visualstudio.com">Visual Studio Code</a> if you have never used Python before. However, feel free to try other editors such as <a href="https://www.jetbrains.com/pycharm/">PyCharm</a>, which also provides a great Python development environment.</p>
-<p>If you decide to install Visual Studio Code, there are two things you should tweak for a great Python editing experience:</p>
+<p>A code editor or integrated development environment is an essential tool for writing Python programs. Good editors include support for syntax highlighting, indentation, line numbers, <a href="https://en.wikipedia.org/wiki/Lint_(software)">linting</a>, code inspection, and more.</p>
+<p>I recommend <a href="https://code.visualstudio.com">Visual Studio Code</a> if you have never used Python before. However, feel free to try other programs such as <a href="https://www.jetbrains.com/pycharm/">PyCharm</a>, which also provides a great Python development experience.</p>
+<p>If you decide to install Visual Studio Code, there are two things you should do before you start writing Python code:</p>
 <ol type="1">
 <li>Click on the <em>Extensions</em> section in the left sidebar, search for “Python”, and install the official <a href="https://marketplace.visualstudio.com/items?itemName=ms-python.python">Python extension</a>.</li>
-<li>I recommend that you enable <a href="https://www.python.org/dev/peps/pep-0008/">PEP8</a> style checking. Open the Command Palette (<kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>P</kbd> on Windows and Linux, <kbd>⌘</kbd><kbd>Shift</kbd><kbd>P</kbd> on macOS) and type “linter”. Click on the entry “Python: Select Linter” and choose “flake8”. If Visual Studio Code asks if you want to install the flake8 tool, click on “Install” (alternatively, you can always <code>pip install flake8</code> at any time).</li>
+<li>I recommend that you follow the <a href="https://www.python.org/dev/peps/pep-0008/">PEP8</a> coding style. In Visual Studio Code, install the <a href="https://marketplace.visualstudio.com/items?itemName=ms-python.flake8">Flake8 extension</a> to enable automatic PEP8-aware linting.</li>
 </ol>
 <p>That’s it, you are now ready to start working with Python!</p>
 
@@ -567,27 +606,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
     stripColumnClz(note)
-    const typesetMath = (el) => {
-      if (window.MathJax) {
-        // MathJax Typeset
-        window.MathJax.typeset([el]);
-      } else if (window.katex) {
-        // KaTeX Render
-        var mathElements = el.getElementsByClassName("math");
-        var macros = [];
-        for (var i = 0; i < mathElements.length; i++) {
-          var texText = mathElements[i].firstChild;
-          if (mathElements[i].tagName == "SPAN") {
-            window.katex.render(texText.data, mathElements[i], {
-              displayMode: mathElements[i].classList.contains('display'),
-              throwOnError: false,
-              macros: macros,
-              fleqn: false
-            });
-          }
-        }
-      }
-    }
     if (id === null || id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
@@ -602,10 +620,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             break;
           }
         }
-        typesetMath(container);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
         return container.innerHTML
       } else {
-        typesetMath(note);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
         return note.innerHTML;
       }
     } else {
@@ -614,8 +636,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (anchorLink) {
         anchorLink.remove();
       }
-      typesetMath(note);
-      return note.innerHTML;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {

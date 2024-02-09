@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.513">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -68,6 +68,7 @@ ul.task-list li input[type="checkbox"] {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -105,6 +106,33 @@ ul.task-list li input[type="checkbox"] {
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -197,40 +225,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="R,Basics" data-listing-date-sort="1701212400000" data-listing-file-modified-sort="1701260616202" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="904">
-<div class="thumbnail">
-<p><a href="./blog/r-dataframe-subsetting/index.html" class="no-external"></a></p><a href="./blog/r-dataframe-subsetting/index.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./blog/r-dataframe-subsetting/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./blog/r-dataframe-subsetting/index.html" class="no-external">Subsetting data frames in R</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./blog/r-dataframe-subsetting/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
-R
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Basics'); return false;">
-Basics
-</div>
-</div>
-<div class="listing-description">
-<a href="./blog/r-dataframe-subsetting/index.html" class="no-external">Selecting rows and columns from a data frame are basic data manipulation operations. In this post, I show several options for creating subsets of data frames in R, and I also point out important differences between classic <code>data.frame</code> and Tidyverse <code>tibble</code> objects.</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./blog/r-dataframe-subsetting/index.html" class="no-external">
-<div class="listing-date">
-Nov 29, 2023
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="R,Basics" data-listing-date-sort="1701212400000" data-listing-file-modified-sort="1701259517721" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="426">
+<div class="quarto-post image-right" data-index="0" data-categories="R,Basics" data-listing-date-sort="1701212400000" data-listing-file-modified-sort="1701269589105" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="426">
 <div class="thumbnail">
 <p><a href="./blog/r-vector-subsetting/index.html" class="no-external"></a></p><a href="./blog/r-vector-subsetting/index.html" class="no-external">
 <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
@@ -263,7 +258,40 @@ Nov 29, 2023
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="R,Visualization" data-listing-date-sort="1675897200000" data-listing-file-modified-sort="1701249694308" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="949">
+<div class="quarto-post image-right" data-index="1" data-categories="R,Basics" data-listing-date-sort="1701212400000" data-listing-file-modified-sort="1701269589105" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="904">
+<div class="thumbnail">
+<p><a href="./blog/r-dataframe-subsetting/index.html" class="no-external"></a></p><a href="./blog/r-dataframe-subsetting/index.html" class="no-external">
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+</a><p><a href="./blog/r-dataframe-subsetting/index.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./blog/r-dataframe-subsetting/index.html" class="no-external">Subsetting data frames in R</a>
+</h3>
+<div class="listing-subtitle">
+<a href="./blog/r-dataframe-subsetting/index.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Basics'); return false;">
+Basics
+</div>
+</div>
+<div class="listing-description">
+<a href="./blog/r-dataframe-subsetting/index.html" class="no-external">Selecting rows and columns from a data frame are basic data manipulation operations. In this post, I show several options for creating subsets of data frames in R, and I also point out important differences between classic <code>data.frame</code> and Tidyverse <code>tibble</code> objects.</a>
+</div>
+</div>
+<div class="metadata">
+<a href="./blog/r-dataframe-subsetting/index.html" class="no-external">
+<div class="listing-date">
+Nov 29, 2023
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="2" data-categories="R,Visualization" data-listing-date-sort="1675897200000" data-listing-file-modified-sort="1695648792748" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="949">
 <div class="thumbnail">
 <p><a href="./blog/warming-stripes-r/index.html" class="no-external"></a></p><a href="./blog/warming-stripes-r/index.html" class="no-external">
 <p><img src="./blog/warming-stripes-r/stripes.png" class="thumbnail-image"></p>
@@ -296,7 +324,7 @@ Feb 9, 2023
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-categories="Quarto,Web" data-listing-date-sort="1664316000000" data-listing-file-modified-sort="1665392678719" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="952">
+<div class="quarto-post image-right" data-index="3" data-categories="Quarto,Web" data-listing-date-sort="1664316000000" data-listing-file-modified-sort="1695648792731" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="952">
 <div class="thumbnail">
 <p><a href="./blog/removing-google-fonts/index.html" class="no-external"></a></p><a href="./blog/removing-google-fonts/index.html" class="no-external">
 <p class="card-img-top"><img src="blog/removing-google-fonts/website.png"  class="thumbnail-image card-img"/></p>
@@ -329,7 +357,7 @@ Sep 28, 2022
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-categories="Python,EEG,ICA" data-listing-date-sort="1545001200000" data-listing-file-modified-sort="1701249694308" data-listing-date-modified-sort="1664488800000" data-listing-reading-time-sort="7" data-listing-word-count-sort="1390">
+<div class="quarto-post image-right" data-index="4" data-categories="Python,EEG,ICA" data-listing-date-sort="1545001200000" data-listing-file-modified-sort="1695648792748" data-listing-date-modified-sort="1664488800000" data-listing-reading-time-sort="7" data-listing-word-count-sort="1390">
 <div class="thumbnail">
 <p><a href="./blog/whitening-pca-zca/index.html" class="no-external"></a></p><a href="./blog/whitening-pca-zca/index.html" class="no-external">
 <p class="card-img-top"><img src="blog/whitening-pca-zca/index_files/figure-html/cell-5-output-1.png"  class="thumbnail-image card-img"/></p>
@@ -365,7 +393,7 @@ Dec 17, 2018
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="5" data-categories="Python,MNE,EEG,EOG,Artifacts,ICA" data-listing-date-sort="1517180400000" data-listing-file-modified-sort="1701249694308" data-listing-date-modified-sort="1665352800000" data-listing-reading-time-sort="8" data-listing-word-count-sort="1591">
+<div class="quarto-post image-right" data-index="5" data-categories="Python,MNE,EEG,EOG,Artifacts,ICA" data-listing-date-sort="1517180400000" data-listing-file-modified-sort="1695648792567" data-listing-date-modified-sort="1665352800000" data-listing-reading-time-sort="8" data-listing-word-count-sort="1591">
 <div class="thumbnail">
 <p><a href="./blog/removing-eog-ica/index.html" class="no-external"></a></p><a href="./blog/removing-eog-ica/index.html" class="no-external">
 <p class="card-img-top"><img src="blog/removing-eog-ica/index_files/figure-html/cell-11-output-1.png"  class="thumbnail-image card-img"/></p>
@@ -410,7 +438,7 @@ Jan 29, 2018
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="6" data-categories="Python,MNE,EEG,Artifacts" data-listing-date-sort="1511823600000" data-listing-file-modified-sort="1701249694308" data-listing-date-modified-sort="1664488800000" data-listing-reading-time-sort="11" data-listing-word-count-sort="2111">
+<div class="quarto-post image-right" data-index="6" data-categories="Python,MNE,EEG,Artifacts" data-listing-date-sort="1511823600000" data-listing-file-modified-sort="1695648792746" data-listing-date-modified-sort="1664488800000" data-listing-reading-time-sort="11" data-listing-word-count-sort="2111">
 <div class="thumbnail">
 <p><a href="./blog/visualizing-eeg-data/index.html" class="no-external"></a></p><a href="./blog/visualizing-eeg-data/index.html" class="no-external">
 <p class="card-img-top"><img src="blog/visualizing-eeg-data/plot_raw_initial.png"  class="thumbnail-image card-img"/></p>
@@ -449,7 +477,7 @@ Nov 28, 2017
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="7" data-categories="Python,MNE,EEG" data-listing-date-sort="1508709600000" data-listing-file-modified-sort="1701249694308" data-listing-date-modified-sort="1664488800000" data-listing-reading-time-sort="7" data-listing-word-count-sort="1338">
+<div class="quarto-post image-right" data-index="7" data-categories="Python,MNE,EEG" data-listing-date-sort="1508709600000" data-listing-file-modified-sort="1695648792401" data-listing-date-modified-sort="1664488800000" data-listing-reading-time-sort="7" data-listing-word-count-sort="1338">
 <div class="thumbnail">
 <p><a href="./blog/importing-eeg-data/index.html" class="no-external"></a></p><a href="./blog/importing-eeg-data/index.html" class="no-external">
 <p class="card-img-top"><img src="blog/importing-eeg-data/index_files/figure-html/cell-15-output-1.png"  class="thumbnail-image card-img"/></p>
@@ -485,7 +513,7 @@ Oct 23, 2017
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="8" data-categories="Python,MNE,EEG,EOG,Artifacts" data-listing-date-sort="1508450400000" data-listing-file-modified-sort="1701249694308" data-listing-date-modified-sort="1664488800000" data-listing-reading-time-sort="7" data-listing-word-count-sort="1310">
+<div class="quarto-post image-right" data-index="8" data-categories="Python,MNE,EEG,EOG,Artifacts" data-listing-date-sort="1508450400000" data-listing-file-modified-sort="1695648792731" data-listing-date-modified-sort="1664488800000" data-listing-reading-time-sort="7" data-listing-word-count-sort="1310">
 <div class="thumbnail">
 <p><a href="./blog/removing-eog-regression/index.html" class="no-external"></a></p><a href="./blog/removing-eog-regression/index.html" class="no-external">
 <p class="card-img-top"><img src="blog/removing-eog-regression/index_files/figure-html/cell-15-output-1.png"  class="thumbnail-image card-img"/></p>
@@ -527,10 +555,10 @@ Oct 20, 2017
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="9" data-categories="Python,EEG,Basics" data-listing-date-sort="1507500000000" data-listing-file-modified-sort="1701249694308" data-listing-date-modified-sort="1661378400000" data-listing-reading-time-sort="4" data-listing-word-count-sort="786">
+<div class="quarto-post image-right" data-index="9" data-categories="Python,EEG,Basics" data-listing-date-sort="1507500000000" data-listing-file-modified-sort="1707470977554" data-listing-date-modified-sort="1707433200000" data-listing-reading-time-sort="4" data-listing-word-count-sort="785">
 <div class="thumbnail">
 <p><a href="./blog/setting-up-python/index.html" class="no-external"></a></p><a href="./blog/setting-up-python/index.html" class="no-external">
-<p class="card-img-top"><img src="blog/setting-up-python/install_python_windows.png"  class="thumbnail-image card-img"/></p>
+<p><img src="./blog/setting-up-python/python-eeg.webp" class="thumbnail-image"></p>
 </a><p><a href="./blog/setting-up-python/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
@@ -840,27 +868,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
     stripColumnClz(note)
-    const typesetMath = (el) => {
-      if (window.MathJax) {
-        // MathJax Typeset
-        window.MathJax.typeset([el]);
-      } else if (window.katex) {
-        // KaTeX Render
-        var mathElements = el.getElementsByClassName("math");
-        var macros = [];
-        for (var i = 0; i < mathElements.length; i++) {
-          var texText = mathElements[i].firstChild;
-          if (mathElements[i].tagName == "SPAN") {
-            window.katex.render(texText.data, mathElements[i], {
-              displayMode: mathElements[i].classList.contains('display'),
-              throwOnError: false,
-              macros: macros,
-              fleqn: false
-            });
-          }
-        }
-      }
-    }
     if (id === null || id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
@@ -875,10 +882,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             break;
           }
         }
-        typesetMath(container);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
         return container.innerHTML
       } else {
-        typesetMath(note);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
         return note.innerHTML;
       }
     } else {
@@ -887,8 +898,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (anchorLink) {
         anchorLink.remove();
       }
-      typesetMath(note);
-      return note.innerHTML;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {

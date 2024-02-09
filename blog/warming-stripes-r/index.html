@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.513">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -102,6 +102,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -252,20 +253,20 @@ Note
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>id <span class="ot">=</span> <span class="st">"AU000016402"</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>(<span class="at">df =</span> <span class="fu">read_station</span>(id))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 144 × 18
+<pre><code># A tibble: 145 × 18
     YEAR   JAN   FEB   MAR   APR   MAY   JUN   JUL   AUG   SEP   OCT   NOV   DEC
    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
  1  1880 -5.58 -3.58  2.52 11.1   11.8  15.6  19.3  16.3  14.1  9.42  3.02  1.52
- 2  1881 -6.48 -1.88  4.32  6.42  12.4  16.0  18.9  17.7  12.7  5.82  1.32 -0.89
- 3  1882 -1.69  0.01  8.51  8.11  13.8  15.1  18.3  16.3  13.7  9.91  3.01  0.11
- 4  1883 -3.29  0.41 -0.79  6.51  13.2  17.2  17.6  17.0  13.5  8.91  2.01 -2.49
+ 2  1881 -6.48 -1.88  4.32  6.42  12.4  16.0  18.9  17.7  12.7  5.82  1.32 -0.88
+ 3  1882 -1.68  0.02  8.52  8.12  13.8  15.1  18.3  16.3  13.7  9.92  3.02  0.12
+ 4  1883 -3.28  0.42 -0.78  6.52  13.2  17.2  17.6  17.0  13.5  8.92  2.02 -2.49
  5  1884 -1.49  0.21  5.11  7.81  13.8  14.1  19.1  16.8  13.9  7.31  0.61 -0.79
  6  1885 -4.59  0.01  5.01  9.71  11.5  17.1  19.4  16.5  14.3  8.11  3.41 -3.29
  7  1886 -2.89 -0.39  0.21  9.31  13.2  15.9  18.3  17.5  15.3  9.71  3.41  0.21
  8  1887 -3.49 -3.49  1.41  8.11  12.3  16.4  19.7  17.2  14.8  6.21  3.11 -2.29
  9  1888 -4.59 -2.69  2.31  7.21  13.5  17.2  16.5  17.7  14.0  6.41  0.21 -1.49
 10  1889 -3.99 -2.38  1.91  8.01  15.5  18.5  17.7  16.6  11.6  9.81  1.71 -4.29
-# ℹ 134 more rows
+# ℹ 135 more rows
 # ℹ 5 more variables: `D-J-F` &lt;dbl&gt;, `M-A-M` &lt;dbl&gt;, `J-J-A` &lt;dbl&gt;,
 #   `S-O-N` &lt;dbl&gt;, metANN &lt;dbl&gt;</code></pre>
 </div>
@@ -278,7 +279,7 @@ Note
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">tmean =</span> <span class="fu">mean</span>(<span class="fu">subset</span>(df, YEAR <span class="sc">&gt;=</span> <span class="dv">1971</span> <span class="sc">&amp;</span> YEAR <span class="sc">&lt;=</span> <span class="dv">2000</span>)<span class="sc">$</span>metANN))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 8.942333</code></pre>
+<pre><code>[1] 8.934</code></pre>
 </div>
 </div>
 <p>We will also need the first and last available years (mainly for nice tick labels):</p>
@@ -644,27 +645,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
     stripColumnClz(note)
-    const typesetMath = (el) => {
-      if (window.MathJax) {
-        // MathJax Typeset
-        window.MathJax.typeset([el]);
-      } else if (window.katex) {
-        // KaTeX Render
-        var mathElements = el.getElementsByClassName("math");
-        var macros = [];
-        for (var i = 0; i < mathElements.length; i++) {
-          var texText = mathElements[i].firstChild;
-          if (mathElements[i].tagName == "SPAN") {
-            window.katex.render(texText.data, mathElements[i], {
-              displayMode: mathElements[i].classList.contains('display'),
-              throwOnError: false,
-              macros: macros,
-              fleqn: false
-            });
-          }
-        }
-      }
-    }
     if (id === null || id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
@@ -679,10 +659,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             break;
           }
         }
-        typesetMath(container);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
         return container.innerHTML
       } else {
-        typesetMath(note);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
         return note.innerHTML;
       }
     } else {
@@ -691,8 +675,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (anchorLink) {
         anchorLink.remove();
       }
-      typesetMath(note);
-      return note.innerHTML;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
