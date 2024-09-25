@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="dcterms.date" content="2023-02-09">
 <meta name="description" content="Warming stripes are a popular way to represent average temperature changes in a particular location over time. In this post, I show how to generate these visualizations using R.">
 
-<title>Clemens Brunner - Warming stripes with R</title>
+<title>Warming stripes with R – Clemens Brunner</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -35,7 +35,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -125,7 +125,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -160,7 +160,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
@@ -229,7 +229,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    ))</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># then import the CSV file</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">read_delim</span>(</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">"%stmp/gistemp/STATIONS/tmp_%s_14_0_1/station.csv"</span>, base, id),</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">"%stmp/gistemp/STATIONS_v4/tmp_%s_14_0_1/station.csv"</span>, base, id),</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">na=</span><span class="st">"999.90"</span></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -256,16 +256,16 @@ Note
 <pre><code># A tibble: 145 × 18
     YEAR   JAN   FEB   MAR   APR   MAY   JUN   JUL   AUG   SEP   OCT   NOV   DEC
    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
- 1  1880 -5.58 -3.58  2.52 11.1   11.8  15.6  19.3  16.3  14.1  9.42  3.02  1.52
- 2  1881 -6.48 -1.88  4.32  6.42  12.4  16.0  18.9  17.7  12.7  5.82  1.32 -0.88
- 3  1882 -1.68  0.02  8.52  8.12  13.8  15.1  18.3  16.3  13.7  9.92  3.02  0.12
- 4  1883 -3.28  0.42 -0.78  6.52  13.2  17.2  17.6  17.0  13.5  8.92  2.02 -2.49
- 5  1884 -1.49  0.21  5.11  7.81  13.8  14.1  19.1  16.8  13.9  7.31  0.61 -0.79
- 6  1885 -4.59  0.01  5.01  9.71  11.5  17.1  19.4  16.5  14.3  8.11  3.41 -3.29
- 7  1886 -2.89 -0.39  0.21  9.31  13.2  15.9  18.3  17.5  15.3  9.71  3.41  0.21
- 8  1887 -3.49 -3.49  1.41  8.11  12.3  16.4  19.7  17.2  14.8  6.21  3.11 -2.29
- 9  1888 -4.59 -2.69  2.31  7.21  13.5  17.2  16.5  17.7  14.0  6.41  0.21 -1.49
-10  1889 -3.99 -2.38  1.91  8.01  15.5  18.5  17.7  16.6  11.6  9.81  1.71 -4.29
+ 1  1880 -5.77 -3.77  2.33 10.9   11.6  15.4  19.1  16.1  13.9  9.23  2.83  1.33
+ 2  1881 -6.67 -2.07  4.13  6.23  12.2  15.8  18.7  17.5  12.5  5.63  1.13 -1.07
+ 3  1882 -1.87 -0.17  8.33  7.93  13.6  14.9  18.1  16.1  13.5  9.73  2.83 -0.07
+ 4  1883 -3.47  0.23 -0.97  6.33  13.0  17.0  17.4  16.8  13.3  8.73  1.83 -2.67
+ 5  1884 -1.67  0.03  4.93  7.63  13.6  13.9  18.9  16.6  13.7  7.13  0.43 -0.98
+ 6  1885 -4.78 -0.18  4.82  9.52  11.3  16.9  19.2  16.3  14.1  7.92  3.22 -3.48
+ 7  1886 -3.08 -0.58  0.02  9.12  13.0  15.7  18.1  17.3  15.1  9.52  3.22  0.02
+ 8  1887 -3.68 -3.68  1.22  7.92  12.1  16.2  19.5  17.0  14.6  6.02  2.92 -2.48
+ 9  1888 -4.78 -2.88  2.12  7.02  13.3  17.0  16.3  17.5  13.8  6.22  0.02 -1.68
+10  1889 -4.18 -2.57  1.72  7.82  15.3  18.3  17.5  16.4  11.4  9.62  1.52 -4.48
 # ℹ 135 more rows
 # ℹ 5 more variables: `D-J-F` &lt;dbl&gt;, `M-A-M` &lt;dbl&gt;, `J-J-A` &lt;dbl&gt;,
 #   `S-O-N` &lt;dbl&gt;, metANN &lt;dbl&gt;</code></pre>
@@ -279,7 +279,7 @@ Note
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">tmean =</span> <span class="fu">mean</span>(<span class="fu">subset</span>(df, YEAR <span class="sc">&gt;=</span> <span class="dv">1971</span> <span class="sc">&amp;</span> YEAR <span class="sc">&lt;=</span> <span class="dv">2000</span>)<span class="sc">$</span>metANN))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 8.934</code></pre>
+<pre><code>[1] 8.745667</code></pre>
 </div>
 </div>
 <p>We will also need the first and last available years (mainly for nice tick labels):</p>
@@ -552,18 +552,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -595,7 +584,47 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/cbrnr\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -630,7 +659,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
