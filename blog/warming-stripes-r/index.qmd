@@ -33,7 +33,7 @@ read_station = function(id) {
     ))
     # then import the CSV file
     read_delim(
-        sprintf("%stmp/gistemp/STATIONS/tmp_%s_14_0_1/station.csv", base, id),
+        sprintf("%stmp/gistemp/STATIONS_v4/tmp_%s_14_0_1/station.csv", base, id),
         na="999.90"
     )
 }
