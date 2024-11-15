@@ -210,7 +210,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">October 10, 2022</p>
+      <p class="date-modified">November 15, 2024</p>
     </div>
   </div>
     
@@ -223,31 +223,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="background" class="level2">
 <h2 class="anchored" data-anchor-id="background">Background</h2>
-<p>In <a href="../../blog/removing-eog-regression/index.html">this previous post</a>, we used linear regression to remove ocular artifacts from EEG signals. A popular alternative to this approach is independent component analysis (ICA). In a nutshell, ICA decomposes multi-channel EEG recordings into maximally independent components. Components that represent ocular activity can be identified and eliminated to reconstruct artifact-free EEG signals. This approach is described in more detail in <a href="http://onlinelibrary.wiley.com/doi/10.1111/1469-8986.3720163/abstract">Jung et al.&nbsp;(2000)</a>.</p>
-<p>A comprehensive comparison between the two methods is beyond the scope of this post. Instead, I will only list some important properties of both techniques:</p>
+<p>In a <a href="../../blog/removing-eog-regression/index.html">previous post</a>, we used linear regression to remove ocular artifacts from EEG signals. <a href="https://en.wikipedia.org/wiki/Independent_component_analysis">Independent component analysis</a> (ICA) is a popular alternative to this approach. In a nutshell, ICA decomposes multi-channel EEG recordings into maximally independent components. Components that represent ocular activity can be identified and eliminated to reconstruct artifact-free EEG signals. This approach is described in more detail in <a href="http://onlinelibrary.wiley.com/doi/10.1111/1469-8986.3720163/abstract">Jung et al.&nbsp;(2000)</a>.</p>
+<p>A comprehensive comparison between the two methods is beyond the scope of this post. Instead, I will only list some important properties of both techniques.</p>
 <p>First, the regression-based approach requires EOG channels, whereas ICA works without any reference signal. This means you can use ICA to remove ocular activity even if your recording does not include EOG channels.</p>
-<p>Both methods potentially remove brain activity in addition to ocular activity. ICA can separate ocular components from brain components well if many EEG channels are available (which in turn requires a relatively large number of data samples). A cleaner separation also means that less brain activity will be removed when ocular components are eliminated. The minimum number of EEG channels required for ICA decomposition varies, but as a rule of thumb at least 20 channels seem to be necessary (the <a href="https://eeglab.org/tutorials/ConceptsGuide/ICA_background.html#how-many-data-points-do-i-need-to-run-an-ica">EEGLAB tutorial</a> has more details on the amount of data required for ICA). In constrast, the regression approach works even if only a few EEG channels are available. However, the EOG reference channels always contain some amount of brain activity, which will also be removed from the data in addition to ocular activity.</p>
-<p>The ICA method entails manual identification of ocular components, although several algorithms exist to automate this process (for example <a href="https://github.com/bigdelys/eye-catch">EyeCatch</a> or <a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1469-8986.2010.01061.x/abstract">ADJUST</a>). ICA also takes longer to compute than the regression approach (but efficient implementations are available that keep computation time to a minimum). Finally, ICA is an optimization problem that is not guaranteed to find the globally optimal solution. Depending on the initial conditions, the algorithm might find different independent components from run to run. However, this is not a huge issue in this application, because ocular components are relatively stable across decompositions.</p>
+<p>Both methods potentially remove brain activity in addition to ocular activity. ICA can separate ocular components from brain components well if many EEG channels are available (which in turn requires a relatively large number of data samples). A cleaner separation also means that less brain activity will be removed when ocular components are eliminated. The minimum number of EEG channels required for ICA decomposition varies, but as a rule of thumb, at least 20 channels seem to be necessary (the <a href="https://eeglab.org/tutorials/ConceptsGuide/ICA_background.html#how-many-data-points-do-i-need-to-run-an-ica">EEGLAB tutorial</a> has more details on the amount of data required for ICA). In contrast, the regression approach works fine even if only a few EEG channels are available. However, the EOG reference channels always contain some amount of brain activity, which will also be removed from the data in addition to ocular activity.</p>
+<p>The ICA method entails manual identification of ocular components, although several algorithms exist to automate this process (for example <a href="https://github.com/bigdelys/eye-catch">EyeCatch</a> or <a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1469-8986.2010.01061.x/abstract">ADJUST</a>). ICA also takes longer to compute than the regression approach (but efficient implementations are available that keep computation time to a minimum). Finally, ICA is an optimization problem that is not guaranteed to find the global optimal solution. Depending on the initial conditions, the algorithm might find different independent components from run to run. However, this is not a huge issue in this application, because ocular components are relatively large and therefore stable across decompositions.</p>
 <p>Let’s now turn to an example to see how ICA can be used to remove ocular artifacts with <a href="https://mne.tools">MNE</a>.</p>
 </section>
 <section id="implementation" class="level2">
 <h2 class="anchored" data-anchor-id="implementation">Implementation</h2>
-<p>Before we start, it is worth mentioning that ICA will generally run faster using a multi-threaded numeric library such as <a href="https://www.openblas.net/">OpenBLAS</a>. If you install NumPy via <code>pip</code> (see <a href="../../blog/setting-up-python/index.html">this post</a> for more details on how to install Python packages), you will get <a href="https://numpy.org/install/#numpy-packages--accelerated-linear-algebra-libraries">OpenBLAS support out of the box</a>.</p>
+<p>Before we start, it is worth mentioning that ICA will generally run faster using a multi-threaded numeric library such as <a href="https://www.openblas.net/">OpenBLAS</a>. If you install the official NumPy package (see <a href="../../blog/setting-up-python/index.html">this post</a> for more details on how to install Python packages), you will get <a href="https://numpy.org/install/#numpy-packages--accelerated-linear-algebra-libraries">OpenBLAS support out of the box</a>.</p>
 <section id="data-preprocessing" class="level3">
 <h3 class="anchored" data-anchor-id="data-preprocessing">Data preprocessing</h3>
 <p>We will use the same data set that we already used with the regression approach. Specifically, we’ll use participant A01T from data set 001-2014 from the <a href="http://bnci-horizon-2020.eu/database/data-sets">BNCI Horizon 2020</a> website (check out the <a href="../../blog/removing-eog-regression/index.html">post on the regression approach</a> for more details on this data set). To recap, download <a href="http://bnci-horizon-2020.eu/database/data-sets/001-2014/A01T.mat">this file</a> and save it to your working directory. Note that this data set contains 22 EEG and 3 EOG channels. Although EOG channels can (and should) be used for ICA decomposition (provided that they use the same reference electrode as the EEG channels), we will only use EEG channels here to keep things simple.</p>
-<p>As always, we start by firing up IPython and performing the usual initial steps:</p>
-<div id="695d1e5f" class="cell" data-execution_count="1">
+<p>As always, we start by importing the necessary packages:</p>
+<div id="b6f72f3a" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.io <span class="im">import</span> loadmat</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mne</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The data comes as a MAT file, so we use <code>scipy.io.loadmat()</code> to load it as a NumPy array. Note that this time we only load the fourth run containing the actual experimental data – we do <em>not</em> need the calibration run.</p>
-<div id="91731cee" class="cell" data-execution_count="3">
+<div id="fd7616c0" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mat <span class="op">=</span> loadmat(<span class="st">"A01T.mat"</span>, simplify_cells<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>eeg <span class="op">=</span> mat[<span class="st">"data"</span>][<span class="dv">3</span>][<span class="st">"X"</span>] <span class="op">*</span> <span class="fl">1e-6</span>  <span class="co"># convert to volts</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We will plot ICA components as projections on the scalp surface later on. To this end, MNE needs to know the channel labels, which unfortunately are not present in the data. However, the <a href="http://bnci-horizon-2020.eu/database/data-sets/001-2014/description.pdf">data description</a> contains a picture of the montage, which we can use to populate a list of channel names:</p>
-<div id="20617f43" class="cell" data-execution_count="4">
+<div id="42a75f85" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ch_names <span class="op">=</span> [</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Fz"</span>,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FC3"</span>,</span>
@@ -276,8 +276,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"EOG3"</span>,</span>
 <span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>We create an <code>info</code> object using this list, which we need to create a <code>Raw</code> object containing the EEG and associated meta data (which in our case is just the sampling frequency of 250 Hz and the channel types). Finally, we add a 10–20 montage, which maps the channel labels to their locations on the scalp. This is required for topographic plots.</p>
-<div id="21463c5a" class="cell" data-execution_count="5">
+<p>We create an <code>info</code> object using this list, which we need to create a <code>Raw</code> object containing the EEG and associated meta data (which in our case is just the sampling frequency of 250 Hz and the channel types). Finally, we add a 10–20 montage, which maps the channel labels to their locations on the scalp (this is required for topographic plots).</p>
+<div id="eb6ec8e8" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>info <span class="op">=</span> mne.create_info(ch_names, <span class="dv">250</span>, ch_types<span class="op">=</span>[<span class="st">"eeg"</span>] <span class="op">*</span> <span class="dv">22</span> <span class="op">+</span> [<span class="st">"eog"</span>] <span class="op">*</span> <span class="dv">3</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>raw <span class="op">=</span> mne.io.RawArray(eeg.T, info)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>raw.set_montage(<span class="st">"easycap-M1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -286,7 +286,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="performing-ica" class="level3">
 <h3 class="anchored" data-anchor-id="performing-ica">Performing ICA</h3>
 <p>ICA does not work well in the presence of low-frequency drifts, so we create a copy of our <code>raw</code> object and apply a high-pass filter to this copy.</p>
-<div id="c51d6fe8" class="cell" data-execution_count="6">
+<div id="80277c12" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>raw_tmp <span class="op">=</span> raw.copy()</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>raw_tmp.<span class="bu">filter</span>(l_freq<span class="op">=</span><span class="dv">1</span>, h_freq<span class="op">=</span><span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -300,31 +300,30 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This example uses the Picard ICA algorithm, which is not included in MNE. Therefore, make sure to install it first:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install python-picard</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In the next step, we will use the Picard ICA algorithm, which is not included in MNE. Therefore, make sure to install it (see <a href="../../blog/setting-up-python/index.html">here</a> for a quick overview of how to set up Python and install packages).</p>
 <p>Picard is much faster than the default <a href="https://doi.org/10.1162/089976699300016719">Extended Infomax</a> implementation shipped with MNE, and it can compute the same solution by setting <code>fit_params={"extended": True, "ortho": False}</code>. Alternatively, if you prefer the <a href="https://ieeexplore.ieee.org/document/761722">FastICA</a> solution, set <code>fit_params={"extended": True, "ortho": True}</code>. More details are available <a href="https://github.com/pierreablin/picard">here</a>.</p>
 </div>
 </div>
-<p>We are now ready to perform ICA. First, we instantiate an <code>ICA</code> object and specify that we want to use the Picard algorithm by setting <code>method="picard"</code>. In addition, the <code>random_state</code> argument should be set to some number for reproducible results.</p>
-<div id="3b3ed995" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ica <span class="op">=</span> mne.preprocessing.ICA(</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    method<span class="op">=</span><span class="st">"picard"</span>,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    fit_params<span class="op">=</span>{<span class="st">"extended"</span>: <span class="va">True</span>, <span class="st">"ortho"</span>: <span class="va">False</span>},</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">1</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We are now ready to perform ICA. First, we instantiate an <code>ICA</code> object and specify that we want to use the Picard algorithm by setting <code>method="picard"</code>. In addition, the <code>random_state</code> argument should be set for reproducible results.</p>
+<div id="91ec4bdd" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ica <span class="op">=</span> mne.preprocessing.ICA(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    method<span class="op">=</span><span class="st">"picard"</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    fit_params<span class="op">=</span>{<span class="st">"extended"</span>: <span class="va">True</span>, <span class="st">"ortho"</span>: <span class="va">False</span>},</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">1</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Next, we fit <code>ica</code> to our filtered raw data <code>raw_tmp</code> (note that this uses only the 22 EEG channels and ignores the 3 EOG channels by default, but this could be changed with the <code>picks</code> argument).</p>
-<div id="9887691d" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ica.fit(raw_tmp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="1d484acd" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ica.fit(raw_tmp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="identifying-ocular-components" class="level3">
 <h3 class="anchored" data-anchor-id="identifying-ocular-components">Identifying ocular components</h3>
-<p>Our next task is to identify ocular components among the computed components. This is usually done by visual inspection, so we start by plotting all 22 independent components:</p>
-<div id="993ae2b0" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ica.plot_components(inst<span class="op">=</span>raw_tmp, picks<span class="op">=</span><span class="bu">range</span>(<span class="dv">22</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Our next task is to identify ocular components among the computed independent components. This is usually done by visual inspection, so we start by plotting scalp projections of all components:</p>
+<div id="fb74ddbf" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ica.plot_components(inst<span class="op">=</span>raw_tmp, picks<span class="op">=</span><span class="bu">range</span>(<span class="dv">22</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="7cceb103" class="cell" data-execution_count="10">
+<div id="8a9960f7" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -333,18 +332,18 @@ Important
 </div>
 </div>
 </div>
-<p>A new figure with the independent components will pop up. Let’s focus on the first few components, because ocular components are generally found among these. From these scalp projections, the component labeled as <em>ICA001</em> looks like it could represent eye movements because of its frontal location. To be sure, we can click on this component to open a new window with more details (this is possible because we specified <code>inst=raw_tmp</code> in the previous call):</p>
+<p>Let’s focus on the first few components, because ocular components are generally found among these. From these scalp projections, the component labeled as <em>ICA001</em> looks like it could represent eye movements due to its frontal location. To be sure, we can click on this component to open a new window with more details (this is possible because we specified <code>inst=raw_tmp</code> in the previous call):</p>
 <p>Besides the scalp projection, we can now also see</p>
 <ul>
-<li>the component power spectral density (which is typical for ocular activity because the characteristic EEG alpha peak is missing),</li>
+<li>the component power spectral density (which is typical for ocular activity, because the characteristic EEG alpha peak is missing),</li>
 <li>the epochs image, which color-codes the component activity over (virtual) epochs (which shows typical intermittent activity as blue and red stripes),</li>
 <li>and the epochs variance (which in this case is not really helpful in identifying the component).</li>
 </ul>
 <p>In summary, we can be pretty sure that component <em>ICA001</em> represents ocular activity. To be extra safe, let’s plot the component time courses to corroborate our assumption:</p>
-<div id="076c53ae" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>ica.plot_sources(inst<span class="op">=</span>raw_tmp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="06fe5b98" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ica.plot_sources(inst<span class="op">=</span>raw_tmp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="e6a25324" class="cell" data-execution_count="12">
+<div id="8f29af32" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -359,23 +358,23 @@ Important
 <section id="removing-ocular-components" class="level3">
 <h3 class="anchored" data-anchor-id="removing-ocular-components">Removing ocular components</h3>
 <p>In the final step, we create a list attribute <code>ica.exclude</code> containing the indices of all components that should be removed when reconstructing EEG signals. In our case, this list contains only a single component:</p>
-<div id="58e05dea" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ica.exclude <span class="op">=</span> [<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="4d3c1945" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>ica.exclude <span class="op">=</span> [<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Note that you can click on the component title (<em>ICA001</em>) in the ICA components plot to include/exclude a component (the title of an excluded component will turn gray). This will also add/remove this component from/to the underlying <code>ica.exclude</code> attribute.</p>
-<p>Now we can apply our ICA results (without the excluded component) to a copy of the original (unfiltered) EEG to obtain artifact-free signals:</p>
-<div id="8e89afd4" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>raw_corrected <span class="op">=</span> raw.copy()</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>ica.<span class="bu">apply</span>(raw_corrected)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now we can apply our ICA decomposition (without the excluded component) to a copy of the original (unfiltered) EEG to obtain artifact-free signals:</p>
+<div id="7c0d3945" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>raw_corrected <span class="op">=</span> raw.copy()</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>ica.<span class="bu">apply</span>(raw_corrected)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="visualizing-results" class="level3">
 <h3 class="anchored" data-anchor-id="visualizing-results">Visualizing results</h3>
 <p>So how did ICA perform? Let’s take a look at a segment of the original EEG containing a clear eye movement artifact:</p>
-<div id="ed8779f2" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>raw.plot(n_channels<span class="op">=</span><span class="dv">25</span>, start<span class="op">=</span><span class="dv">53</span>, duration<span class="op">=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="ea5f061f" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>raw.plot(n_channels<span class="op">=</span><span class="dv">25</span>, start<span class="op">=</span><span class="dv">53</span>, duration<span class="op">=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="8d21a288" class="cell" data-execution_count="16">
+<div id="ec326afb" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -385,10 +384,10 @@ Important
 </div>
 </div>
 <p>And here is the corrected signal:</p>
-<div id="f0ae6580" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>raw_corrected.plot(n_channels<span class="op">=</span><span class="dv">25</span>, start<span class="op">=</span><span class="dv">53</span>, duration<span class="op">=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="ecd2e7c4" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>raw_corrected.plot(n_channels<span class="op">=</span><span class="dv">25</span>, start<span class="op">=</span><span class="dv">53</span>, duration<span class="op">=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="fae25ac8" class="cell" data-execution_count="18">
+<div id="796baaa8" class="cell" data-execution_count="18">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -402,66 +401,66 @@ Important
 </section>
 <section id="code" class="level2">
 <h2 class="anchored" data-anchor-id="code">Code</h2>
-<div id="0f94c21c" class="cell" data-execution_count="19">
+<div id="1f2345fb" class="cell" data-execution_count="19">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.io <span class="im">import</span> loadmat</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mne</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>mat <span class="op">=</span> loadmat(<span class="st">"A01T.mat"</span>, simplify_cells<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>eeg <span class="op">=</span> mat[<span class="st">"data"</span>][<span class="dv">3</span>][<span class="st">"X"</span>] <span class="op">*</span> <span class="fl">1e-6</span>  <span class="co"># convert to volts</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>ch_names <span class="op">=</span> [</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Fz"</span>,</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FC3"</span>,</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FC1"</span>,</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FCz"</span>,</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FC2"</span>,</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FC4"</span>,</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C5"</span>,</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C3"</span>,</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C1"</span>,</span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Cz"</span>,</span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C2"</span>,</span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C4"</span>,</span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C6"</span>,</span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CP3"</span>,</span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CP1"</span>,</span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CPz"</span>,</span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CP2"</span>,</span>
-<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CP4"</span>,</span>
-<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"P1"</span>,</span>
-<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Pz"</span>,</span>
-<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"P2"</span>,</span>
-<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"POz"</span>,</span>
-<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"EOG1"</span>,</span>
-<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"EOG2"</span>,</span>
-<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"EOG3"</span>,</span>
-<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>info <span class="op">=</span> mne.create_info(ch_names, <span class="dv">250</span>, ch_types<span class="op">=</span>[<span class="st">"eeg"</span>] <span class="op">*</span> <span class="dv">22</span> <span class="op">+</span> [<span class="st">"eog"</span>] <span class="op">*</span> <span class="dv">3</span>)</span>
-<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>raw <span class="op">=</span> mne.io.RawArray(eeg.T, info)</span>
-<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>raw.set_montage(<span class="st">"easycap-M1"</span>)</span>
-<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>raw_tmp <span class="op">=</span> raw.copy()</span>
-<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>raw_tmp.<span class="bu">filter</span>(l_freq<span class="op">=</span><span class="dv">1</span>, h_freq<span class="op">=</span><span class="va">None</span>)</span>
-<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>ica <span class="op">=</span> mne.preprocessing.ICA(</span>
-<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>    method<span class="op">=</span><span class="st">"picard"</span>,</span>
-<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>    fit_params<span class="op">=</span>{<span class="st">"extended"</span>: <span class="va">True</span>, <span class="st">"ortho"</span>: <span class="va">False</span>},</span>
-<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">1</span></span>
-<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a>ica.fit(raw_tmp)</span>
-<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a>ica.plot_components(inst<span class="op">=</span>raw_tmp, picks<span class="op">=</span><span class="bu">range</span>(<span class="dv">22</span>))</span>
-<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a>ica.plot_sources(inst<span class="op">=</span>raw_tmp)</span>
-<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a>ica.exclude <span class="op">=</span> [<span class="dv">1</span>]</span>
-<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a>raw_corrected <span class="op">=</span> raw.copy()</span>
-<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a>ica.<span class="bu">apply</span>(raw_corrected)</span>
-<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a>raw.plot(n_channels<span class="op">=</span><span class="dv">25</span>, start<span class="op">=</span><span class="dv">53</span>, duration<span class="op">=</span><span class="dv">5</span>, title<span class="op">=</span><span class="st">"Before"</span>)</span>
-<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a>raw_corrected.plot(n_channels<span class="op">=</span><span class="dv">25</span>, start<span class="op">=</span><span class="dv">53</span>, duration<span class="op">=</span><span class="dv">5</span>, title<span class="op">=</span><span class="st">"After"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.io <span class="im">import</span> loadmat</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mne</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>mat <span class="op">=</span> loadmat(<span class="st">"A01T.mat"</span>, simplify_cells<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>eeg <span class="op">=</span> mat[<span class="st">"data"</span>][<span class="dv">3</span>][<span class="st">"X"</span>] <span class="op">*</span> <span class="fl">1e-6</span>  <span class="co"># convert to volts</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>ch_names <span class="op">=</span> [</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Fz"</span>,</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FC3"</span>,</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FC1"</span>,</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FCz"</span>,</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FC2"</span>,</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FC4"</span>,</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C5"</span>,</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C3"</span>,</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C1"</span>,</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Cz"</span>,</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C2"</span>,</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C4"</span>,</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C6"</span>,</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CP3"</span>,</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CP1"</span>,</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CPz"</span>,</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CP2"</span>,</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CP4"</span>,</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"P1"</span>,</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Pz"</span>,</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"P2"</span>,</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"POz"</span>,</span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"EOG1"</span>,</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"EOG2"</span>,</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"EOG3"</span>,</span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>info <span class="op">=</span> mne.create_info(ch_names, <span class="dv">250</span>, ch_types<span class="op">=</span>[<span class="st">"eeg"</span>] <span class="op">*</span> <span class="dv">22</span> <span class="op">+</span> [<span class="st">"eog"</span>] <span class="op">*</span> <span class="dv">3</span>)</span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>raw <span class="op">=</span> mne.io.RawArray(eeg.T, info)</span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>raw.set_montage(<span class="st">"easycap-M1"</span>)</span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>raw_tmp <span class="op">=</span> raw.copy()</span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>raw_tmp.<span class="bu">filter</span>(l_freq<span class="op">=</span><span class="dv">1</span>, h_freq<span class="op">=</span><span class="va">None</span>)</span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>ica <span class="op">=</span> mne.preprocessing.ICA(</span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>    method<span class="op">=</span><span class="st">"picard"</span>,</span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a>    fit_params<span class="op">=</span>{<span class="st">"extended"</span>: <span class="va">True</span>, <span class="st">"ortho"</span>: <span class="va">False</span>},</span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">1</span></span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a>ica.fit(raw_tmp)</span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a>ica.plot_components(inst<span class="op">=</span>raw_tmp, picks<span class="op">=</span><span class="bu">range</span>(<span class="dv">22</span>))</span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a>ica.plot_sources(inst<span class="op">=</span>raw_tmp)</span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a>ica.exclude <span class="op">=</span> [<span class="dv">1</span>]</span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a>raw_corrected <span class="op">=</span> raw.copy()</span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a>ica.<span class="bu">apply</span>(raw_corrected)</span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a>raw.plot(n_channels<span class="op">=</span><span class="dv">25</span>, start<span class="op">=</span><span class="dv">53</span>, duration<span class="op">=</span><span class="dv">5</span>, title<span class="op">=</span><span class="st">"Before"</span>)</span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a>raw_corrected.plot(n_channels<span class="op">=</span><span class="dv">25</span>, start<span class="op">=</span><span class="dv">53</span>, duration<span class="op">=</span><span class="dv">5</span>, title<span class="op">=</span><span class="st">"After"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 
