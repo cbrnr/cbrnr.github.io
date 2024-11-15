@@ -241,11 +241,11 @@ Note
 </div>
 <p>Now that we have selected our data, it is time to fire up Python. I recommend <a href="https://ipython.org/">IPython</a> as an enhanced interactive Python shell (go ahead and read the article on <a href="../../blog/setting-up-python/index.html">how to set up Python for EEG analysis</a> if you do not have a working Python environment yet). You can start IPython from a terminal by typing <code>ipython</code>.</p>
 <p>We want to use the MNE package, so we have to import it:</p>
-<div id="dc7f52f3" class="cell" data-execution_count="1">
+<div id="409a20fd" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mne</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You can check the version of MNE as follows (make sure you always use the latest version):</p>
-<div id="f94d3728" class="cell" data-execution_count="3">
+<div id="7dfe647e" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mne.__version__</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>'1.8.0'</code></pre>
@@ -255,7 +255,7 @@ Note
 <section id="importing-eeg-data" class="level2">
 <h2 class="anchored" data-anchor-id="importing-eeg-data">Importing EEG data</h2>
 <p>Importing EEG data works as follows. First, we need to know the file type of the file we want to load. In our case, the data is stored in an <a href="https://www.edfplus.info/">EDF</a> file called <code>S001R04.edf</code>. Second, Python needs to know exactly where this file is located. We can either specify the full path to the file, or we can make sure that the file is in the current working directory, in which case the file name alone is sufficient. In this case, we can use the following command to import the raw data:</p>
-<div id="85c4fdff" class="cell" data-execution_count="4">
+<div id="9dd6d263" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>raw <span class="op">=</span> mne.io.read_raw_edf(<span class="st">"S001R04.edf"</span>, preload<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The argument <code>preload=True</code> means that MNE performs the actual loading process immediately instead of the default lazy behavior. Also note that there are many more reader functions available in the <code>mne.io</code> package, including <code>mne.io.read_raw_bdf()</code>, <code>mne.io.read_raw_brainvision()</code>, <code>mne.io.read_raw_cnt()</code>, and <code>mne.io.read_raw_eeglab()</code>.</p>
@@ -270,7 +270,7 @@ Tip
 </div>
 <div class="callout-body-container callout-body">
 <p>I am not showing the output that is generated during the loading process here. Usually, it contains some more or less useful logging messages, so if anything goes wrong make sure to carefully study these messages. If you don’t want to see informative messages, you can suppress them as follows:</p>
-<div id="0f7e15c4" class="cell" data-execution_count="5">
+<div id="bd457f30" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mne.set_log_level(<span class="st">"WARNING"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Putting this line right after <code>import mne</code> will instruct MNE to only print warnings and errors. Throughout my posts, this is the setting that I will use.</p>
@@ -280,10 +280,10 @@ Tip
 <section id="meta-data" class="level2">
 <h2 class="anchored" data-anchor-id="meta-data">Meta data</h2>
 <p>The previous assignment generated an <a href="https://mne.tools/stable/generated/mne.io.Raw.html"><code>mne.io.Raw</code></a> object called <code>raw</code> in our workspace. This object holds both the EEG and associated meta data. We can get some basic information by inspecting this object in the interactive Python session:</p>
-<div id="25e3998e" class="cell" data-execution_count="6">
+<div id="235f8a16" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>raw</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="8336c8d2" class="cell" data-execution_count="7">
+<div id="d78bcdf3" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;RawEDF | S001R04.edf, 64 x 20000 (125.0 s), ~9.8 MB, data loaded&gt;</code></pre>
 </div>
@@ -292,10 +292,10 @@ Tip
 <section id="the-info-attribute" class="level3">
 <h3 class="anchored" data-anchor-id="the-info-attribute">The <code>info</code> attribute</h3>
 <p>We can dig deeper into the meta data by inspecting the <code>info</code> attribute associated with <code>raw</code>:</p>
-<div id="97af6765" class="cell" data-execution_count="8">
+<div id="2a94af99" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>raw.info</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="b9a47bc2" class="cell" data-execution_count="9">
+<div id="b7aea1d2" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;Info | 8 non-empty values
  bads: []
@@ -313,7 +313,7 @@ Tip
 </div>
 </div>
 <p>There are seven non-empty values in this attribute. For example, the line <code>chs: 64 EEG</code> near the top of the output tells us that there are 64 EEG channels (the first few channel names are listed in the line starting with <code>ch_names</code>). Individual elements of <code>raw.info</code> can be accessed with dictionary-like indexing. For example, the sampling frequency is available as:</p>
-<div id="2646ae61" class="cell" data-execution_count="10">
+<div id="1c2e1dfc" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>raw.info[<span class="st">"sfreq"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>160.0</code></pre>
@@ -331,7 +331,7 @@ Tip
 <section id="renaming-channels" class="level3">
 <h3 class="anchored" data-anchor-id="renaming-channels">Renaming channels</h3>
 <p>The output of <code>raw.info</code> revealed that some channel names are suffixed with one or more dots. Since these are non-standard names, let’s rename the channels by removing all trailing dots:</p>
-<div id="cb918940" class="cell" data-execution_count="11">
+<div id="cc3e4eff" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>raw.rename_channels(<span class="kw">lambda</span> s: s.strip(<span class="st">"."</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -351,7 +351,7 @@ Note
 <section id="assigning-a-montage" class="level3">
 <h3 class="anchored" data-anchor-id="assigning-a-montage">Assigning a montage</h3>
 <p>For good measure (and for later use), we can assign a montage to the data (a montage relates channels names to standardized or actual locations on the scalp surface). First, let’s list all montages that ship with MNE:</p>
-<div id="4384ba66" class="cell" data-execution_count="12">
+<div id="fbc8f19a" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>mne.channels.get_builtin_montages()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>['standard_1005',
@@ -385,11 +385,11 @@ Note
 </div>
 </div>
 <p>According to the <a href="https://physionet.org/content/eegmmidb/1.0.0/">data set documentation</a>, the channel locations conform to the international 10–10 system. MNE does not seem to ship a 10–10 montage, but <code>easycap-M1</code> contains template locations from the extended 10–20 system:</p>
-<div id="32909836" class="cell" data-execution_count="13">
+<div id="da18dbd2" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>montage <span class="op">=</span> mne.channels.make_standard_montage(<span class="st">"easycap-M1"</span>)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>montage.plot(sphere<span class="op">=</span><span class="st">"eeglab"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="f888074b" class="cell" data-execution_count="14">
+<div id="86eb627a" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -399,11 +399,11 @@ Note
 </div>
 </div>
 <p>It looks like this montage contains all channels except for T9 and T10, so let’s remove these two channels from our data:</p>
-<div id="236bd7a7" class="cell" data-execution_count="15">
+<div id="a9849369" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>raw.drop_channels([<span class="st">"T9"</span>, <span class="st">"T10"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we can assign the montage to our <code>raw</code> object:</p>
-<div id="83f1f8bc" class="cell" data-execution_count="16">
+<div id="d1b2c12d" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>raw.set_montage(montage, match_case<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If we wanted to keep channels T9 and T10, we would have to use a montage which includes these channels. This is not possible out of the box and requires some manual steps, which we will not discuss in this post.</p>
@@ -411,14 +411,14 @@ Note
 <section id="re-referencing" class="level3">
 <h3 class="anchored" data-anchor-id="re-referencing">Re-referencing</h3>
 <p>The data documentation does not mention any reference electrode, but it is safe to assume that all channels are referenced to some standard location such as a mastoid or the nose. Often, we want to re-reference EEG data to the so-called average reference (the average over all recording channels). In MNE, we can compute average referenced signals as follows:</p>
-<div id="838dd3f9" class="cell" data-execution_count="17">
+<div id="ca4610d0" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>raw.set_eeg_reference(<span class="st">"average"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="annotations" class="level3">
 <h3 class="anchored" data-anchor-id="annotations">Annotations</h3>
 <p>Finally, many EEG data sets come with discrete events, either in the form of an analog stimulation channel or discrete annotations. Our example data set contains annotations that can be accessed with the <code>annotations</code> attribute:</p>
-<div id="9f679bcc" class="cell" data-execution_count="18">
+<div id="98773775" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>raw.annotations</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
 <pre><code>&lt;Annotations | 30 segments: T0 (15), T1 (8), T2 (7)&gt;</code></pre>
@@ -432,7 +432,7 @@ Note
 </section>
 <section id="code" class="level2">
 <h2 class="anchored" data-anchor-id="code">Code</h2>
-<div id="0e49924f" class="cell" data-execution_count="19">
+<div id="49403d88" class="cell" data-execution_count="19">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mne</span>
