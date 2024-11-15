@@ -94,7 +94,7 @@ If you are already familiar with Python, you should consider working with virtua
 :::
 
 
-## Visual Studio Code
+## Code editors
 
 A code editor or integrated development environment is an essential tool for writing Python programs. Good editors include support for syntax highlighting, indentation, line numbers, [linting](https://en.wikipedia.org/wiki/Lint_(software)), code inspection, and more.
 
