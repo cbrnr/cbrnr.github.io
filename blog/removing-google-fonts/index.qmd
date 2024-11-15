@@ -1,6 +1,6 @@
 ---
 title: Removing Google Fonts from a Quarto website
-date: 2022-09-28
+date: 2024-11-15
 description: Many website frameworks and themes embed Google Fonts, which is very convenient. However, contacting third-party servers in the background without acquiring explicit consent might violate data privacy laws. In addition, using local fonts (or fonts available directly on a website) is often faster than retrieving from an external server. In this post, I show how to disable Google Fonts and use fonts stored on your own server for websites generated with Quarto and its built-in themes.
 categories:
   - Quarto
@@ -55,10 +55,10 @@ format:
     toc: true
 ```
 
-The default theme is `cosmo`. We'll use this theme in our example, but you can also replace it with another theme if you want. However, we need to adapt the theme in order to remove Google Fonts, so we change the `theme: cosmo` line to:
+The default theme is `cosmo`, but we'll use the `flatly` theme in our example (of course you can also replace it with another theme if you want). However, we need to adapt the theme in order to remove Google Fonts, so we change the `theme: cosmo` line to:
 
 ```yaml
-    theme: [custom.scss, cosmo]
+    theme: [custom.scss, flatly]
 ```
 
 This will pull in stuff that we define in `custom.scss` later.
@@ -73,23 +73,22 @@ This will open the website in your web browser. It should look something like th
 
 ![](website.png)
 
-There are several ways to determine which Google Fonts are used, but since I am using Chrome I will only describe this process for this browser (but it should work similarly in Firefox, Edge, or whatever browser you are using):
+There are several ways to determine which Google Fonts are used, but since I am using Chrome I will only describe this process for this browser (but it should work similarly in Safari, Firefox, Edge, or whatever browser you are using):
 
 - Right-click anywhere in your website and select "Inspect". This will open the Developer Tools pane.
 - Select the "Network" tab.
-- Check the "3rd-party requests" box.
 - Refresh the page.
-- Find the requests that fetch fonts from Google, the font name should be contained somewhere in the name.
+- Find the requests that fetch fonts from Google (you might have to show the "Domain" column).
 
 ![](website-inspect.png)
 
-In this example, we can see that the website requests the "Source Sans Pro" font from Google Fonts. Now all we have to do is download this font, add it to our website folder, and redirect some font definitions.
+In this example, we can see that the website requests the "Lato" font from Google Fonts. Now all we have to do is download this font, add it to our website folder, and redirect some font definitions.
 
-First, let's download the font files from Google Fonts. We will not use the [official website](https://fonts.google.com/), because it is rather complicated to get the font in the right format. Instead, we will use [google-webfonts-helper](https://google-webfonts-helper.herokuapp.com/fonts), a simpler interface that makes it very easy to download the desired fonts.
+First, let's download the font files from Google Fonts. We will not use the [official website](https://fonts.google.com/), because it is rather complicated to get the font in the right format. Instead, we will use [google-webfonts-helper](https://gwfh.mranftl.com/fonts), a simpler interface that makes it very easy to download the desired fonts.
 
-Open this website, and select "Source Sans Pro" in the left sidebar (you can narrow down the displayed fonts by typing "Source Sans Pro" into the text box in the top left corner). In addition to the "regular" style (which is already pre-selected), check at least "300" and "700" (these are the styles that are used by our example website according to the name of the request in the Developer Tools pane). It doesn't hurt to download more styles, so I recommend to at least also check the italic variants of those three weights.
+Open this website, and select "Lato" in the left sidebar (you can narrow down the displayed fonts by typing "Lato" into the text box in the top left corner). In addition to the "regular" style (which is already pre-selected), check at least "700" (these are the styles that are used by our example website according to the name of the request in the Developer Tools pane). It doesn't hurt to download more styles, so I recommend to at least also check the italic variants of those three weights.
 
-In the third section ("3. Copy CSS"), select "Modern Browsers". Change the value of the "Customize folder prefix (optional)" textbox below to `/fonts/` (so delete the preceding `..`).
+In the third section ("3. Copy CSS"), select "Modern Browsers". Change the value of the "Customize folder prefix (optional)" text box below to `/fonts/` (so delete the preceding `..`).
 
 That's it, now click on the download icon at the bottom to download the selected fonts as a zip file. Extract the contents of the file, and put all files into a folder called `fonts` located in your website root.
 
@@ -102,4 +101,4 @@ Finally, add the following lines to `custom.scss`:
 $web-font-path: false;  // disable Google Fonts
 ```
 
-Your website now uses the Source Sans Pro font from its own folder, which you can readily verify with the Developer Tools (the third-party request to Google Fonts is now gone).
+Your website now uses the Lato font from its local folder, which you can readily verify with the Developer Tools (the third-party request to Google Fonts is now gone).
