@@ -208,7 +208,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">September 30, 2022</p>
+      <p class="date-modified">November 15, 2024</p>
     </div>
   </div>
     
@@ -222,10 +222,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="prerequisites" class="level2">
 <h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
 <p>In this tutorial, we will continue to use the <a href="https://physionet.org/content/eegmmidb/1.0.0/">EEG motor movement/imagery data set</a> from the <a href="../../blog/importing-eeg-data/index.html">previous post</a> (again, we use <a href="https://physionet.org/files/eegmmidb/1.0.0/S001/S001R04.edf?download">run 4 of subject 1</a>). I’ll quickly reiterate all steps we have performed so far:</p>
-<div id="16eb625d" class="cell" data-execution_count="1">
+<div id="0a23a412" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mne</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>raw <span class="op">=</span> mne.io.read_raw_edf(<span class="st">"S001R04.edf"</span>, preload<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>raw <span class="op">=</span> mne.io.read_raw(<span class="st">"S001R04.edf"</span>, preload<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>raw.rename_channels(<span class="kw">lambda</span> s: s.strip(<span class="st">"."</span>))</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>raw.drop_channels([<span class="st">"T9"</span>, <span class="st">"T10"</span>])</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>raw.set_montage(<span class="st">"easycap-M1"</span>, match_case<span class="op">=</span><span class="va">False</span>)</span>
@@ -235,15 +235,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="interactive-visualization" class="level2">
 <h2 class="anchored" data-anchor-id="interactive-visualization">Interactive visualization</h2>
 <p>We can now open an interactive visualization window as follows:</p>
-<div id="e55fe488" class="cell" data-execution_count="3">
+<div id="55be095d" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>raw.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><img src="plot_raw_initial.png" class="img-fluid"></p>
-<p>The signals do not look quite right yet, so let’s walk through some interactive features of this plot. First, you can rescale the signals with the <kbd>+</kbd> and <kbd>-</kbd> keys. The default scaling is not really appropriate here, but pressing the <kbd>-</kbd> key a few times will result in a much nicer display. The topmost channel label Fc5 includes a purple scale bar which indicates the current scale of the data (the length of the purple bar corresponds to 40 µV in this example). This scale applies to all channels of the same type (such as all EEG channels). If the scale bar gets in your way, you can toggle it with the <kbd>s</kbd> key.</p>
+<p>The signals do not look quite right yet, so let’s walk through some interactive features of this plot. First, you can rescale the signals with the <kbd>+</kbd> and <kbd>-</kbd> keys. The default scaling is not really appropriate here, but pressing the <kbd>-</kbd> key a few times will result in a much nicer display. The topmost channel label Fc5 includes a purple scale bar, which indicates the current scale of the data (the length of the purple bar corresponds to 40 µV in this example). This scale applies to all channels of the same type (such as all EEG channels). If the scale bar gets in your way, you can toggle it with the <kbd>s</kbd> key.</p>
 <p>Notice that 20 channels are visible per page by default. To view the remaining channels, you can scroll down with the <kbd>↓</kbd> key. Conversely, you can scroll back up again by pressing the <kbd>↑</kbd> key. Alternatively, you can increase or decrease the number of channels visible on a page with the <kbd>Page Up</kbd> or <kbd>Page Down</kbd> keys, respectively (if you don’t have these keys on your Mac, you can use the combinations <kbd>fn</kbd><kbd>↑</kbd> and <kbd>fn</kbd><kbd>↓</kbd> instead).</p>
-<p>By default, 10 seconds of data are visible per page. If you want to navigate in time, you can use the <kbd>→</kbd> and <kbd>←</kbd> keys to move forward and backward by a quarter of the visible duration (in this example by 2.5 seconds). Pressing <kbd>Shift</kbd><kbd>→</kbd> and <kbd>Shift</kbd><kbd>←</kbd> will scroll forward/backward by a whole page (10 s here).</p>
+<p>By default, 10 seconds of data are visible per page. If you want to navigate in time, you can use the <kbd>→</kbd> and <kbd>←</kbd> keys to move forward and backward by a quarter of the visible duration (in this example by 2.5 seconds). Pressing <kbd>Shift</kbd><kbd>→</kbd> and <kbd>Shift</kbd><kbd>←</kbd> will scroll forward/backward by an entire page (10 s here).</p>
 <p>You can increase or decrease the amount of time shown per page with the <kbd>End</kbd> or <kbd>Home</kbd> keys (if you don’t have these keys on your Mac, these shortcuts can usually be accessed with <kbd>fn</kbd><kbd>→</kbd> and <kbd>fn</kbd><kbd>←</kbd>).</p>
-<p>The following table summarizes all keyboard shortcuts for the interactive visualization window (we will discuss annotation, butterfly, and zen modes in a minute). Note that the “Help” button in the lower left corner (or pressing the <kbd>?</kbd> key) pops up a dialog window with these shortcuts.</p>
+<p>The following table summarizes important keyboard shortcuts for the interactive visualization window (we will discuss annotation, butterfly, and zen modes in a minute). Note that the “Help” button in the lower left corner (or pressing the <kbd>?</kbd> key) pops up a dialog window with these shortcuts.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -331,7 +331,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <p>You can change initial settings with arguments to <code>raw.plot()</code>. For example, we might use the following arguments to start with suitable values for our example data:</p>
-<div id="39ecbfc3" class="cell" data-execution_count="4">
+<div id="cb8f8e6f" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>raw.plot(n_channels<span class="op">=</span><span class="dv">64</span>, duration<span class="op">=</span><span class="dv">5</span>, scalings<span class="op">=</span>{<span class="st">"eeg"</span>: <span class="fl">75e-6</span>}, start<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The example data contains annotations (stored in <code>raw.annotations</code>), which are visualized as colored patches (the annotation descriptions are located at the top of the plot). In this case, the blue, red, and green patches correspond to T0, T1, and T2, respectively.</p>
@@ -343,9 +343,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="annotating-segments" class="level2">
 <h2 class="anchored" data-anchor-id="annotating-segments">Annotating segments</h2>
-<p>We are now ready to interactively create annotations, for example to mark segments containing artifacts. To this end, we switch to <em>annotation mode</em> by pressing the <kbd>a</kbd> key. A small dialog window will pop up. Make sure to keep this dialog window open as long as you want to stay in annotation mode – if you close it, you will return to normal visualization mode.</p>
-<p>The annotations dialog shows a list of currently available annotations (T0, T1, and T2 in our example data). The annotation label marked with a filled circle is currently active (T0), which means that if we create a new annotation in the data window (more on this soon), it will be of this type. However, we can also create new annotation <em>types</em>. Notice that the “BAD_” label is actually an input text field – you can start typing/editing to change the annotation label before creating it. We would like to create annotations called “BAD”, so let’s remove the underscore by pressing the <kbd>Backspace</kbd> key once. The new annotation type gets added to the list of available labels once you click on the large “Add new label” button or hit the <kbd>Enter</kbd> key.</p>
-<p><img src="annotations.png" class="img-fluid"></p>
+<p>We are now ready to interactively create annotations, for example to mark segments containing artifacts. To this end, we switch to <em>annotation mode</em> by pressing the <kbd>a</kbd> key, which will open a dialog window.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -356,13 +354,28 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Annotation labels starting with “BAD” (or “bad”) are special in MNE, because many functions ignore data marked by such annotations. This gives us a nice way to mark artifact segments without completely discarding data points.</p>
+<p>Make sure to keep this dialog window open as long as you want to stay in annotation mode – if you close it, you will return to normal visualization mode.</p>
+</div>
+</div>
+<p>This annotations dialog shows a list of currently available annotations (T0, T1, and T2 in our example data). The annotation label marked with a filled circle is currently active (T0), which means that if we create a new annotation in the data window (more on this soon), it will be of this type. However, we can also create new annotation <em>types</em>. Notice that the “BAD_” label is actually an input text field – you can start typing/editing to change the annotation label before creating it. We would like to create annotations called “BAD”, so let’s remove the underscore by pressing the <kbd>Backspace</kbd> key once. The new annotation type gets added to the list of available labels once you click on the large “Add new label” button or hit the <kbd>Enter</kbd> key.</p>
+<p><img src="annotations.png" class="img-fluid"></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Annotation labels <em>starting</em> with “BAD” (or “bad”) are special in MNE, because many functions <em>ignore</em> data marked by such annotations. This gives us a nice way to mark artifact segments without completely discarding data points.</p>
 </div>
 </div>
 <p>Let’s create some “BAD” annotations in our example data. First, we make sure that the “BAD” label is active by clicking inside the red ring (active labels are represented by a filled circle). Optionally, we can hide all T0, T1, and T2 annotations by clicking on their “show/hide” checkboxes. Now we switch back to the main visualization window (again, make sure not to close the annotation window). Using the mouse, we can now click and drag to select a portion of the data and mark it with the currently active “BAD” label. During this process, you can interactively scroll around in the data with the keyboard shortcuts listed before, or you can click within the overview bar below the plot.</p>
-<p>If you want to edit the start and/or end point of an existing annotation, press the <kbd>p</kbd> key or click the “Draggable edges?” checkbox to toggle <em>snap mode</em>. If snap mode is enabled, you can drag the start and/or end points of an annotation to the desired locations. It is impossible to create an annotation inside another annotation with snap mode enabled, so that’s when you want to turn it off. Overlapping annotations of the same type will be merged to a single annotation. If you want to completely delete an annotation, you can right-click on it and it disappears.</p>
+<p>If you want to edit the start and/or end point of an existing annotation, press the <kbd>p</kbd> key or click the “Draggable edges” checkbox to toggle <em>snap mode</em>. If snap mode is enabled, you can drag the start and/or end points of an annotation to the desired locations. It is impossible to create an annotation inside another annotation with snap mode enabled, so that’s when you want to turn it off. Overlapping annotations of the same type will be merged to a single annotation. If you want to completely delete an annotation, you can simply right-click on it.</p>
 <p>When you are done, you can close the annotation window. You can also close the visualization window, because all annotations are automatically stored in the <code>raw.annotations</code> attribute. Let’s take a look what it looks like now:</p>
-<div id="438705b4" class="cell" data-execution_count="5">
+<div id="24ba2dd5" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>raw.annotations</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <pre><code>&lt;Annotations | 39 segments: BAD (9), T0 (15), T1 (8), T2 (7)&gt;</code></pre>
@@ -370,14 +383,27 @@ Important
 </section>
 <section id="marking-channels" class="level2">
 <h2 class="anchored" data-anchor-id="marking-channels">Marking channels</h2>
-<p>Sometimes, signals are noisy in particular channels during the whole recording. In such cases, it is possible to mark the whole channel as bad. In the visualization window, click on a channel label on the left side of the plot or on a channel trace to mark a channel as bad (the label and associated time course will turn gray to reflect this). If you want to unmark a channel, click on its label (or its trace) again. The selection of bad channels is immediately stored in <code>raw.info["bads"]</code> (a list containing the channel labels of all bad channels). Channels marked as bad are generally ignored by MNE functions.</p>
+<p>Sometimes, signals are noisy in particular channels during the entire recording. In such cases, it is possible to mark the whole channel as bad. In the visualization window, click on a channel label on the left side of the plot or on a channel trace to mark a channel as bad (the label and associated time course will turn gray to reflect this). If you want to unmark a channel, click on its label (or its trace) again. The selection of bad channels is immediately stored in <code>raw.info["bads"]</code> (a list containing the channel labels of all bad channels). Channels marked as bad are generally ignored by MNE functions.</p>
 </section>
 <section id="saving-and-loading-annotations" class="level2">
 <h2 class="anchored" data-anchor-id="saving-and-loading-annotations">Saving and loading annotations</h2>
 <p>Although changes to annotations or bad channels are immediately reflected in <code>raw.annotations</code> and <code>raw.info["bads"]</code>, we still need a way to persistently store this information for later use. Consequently, we will also need a way to load this information and associate it with an existing <code>raw</code> object.</p>
 <p>It is always a good idea to use simple storage formats whenever possible. Therefore, MNE allows us to store annotations as simple text files. Here’s how we could save annotations in a file called <code>S001R04_annotations.txt</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>raw.annotations.save(<span class="st">"S001R04_annotations.txt"</span>, overwrite<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This creates a comma-separated text file with three columns “onset”, “duration”, and “description”. Onsets are relative to the start of the recording (so they start at zero), and both onsets and durations are measured in seconds. If you specify a <code>.csv</code> instead of a <code>.txt</code> extension, you will get absolute time stamps for the onsets (based on the measurement onset time stamp).</p>
+<p>This creates a comma-separated text file with three columns “onset”, “duration”, and “description”. Onsets are relative to the start of the recording (so they start at zero), and both onsets and durations are measured in seconds.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you specify a <code>.csv</code> instead of a <code>.txt</code> extension, you will get absolute time stamps for the onsets (based on the measurement onset time stamp).</p>
+</div>
+</div>
 <p>We can read this file with:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>annotations <span class="op">=</span> mne.read_annotations(<span class="st">"S001R04_annotations.txt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Finally, we can associate these <code>annotations</code> with an existing <code>raw</code> object:</p>
@@ -385,7 +411,7 @@ Important
 </section>
 <section id="saving-and-loading-bad-channels" class="level2">
 <h2 class="anchored" data-anchor-id="saving-and-loading-bad-channels">Saving and loading bad channels</h2>
-<p>The following lines of code store the list of bad channels in a text file called <code>S001R04_bads.txt</code>:</p>
+<p>There is no built-in function to save bad channels to a file, but we can use the following code snippet to store the list of bad channels in a text file called <code>S001R04_bads.txt</code>:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"S001R04_bads.txt"</span>, <span class="st">"w"</span>) <span class="im">as</span> f:</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    f.write(<span class="st">","</span>.join(raw.info[<span class="st">"bads"</span>]))</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    f.write(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
