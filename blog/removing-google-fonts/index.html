@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2022-09-28">
+<meta name="dcterms.date" content="2024-11-15">
 <meta name="description" content="Many website frameworks and themes embed Google Fonts, which is very convenient. However, contacting third-party servers in the background without acquiring explicit consent might violate data privacy laws. In addition, using local fonts (or fonts available directly on a website) is often faster than retrieving from an external server. In this post, I show how to disable Google Fonts and use fonts stored on your own server for websites generated with Quarto and its built-in themes.">
 
 <title>Removing Google Fonts from a Quarto website – Clemens Brunner</title>
@@ -196,7 +196,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 28, 2022</p>
+      <p class="date">November 15, 2024</p>
     </div>
   </div>
   
@@ -243,32 +243,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> cosmo</span></span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">css</span><span class="kw">:</span><span class="at"> styles.css</span></span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The default theme is <code>cosmo</code>. We’ll use this theme in our example, but you can also replace it with another theme if you want. However, we need to adapt the theme in order to remove Google Fonts, so we change the <code>theme: cosmo</code> line to:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">custom.scss</span><span class="kw">,</span><span class="at"> cosmo</span><span class="kw">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The default theme is <code>cosmo</code>, but we’ll use the <code>flatly</code> theme in our example (of course you can also replace it with another theme if you want). However, we need to adapt the theme in order to remove Google Fonts, so we change the <code>theme: cosmo</code> line to:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">custom.scss</span><span class="kw">,</span><span class="at"> flatly</span><span class="kw">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This will pull in stuff that we define in <code>custom.scss</code> later.</p>
 <p>Now let’s find out which fonts are downloaded from Google Fonts by rendering the website, which you can do by entering the following command in a terminal:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> preview</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This will open the website in your web browser. It should look something like this:</p>
 <p><img src="website.png" class="img-fluid"></p>
-<p>There are several ways to determine which Google Fonts are used, but since I am using Chrome I will only describe this process for this browser (but it should work similarly in Firefox, Edge, or whatever browser you are using):</p>
+<p>There are several ways to determine which Google Fonts are used, but since I am using Chrome I will only describe this process for this browser (but it should work similarly in Safari, Firefox, Edge, or whatever browser you are using):</p>
 <ul>
 <li>Right-click anywhere in your website and select “Inspect”. This will open the Developer Tools pane.</li>
 <li>Select the “Network” tab.</li>
-<li>Check the “3rd-party requests” box.</li>
 <li>Refresh the page.</li>
-<li>Find the requests that fetch fonts from Google, the font name should be contained somewhere in the name.</li>
+<li>Find the requests that fetch fonts from Google (you might have to show the “Domain” column).</li>
 </ul>
 <p><img src="website-inspect.png" class="img-fluid"></p>
-<p>In this example, we can see that the website requests the “Source Sans Pro” font from Google Fonts. Now all we have to do is download this font, add it to our website folder, and redirect some font definitions.</p>
-<p>First, let’s download the font files from Google Fonts. We will not use the <a href="https://fonts.google.com/">official website</a>, because it is rather complicated to get the font in the right format. Instead, we will use <a href="https://google-webfonts-helper.herokuapp.com/fonts">google-webfonts-helper</a>, a simpler interface that makes it very easy to download the desired fonts.</p>
-<p>Open this website, and select “Source Sans Pro” in the left sidebar (you can narrow down the displayed fonts by typing “Source Sans Pro” into the text box in the top left corner). In addition to the “regular” style (which is already pre-selected), check at least “300” and “700” (these are the styles that are used by our example website according to the name of the request in the Developer Tools pane). It doesn’t hurt to download more styles, so I recommend to at least also check the italic variants of those three weights.</p>
-<p>In the third section (“3. Copy CSS”), select “Modern Browsers”. Change the value of the “Customize folder prefix (optional)” textbox below to <code>/fonts/</code> (so delete the preceding <code>..</code>).</p>
+<p>In this example, we can see that the website requests the “Lato” font from Google Fonts. Now all we have to do is download this font, add it to our website folder, and redirect some font definitions.</p>
+<p>First, let’s download the font files from Google Fonts. We will not use the <a href="https://fonts.google.com/">official website</a>, because it is rather complicated to get the font in the right format. Instead, we will use <a href="https://gwfh.mranftl.com/fonts">google-webfonts-helper</a>, a simpler interface that makes it very easy to download the desired fonts.</p>
+<p>Open this website, and select “Lato” in the left sidebar (you can narrow down the displayed fonts by typing “Lato” into the text box in the top left corner). In addition to the “regular” style (which is already pre-selected), check at least “700” (these are the styles that are used by our example website according to the name of the request in the Developer Tools pane). It doesn’t hurt to download more styles, so I recommend to at least also check the italic variants of those three weights.</p>
+<p>In the third section (“3. Copy CSS”), select “Modern Browsers”. Change the value of the “Customize folder prefix (optional)” text box below to <code>/fonts/</code> (so delete the preceding <code>..</code>).</p>
 <p>That’s it, now click on the download icon at the bottom to download the selected fonts as a zip file. Extract the contents of the file, and put all files into a folder called <code>fonts</code> located in your website root.</p>
 <p>In addition, copy the CSS (displayed in the third section) and paste everything into the empty <code>styles.css</code> file.</p>
 <p>Finally, add the following lines to <code>custom.scss</code>:</p>
 <pre><code>/*-- scss:rules --*/
 $web-font-path: false;  // disable Google Fonts</code></pre>
-<p>Your website now uses the Source Sans Pro font from its own folder, which you can readily verify with the Developer Tools (the third-party request to Google Fonts is now gone).</p>
+<p>Your website now uses the Lato font from its local folder, which you can readily verify with the Developer Tools (the third-party request to Google Fonts is now gone).</p>
 
 
 </section>
