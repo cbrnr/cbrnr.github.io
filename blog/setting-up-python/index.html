@@ -204,7 +204,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">February 9, 2024</p>
+      <p class="date-modified">November 15, 2024</p>
     </div>
   </div>
     
@@ -217,8 +217,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="installing-python" class="level2">
 <h2 class="anchored" data-anchor-id="installing-python">Installing Python</h2>
-<p>The <a href="https://www.python.org/downloads/">official installer</a>, which is available for Windows and macOS, is the easiest way for beginners to install Python. If you use Linux, chances are that Python is already installed (if not, use the package manager to install it).</p>
-<p>When running the installer on Windows, make sure to check the option “Add python.exe to PATH” (by default this setting is disabled). I strongly recommend to use the default values for all other settings.</p>
+<p>The <a href="https://www.python.org/downloads/">official installer</a>, which is available for Windows and macOS, is the easiest way for beginners to install Python. If you use Linux, chances are that Python is already installed (if not, use your package manager to install it).</p>
+<p>When running the installer on Windows, make sure to check the option “Add python.exe to PATH” (by default this setting is disabled). I strongly recommend to use the default values for all other settings (and yes, this includes installing Python in your user directory).</p>
 <p><img src="install-python-windows.png" class="img-fluid"></p>
 <p>On macOS, run both “Install Certificates” and “Update Shell Profile” commands available in the application folder after the installation is complete:</p>
 <p><img src="install-python-macos.png" class="img-fluid"></p>
@@ -245,7 +245,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If you are an experienced Pythonista on macOS or Linux, I recommend <a href="https://github.com/pyenv/pyenv">pyenv</a>, which makes working with multiple Python versions (and virtual environments) a breeze.</p>
+<p>If you are an experienced Pythonista, I recommend <a href="https://docs.astral.sh/uv/">uv</a>, an extremely fast and versatile Python package and project manager.</p>
 </div>
 </div>
 </section>
@@ -273,11 +273,10 @@ Important
 <li><a href="http://www.numpy.org/">NumPy</a> provides a multi-dimensional array data type, which is the basis for almost all scientific packages.</li>
 <li><a href="http://pandas.pydata.org/">Pandas</a> provides a flexible data frame type similar to the one available in <a href="https://www.r-project.org/">R</a>.</li>
 <li><a href="https://scipy.org/">SciPy</a> contains numerous algorithms for scientific computing.</li>
-<li><a href="https://matplotlib.org/">Matplotlib</a> is the most popular package to create all kinds of plots in Python.</li>
+<li><a href="https://matplotlib.org/">Matplotlib</a> is the most popular plotting package in Python.</li>
 <li><a href="http://scikit-learn.org/stable/">Scikit-learn</a> is a powerful machine learning package for Python.</li>
 <li><a href="https://mne.tools/">MNE</a> is a package for EEG/MEG analysis.</li>
 <li><a href="https://github.com/cbrnr/mnelab">MNELAB</a> is a graphical user interface for MNE.</li>
-<li><a href="https://ipython.org/">IPython</a> provides an enhanced interactive Python experience.</li>
 <li><a href="https://pierreablin.github.io/picard/index.html">Python-Picard</a> is an extremely fast and efficient ICA implementation.</li>
 </ul>
 <p>I recommend that you install all of these packages right now so you can use them later in your EEG analyses.</p>
@@ -291,14 +290,14 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Package names are case-insensitive, so for example <code>pip install NumPy</code> and <code>pip install numpy</code> should both work.</p>
+<p>Package names are case-insensitive, so for example <code>pip install NumPy</code> and <code>pip install numpy</code> both work.</p>
 </div>
 </div>
 </section>
 <section id="housekeeping" class="level2">
 <h2 class="anchored" data-anchor-id="housekeeping">Housekeeping</h2>
 <p>It is generally a good idea to use the most recent Python version. If a new release becomes available (you might want to check the <a href="https://www.python.org/">official Python website</a> once in a while), install it <a href="../../blog/setting-up-python/index.html#installing-python">as previously explained</a>. You can even have multiple versions of Python installed on your system if you want (but usually you only need the latest version).</p>
-<p>In addition to Python itself, you probably also want to keep all installed packages up to date. Package updates are independent of new Python releases, so you should check for new package versions more frequently (for example, once a week). You can use <code>pip</code> to get a list of all outdated packages:</p>
+<p>In addition to Python itself, you probably also want to keep all installed packages up to date. Package updates are independent of new Python releases, so you should check for new package versions more frequently. You can use <code>pip</code> to get a list of outdated packages:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> list <span class="at">--outdated</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The following command upgrades a package to its latest version (replace <code>&lt;package&gt;</code> with the actual package name):</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-U</span> <span class="op">&lt;</span>package<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -322,12 +321,24 @@ Tip
 <section id="visual-studio-code" class="level2">
 <h2 class="anchored" data-anchor-id="visual-studio-code">Visual Studio Code</h2>
 <p>A code editor or integrated development environment is an essential tool for writing Python programs. Good editors include support for syntax highlighting, indentation, line numbers, <a href="https://en.wikipedia.org/wiki/Lint_(software)">linting</a>, code inspection, and more.</p>
-<p>I recommend <a href="https://code.visualstudio.com">Visual Studio Code</a> if you have never used Python before. However, feel free to try other programs such as <a href="https://www.jetbrains.com/pycharm/">PyCharm</a>, which also provides a great Python development experience.</p>
+<p>I recommend <a href="https://code.visualstudio.com">Visual Studio Code</a> or <a href="https://www.jetbrains.com/pycharm/">PyCharm</a> if you have never used Python before. Both tools provide a great Python development experience.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>If you decide to install Visual Studio Code, there are two things you should do before you start writing Python code:</p>
 <ol type="1">
 <li>Click on the <em>Extensions</em> section in the left sidebar, search for “Python”, and install the official <a href="https://marketplace.visualstudio.com/items?itemName=ms-python.python">Python extension</a>.</li>
-<li>I recommend that you follow the <a href="https://www.python.org/dev/peps/pep-0008/">PEP8</a> coding style. In Visual Studio Code, install the <a href="https://marketplace.visualstudio.com/items?itemName=ms-python.flake8">Flake8 extension</a> to enable automatic PEP8-aware linting.</li>
+<li>Install the <a href="https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff">Ruff extension</a> to automatically lint and format your code according to the <a href="https://www.python.org/dev/peps/pep-0008/">PEP 8</a> style guide.</li>
 </ol>
+</div>
+</div>
 <p>That’s it, you are now ready to start working with Python!</p>
 
 
