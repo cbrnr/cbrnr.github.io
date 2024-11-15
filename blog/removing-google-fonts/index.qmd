@@ -1,6 +1,7 @@
 ---
 title: Removing Google Fonts from a Quarto website
-date: 2024-11-15
+date: 2022-09-28
+date-modified: 2024-11-15
 description: Many website frameworks and themes embed Google Fonts, which is very convenient. However, contacting third-party servers in the background without acquiring explicit consent might violate data privacy laws. In addition, using local fonts (or fonts available directly on a website) is often faster than retrieving from an external server. In this post, I show how to disable Google Fonts and use fonts stored on your own server for websites generated with Quarto and its built-in themes.
 categories:
   - Quarto
