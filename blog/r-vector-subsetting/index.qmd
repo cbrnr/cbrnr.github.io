@@ -61,7 +61,7 @@ We can also use logical vectors for subsetting. The outcome will comprise elemen
 v[c(FALSE, TRUE, TRUE, FALSE)]
 ```
 
-The result contains the second and third elements of `v`, because only the second and third elements of the logical index vector are `TRUE`. Subsetting with logical vectors usually involve comparisons (which evalute to logical vectors), so we can filter elements based on the values of the original vector. The following example illustrates this idea with a numeric vector `x` and a subset containing only positive values of `x`:
+The result contains the second and third elements of `v`, because only the second and third elements of the logical index vector are `TRUE`. Subsetting with logical vectors usually involve comparisons (which evaluate to logical vectors), so we can filter elements based on the values of the original vector. The following example illustrates this idea with a numeric vector `x` and a subset containing only positive values of `x`:
 
 ```{r}
 (x = c(54, -23.22, -13.04, 1.99, -1.31, 48.6))
