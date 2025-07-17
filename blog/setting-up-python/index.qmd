@@ -22,10 +22,6 @@ On macOS, run both "Install Certificates" and "Update Shell Profile" commands av
 
 ![](install-python-macos.png)
 
-::: {.callout-note}
-[Anaconda](https://www.anaconda.com/distribution/), a distribution with tons of pre-installed packages specifically tailored towards scientific computing, provides yet another way to install Python. If you want to use it, consider installing [Miniforge](https://github.com/conda-forge/miniforge) instead, which is more lightweight and uses [conda-forge](https://conda-forge.org) as its package repository.
-:::
-
 ::: {.callout-tip}
 If you are an experienced Pythonista, I recommend [uv](https://docs.astral.sh/uv/), an extremely fast and versatile Python package and project manager.
 :::
@@ -56,7 +52,7 @@ The following packages are useful for scientific computing in general and EEG pr
 - [Scikit-learn](http://scikit-learn.org/stable/) is a powerful machine learning package for Python.
 - [MNE](https://mne.tools/) is a package for EEG/MEG analysis.
 - [MNELAB](https://github.com/cbrnr/mnelab) is a graphical user interface for MNE.
-- [Python-Picard](https://pierreablin.github.io/picard/index.html) is an extremely fast and efficient ICA implementation.
+- [Python-Picard](https://mind-inria.github.io/picard/) is an extremely fast and efficient ICA implementation.
 
 I recommend that you install all of these packages right now so you can use them later in your EEG analyses.
 
@@ -96,7 +92,7 @@ If you are already familiar with Python, you should consider working with virtua
 
 ## Code editors
 
-A code editor or integrated development environment is an essential tool for writing Python programs. Good editors include support for syntax highlighting, indentation, line numbers, [linting](https://en.wikipedia.org/wiki/Lint_(software)), code inspection, and more.
+A code editor or integrated development environment is an essential tool for writing Python programs. Good editors include support for syntax highlighting, indentation, line numbers, linting, code inspection, and more.
 
 I recommend [Visual Studio Code](https://code.visualstudio.com) or [PyCharm](https://www.jetbrains.com/pycharm/) if you have never used Python before. Both tools provide a great Python development experience.
 
