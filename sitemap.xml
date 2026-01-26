@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://cbrnr.github.io/blog/importing-eeg-data/index.html</loc>
-    <lastmod>2025-07-17T08:14:45.675Z</lastmod>
+    <loc>https://cbrnr.github.io/blog.html</loc>
+    <lastmod>2026-01-26T14:49:22.634Z</lastmod>
   </url>
   <url>
     <loc>https://cbrnr.github.io/blog/whitening-pca-zca/index.html</loc>
-    <lastmod>2025-07-17T08:14:45.681Z</lastmod>
+    <lastmod>2026-01-26T14:49:22.884Z</lastmod>
   </url>
   <url>
-    <loc>https://cbrnr.github.io/blog/r-dataframe-subsetting/index.html</loc>
-    <lastmod>2024-02-14T11:04:16.916Z</lastmod>
-  </url>
-  <url>
-    <loc>https://cbrnr.github.io/blog/visualizing-eeg-data/index.html</loc>
-    <lastmod>2025-07-17T08:14:45.681Z</lastmod>
-  </url>
-  <url>
-    <loc>https://cbrnr.github.io/blog/warming-stripes-r/index.html</loc>
-    <lastmod>2025-07-17T08:14:45.681Z</lastmod>
-  </url>
-  <url>
-    <loc>https://cbrnr.github.io/index.html</loc>
-    <lastmod>2025-07-17T08:14:45.681Z</lastmod>
-  </url>
-  <url>
-    <loc>https://cbrnr.github.io/blog.html</loc>
-    <lastmod>2022-10-10T09:04:38.316Z</lastmod>
-  </url>
-  <url>
-    <loc>https://cbrnr.github.io/blog/removing-eog-regression/index.html</loc>
-    <lastmod>2025-07-17T08:14:45.675Z</lastmod>
-  </url>
-  <url>
-    <loc>https://cbrnr.github.io/blog/removing-google-fonts/index.html</loc>
-    <lastmod>2025-07-17T08:14:45.675Z</lastmod>
+    <loc>https://cbrnr.github.io/blog/importing-eeg-data/index.html</loc>
+    <lastmod>2026-01-26T14:49:22.639Z</lastmod>
   </url>
   <url>
     <loc>https://cbrnr.github.io/blog/setting-up-python/index.html</loc>
-    <lastmod>2025-07-17T08:28:37.077Z</lastmod>
-  </url>
-  <url>
-    <loc>https://cbrnr.github.io/blog/removing-eog-ica/index.html</loc>
-    <lastmod>2025-07-17T08:14:45.675Z</lastmod>
+    <lastmod>2026-01-26T14:49:22.870Z</lastmod>
   </url>
   <url>
     <loc>https://cbrnr.github.io/blog/r-vector-subsetting/index.html</loc>
-    <lastmod>2025-07-17T08:14:45.675Z</lastmod>
+    <lastmod>2026-01-26T14:49:22.644Z</lastmod>
+  </url>
+  <url>
+    <loc>https://cbrnr.github.io/blog/removing-eog-regression/index.html</loc>
+    <lastmod>2026-01-26T14:49:22.866Z</lastmod>
+  </url>
+  <url>
+    <loc>https://cbrnr.github.io/index.html</loc>
+    <lastmod>2026-01-26T15:13:37.793Z</lastmod>
+  </url>
+  <url>
+    <loc>https://cbrnr.github.io/blog/removing-google-fonts/index.html</loc>
+    <lastmod>2026-01-26T14:49:22.866Z</lastmod>
+  </url>
+  <url>
+    <loc>https://cbrnr.github.io/blog/warming-stripes-r/index.html</loc>
+    <lastmod>2026-01-26T14:49:22.884Z</lastmod>
+  </url>
+  <url>
+    <loc>https://cbrnr.github.io/blog/removing-eog-ica/index.html</loc>
+    <lastmod>2026-01-26T14:49:22.761Z</lastmod>
+  </url>
+  <url>
+    <loc>https://cbrnr.github.io/blog/visualizing-eeg-data/index.html</loc>
+    <lastmod>2026-01-26T14:49:22.877Z</lastmod>
+  </url>
+  <url>
+    <loc>https://cbrnr.github.io/blog/r-dataframe-subsetting/index.html</loc>
+    <lastmod>2026-01-26T14:49:22.639Z</lastmod>
   </url>
 </urlset>

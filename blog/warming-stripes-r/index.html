@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,18 +69,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../../">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-2fef5ea3f8957b3e4ecc936fc74692ca.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-7967b7a220aec697c0b1a8e2b9a98817.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-68405101de8bfe218d87e232a7658563.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-7967b7a220aec697c0b1a8e2b9a98817.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-561be5a2a1db154d7da5ba11a7c4bded.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-2a8264242e9424d063f3fbea50189b0f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-561be5a2a1db154d7da5ba11a7c4bded.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/quarto-contrib/academicons-1.9.2/all.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/academicons-1.9.2/size.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
@@ -385,7 +386,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Let’s choose my home town <a href="https://en.wikipedia.org/wiki/Graz">Graz, Austria</a> as an example location for this post. We need to find out the corresponding closest weather station ID, which can be searched on the <a href="https://data.giss.nasa.gov/gistemp/station_data_v4_globe/">GISTEMP station data website</a>. We can either hover over a red spot on the globe (which is a bit difficult to navigate) or use the search box at the bottom of the page. There, we can enter a name or coordinates and click “Search”, which will generate a list of possible matches. In either case, the station ID for Graz is AU000016402 (the first row in the search result list). Clicking on the <a href="https://data.giss.nasa.gov/cgi-bin/gistemp/stdata_show_v4.cgi?id=AU000016402&amp;ds=14&amp;dt=1">station name</a> opens a new page with more details, and at the bottom of that page we can download the temperature data as a <a href="https://data.giss.nasa.gov/tmp/gistemp/STATIONS/tmp_AU000016402_14_0_1/station.csv">CSV file</a>.</p>
 <p>I wrote a short R function <code>read_station()</code> to make this process a little more convenient. All we need to know is the station ID and it will return the temperature data as a tibble:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>read_station <span class="ot">=</span> <span class="cf">function</span>(id) {</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    base <span class="ot">=</span> <span class="st">"https://data.giss.nasa.gov/"</span></span>
@@ -399,7 +400,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">"%stmp/gistemp/STATIONS_v4/tmp_%s_14_0_1/station.csv"</span>, base, id),</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">na=</span><span class="st">"999.90"</span></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -416,23 +417,23 @@ Note
 </div>
 <p>Let’s call this function to get our data:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get station ID at https://data.giss.nasa.gov/gistemp/station_data_v4_globe/</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get station ID at https://data.giss.nasa.gov/gistemp/station_data_v4_globe/</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>id <span class="ot">=</span> <span class="st">"AU000016402"</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>(<span class="at">df =</span> <span class="fu">read_station</span>(id))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>(<span class="at">df =</span> <span class="fu">read_station</span>(id))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 146 × 18
     YEAR   JAN   FEB   MAR   APR   MAY   JUN   JUL   AUG   SEP   OCT   NOV   DEC
    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
- 1  1880 -5.53 -3.53  2.57 11.2   11.9  15.7  19.4  16.4  14.2  9.47  3.07  1.57
- 2  1881 -6.43 -1.83  4.37  6.47  12.5  16.1  19.0  17.8  12.8  5.87  1.37 -0.83
- 3  1882 -1.63  0.07  8.57  8.17  13.9  15.2  18.4  16.4  13.8  9.97  3.07  0.17
- 4  1883 -3.23  0.47 -0.73  6.57  13.3  17.3  17.7  17.1  13.6  8.97  2.07 -2.43
- 5  1884 -1.43  0.27  5.17  7.87  13.9  14.2  19.2  16.9  14.0  7.37  0.67 -0.73
- 6  1885 -4.53  0.07  5.07  9.77  11.6  17.2  19.5  16.6  14.4  8.17  3.47 -3.24
- 7  1886 -2.84 -0.34  0.26  9.36  13.3  16.0  18.4  17.6  15.4  9.76  3.46  0.26
- 8  1887 -3.44 -3.44  1.46  8.16  12.4  16.5  19.8  17.3  14.9  6.26  3.16 -2.24
- 9  1888 -4.54 -2.64  2.36  7.26  13.6  17.3  16.6  17.8  14.1  6.46  0.26 -1.44
-10  1889 -3.94 -2.33  1.96  8.06  15.6  18.6  17.8  16.7  11.7  9.86  1.76 -4.24
+ 1  1880 -5.55 -3.55  2.55 11.2   11.8  15.6  19.4  16.4  14.2  9.45  3.05  1.55
+ 2  1881 -6.45 -1.85  4.35  6.45  12.4  16.0  19.0  17.8  12.8  5.85  1.35 -0.85
+ 3  1882 -1.65  0.05  8.55  8.15  13.8  15.2  18.4  16.4  13.8  9.95  3.05  0.15
+ 4  1883 -3.25  0.45 -0.75  6.55  13.2  17.2  17.6  17.0  13.6  8.95  2.05 -2.45
+ 5  1884 -1.45  0.25  5.15  7.85  13.8  14.2  19.2  16.8  14.0  7.35  0.65 -0.75
+ 6  1885 -4.55  0.05  5.05  9.75  11.6  17.2  19.4  16.6  14.4  8.15  3.45 -3.25
+ 7  1886 -2.85 -0.35  0.25  9.35  13.2  16.0  18.4  17.6  15.4  9.75  3.45  0.25
+ 8  1887 -3.45 -3.45  1.45  8.15  12.4  16.4  19.8  17.2  14.8  6.25  3.15 -2.25
+ 9  1888 -4.55 -2.65  2.35  7.25  13.6  17.2  16.6  17.8  14.0  6.45  0.25 -1.45
+10  1889 -3.95 -2.34  1.95  8.05  15.6  18.6  17.8  16.6  11.6  9.85  1.75 -4.25
 # ℹ 136 more rows
 # ℹ 5 more variables: `D-J-F` &lt;dbl&gt;, `M-A-M` &lt;dbl&gt;, `J-J-A` &lt;dbl&gt;,
 #   `S-O-N` &lt;dbl&gt;, metANN &lt;dbl&gt;</code></pre>
@@ -444,19 +445,19 @@ Note
 <h2 class="anchored" data-anchor-id="line-chart">Line chart</h2>
 <p>Let’s start with a simple line chart showing annual temperatures over time. We will need the mean temperature between 1971 and 2000 for various plots, so let’s put that value into its own variable <code>tmean</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">tmean =</span> <span class="fu">mean</span>(<span class="fu">subset</span>(df, YEAR <span class="sc">&gt;=</span> <span class="dv">1971</span> <span class="sc">&amp;</span> YEAR <span class="sc">&lt;=</span> <span class="dv">2000</span>)<span class="sc">$</span>metANN))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>(<span class="at">tmean =</span> <span class="fu">mean</span>(<span class="fu">subset</span>(df, YEAR <span class="sc">&gt;=</span> <span class="dv">1971</span> <span class="sc">&amp;</span> YEAR <span class="sc">&lt;=</span> <span class="dv">2000</span>)<span class="sc">$</span>metANN))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 8.966</code></pre>
+<pre><code>[1] 8.997667</code></pre>
 </div>
 </div>
 <p>We will also need the first and last available years (mainly for nice tick labels):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>start <span class="ot">=</span> df<span class="sc">$</span>YEAR[<span class="dv">1</span>]</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>stop <span class="ot">=</span> df<span class="sc">$</span>YEAR[<span class="fu">nrow</span>(df)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>start <span class="ot">=</span> df<span class="sc">$</span>YEAR[<span class="dv">1</span>]</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>stop <span class="ot">=</span> df<span class="sc">$</span>YEAR[<span class="fu">nrow</span>(df)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We are now ready to create the time series plot:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_minimal</span>())</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -466,7 +467,7 @@ Note
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>() <span class="sc">+</span></span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(start, stop, <span class="dv">10</span>)) <span class="sc">+</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">"Temperature (°C)"</span>, <span class="at">title=</span><span class="fu">sprintf</span>(<span class="st">"Annual mean temperatures (%s)"</span>, id))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="st">"Temperature (°C)"</span>, <span class="at">title=</span><span class="fu">sprintf</span>(<span class="st">"Annual mean temperatures (%s)"</span>, id))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -482,17 +483,17 @@ Note
 <p>Warming stripes visualize the same data in a different way. Instead of mapping annual temperatures to height on the y-axis, they color-code temperature to create a patch of colored stripes.</p>
 <p>We are going to use the <a href="https://colorbrewer2.org/#type=diverging&amp;scheme=RdBu&amp;n=11">diverging 11-class Red/Blue colormap</a> available in <code>{RColorBrewer}</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The plot is comprised of columns of constant height using <code>geom_col(width=1)</code>, mapping their color <code>fill</code> to temperatures <code>metANN</code>. To set the colormap, we use <code>scale_fill_gradientn()</code> (note the <code>n</code> at the end of the function name, which creates a custom n-color gradient from our 11-class Red/Blue colormap) using the colormap generated with <code>RColorBrewer::brewer.pal()</code>. We have to reverse it to associate colder temperatures with blue and warmer temperatures with red.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>df, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>YEAR, <span class="at">y=</span><span class="dv">1</span>, <span class="at">fill=</span>metANN)) <span class="sc">+</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>df, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>YEAR, <span class="at">y=</span><span class="dv">1</span>, <span class="at">fill=</span>metANN)) <span class="sc">+</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>(<span class="at">width=</span><span class="dv">1</span>) <span class="sc">+</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(start, stop, <span class="dv">10</span>), <span class="at">expand=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">expand=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_gradientn</span>(<span class="at">colors=</span><span class="fu">rev</span>(<span class="fu">brewer.pal</span>(<span class="dv">11</span>, <span class="at">name=</span><span class="st">"RdBu"</span>)), <span class="at">na.value=</span><span class="st">"gray"</span>) <span class="sc">+</span></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="cn">NULL</span>, <span class="at">title=</span><span class="fu">sprintf</span>(<span class="st">"Annual mean temperatures (%s)"</span>, id), <span class="at">fill=</span><span class="st">"T (°C)"</span>) <span class="sc">+</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.y=</span><span class="fu">element_blank</span>(), <span class="at">panel.grid=</span><span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.y=</span><span class="fu">element_blank</span>(), <span class="at">panel.grid=</span><span class="fu">element_blank</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -512,7 +513,7 @@ Note
 </ul>
 <p>In addition, it might be interesting to plot temperature differences relative to the mean between 1971 and 2000. Here’s how to create this alternative version of the image:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>tmin <span class="ot">=</span> <span class="fu">round</span>(<span class="fu">min</span>(df<span class="sc">$</span>metANN <span class="sc">-</span> tmean, <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>tmin <span class="ot">=</span> <span class="fu">round</span>(<span class="fu">min</span>(df<span class="sc">$</span>metANN <span class="sc">-</span> tmean, <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>tmax <span class="ot">=</span> <span class="fu">round</span>(<span class="fu">max</span>(df<span class="sc">$</span>metANN <span class="sc">-</span> tmean, <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>df, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>YEAR, <span class="at">y=</span>metANN <span class="sc">-</span> tmean, <span class="at">fill=</span>metANN <span class="sc">-</span> tmean)) <span class="sc">+</span></span>
@@ -525,7 +526,7 @@ Note
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">y=</span><span class="st">"Temperature change (°C)"</span>,</span>
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">title=</span><span class="fu">sprintf</span>(<span class="st">"Annual mean temperature changes relative to 1971–2000 (%s)"</span>, id)</span>
 <span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(), <span class="at">legend.position=</span><span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">panel.grid=</span><span class="fu">element_blank</span>(), <span class="at">legend.position=</span><span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -604,13 +605,14 @@ Note
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

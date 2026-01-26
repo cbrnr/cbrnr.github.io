@@ -2,8 +2,8 @@
   {
     "listing": "/blog.html",
     "items": [
-      "/blog/r-dataframe-subsetting/index.html",
       "/blog/r-vector-subsetting/index.html",
+      "/blog/r-dataframe-subsetting/index.html",
       "/blog/warming-stripes-r/index.html",
       "/blog/removing-google-fonts/index.html",
       "/blog/whitening-pca-zca/index.html",
