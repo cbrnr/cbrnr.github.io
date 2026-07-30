@@ -17,4 +17,3 @@ I contribute to several open-source projects, including [MNE-Python](https://mne
 I have also contributed to a variety of other open-source projects, including [scikit-learn](http://scikit-learn.org/stable/), [pandas](https://pandas.pydata.org/), [IPython](https://ipython.org/), [PsychoPy](http://www.psychopy.org/), [SciPy](https://www.scipy.org/), [Matplotlib](https://matplotlib.org/), and [BioSig](http://biosig.sourceforge.net/).
 
 You can find my recent work and activity on [GitHub](https://github.com/cbrnr) and [Mastodon](https://scholar.social/@cbrnr){rel="me"}. Feel free to contact me via [email](mailto:clemens.brunner@gmail.com) if you'd like to get in touch.
-
