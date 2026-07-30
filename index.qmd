@@ -2,19 +2,19 @@
 title: "Home"
 ---
 
-I am a senior postdoctoral researcher with a background in electrical/biomedical engineering and computer engineering. I work in the [Talent and Learning Research](https://begabungsforschung.uni-graz.at/en/) group at the [Department of Psychology](https://psychologie.uni-graz.at/en/) at the [University of Graz](https://www.uni-graz.at/en/), Austria.
+I am a senior postdoctoral researcher at the [University of Graz](https://www.uni-graz.at/en/), Austria, with a background in electrical/biomedical engineering and computer engineering. I work in the [Talent and Learning Research](https://begabungsforschung.uni-graz.at/en/) group at the [Department of Psychology](https://psychologie.uni-graz.at/en/).
 
-My research focuses on the neuroscientific foundations of number processing and arithmetic, EEG oscillations and connectivity analysis, biomedical signal processing, applied machine learning and statistics, brain-computer interfaces, and scientific software development. I am strongly committed to open science and open source, including the open availability of data and analysis code to promote reproducibility. In addition, I have extensive experience teaching Python and R in academic settings, including courses and workshops on data analysis, statistics, and scientific computing.
+My research lies at the intersection of neuroscience, psychology, and scientific computing, with a focus on number processing and arithmetic, EEG oscillations and connectivity, biomedical signal processing, applied machine learning and statistics, and scientific software development. I am committed to open science and open source, including the open availability of data and analysis code to promote reproducibility. I also develop freely available course material and teach Python and R in academic settings, with courses covering programming, data analysis, statistics, and scientific computing.
 
-I maintain and develop several open-source projects, most notably:
+I contribute to several open-source projects, including [MNE-Python](https://mne.tools), [pybv](https://github.com/bids-standard/pybv), and [PyXDF](https://github.com/xdf-modules/pyxdf), and maintain a number of projects of my own, most notably:
 
-- [MNELAB](https://github.com/cbrnr/mnelab) – a graphical user interface for EEG/MEG data processing
-- [SleepECG](https://github.com/cbrnr/sleepecg) – a Python package for ECG-based sleep staging
-- [HeartBeats.jl](https://github.com/cbrnr/HeartBeats.jl) – a Julia implementation of the Pan-Tompkins R-peak detection algorithm
-- [XDF.jl](https://github.com/cbrnr/XDF.jl) – a Julia package for reading [XDF](https://github.com/sccn/xdf/wiki/Specifications) files
-- [SigViewer](https://github.com/cbrnr/sigviewer) – a Qt/C++-based tool for biosignal visualization
-- [SCoT](https://github.com/scot-dev/scot) – a Python package for EEG source connectivity estimation
+* [MNELAB](https://github.com/cbrnr/mnelab) – graphical user interface for MNE-Python
+* [MNExtend](https://github.com/cbrnr/mnextend) – additional functionality for the MNE ecosystem
+* [SleepECG](https://github.com/cbrnr/sleepecg) – ECG-based sleep staging and analysis
+* [SigViewer](https://github.com/cbrnr/sigviewer) – biosignal visualization
+* [SCoT](https://github.com/scot-dev/scot) – EEG source connectivity estimation
 
-In addition, I am a member of the development teams for several open-source projects, notably [MNE-Python](https://mne.tools), [pybv](https://github.com/bids-standard/pybv), and [pyxdf](https://github.com/xdf-modules/pyxdf). I have also contributed to a range of other projects, including [scikit-learn](http://scikit-learn.org/stable/), [pandas](https://pandas.pydata.org/), [IPython](https://ipython.org/), [PsychoPy](http://www.psychopy.org/), [SciPy](https://www.scipy.org/), [Matplotlib](https://matplotlib.org/), and [BioSig](http://biosig.sourceforge.net/), among others.
+I have also contributed to a variety of other open-source projects, including [scikit-learn](http://scikit-learn.org/stable/), [pandas](https://pandas.pydata.org/), [IPython](https://ipython.org/), [PsychoPy](http://www.psychopy.org/), [SciPy](https://www.scipy.org/), [Matplotlib](https://matplotlib.org/), and [BioSig](http://biosig.sourceforge.net/).
 
-You can find my recent work and activity on [GitHub](https://github.com/cbrnr) and [Mastodon](https://scholar.social/@cbrnr){rel="me"}. Feel free to contact me via [email](mailto:clemens.brunner@gmail.com) if you want to get in touch.
+You can find my recent work and activity on [GitHub](https://github.com/cbrnr) and [Mastodon](https://scholar.social/@cbrnr){rel="me"}. Feel free to contact me via [email](mailto:clemens.brunner@gmail.com) if you'd like to get in touch.
+
